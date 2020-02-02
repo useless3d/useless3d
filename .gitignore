@@ -2,3 +2,4 @@ bin/*
 !bin/readme.md
 .vs/*
 *.blend1
+data/log.txt

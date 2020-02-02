@@ -1,16 +1,15 @@
 #include <iostream>
 
-#include "usls/Ini.h"
-#include "usls/App.h"
+#include "usls/inc/Ini.h"
+#include "inc/MyApp.h"
 
 int main()
 {
 
     usls::Ini   ini;
-    usls::App   app(ini);
-    if (app.getInitFailed()) {
-        std::cout << app.getInitMessage() << std::endl;
-    }
+    MyApp       app(ini);
+
+    app.startLoop();
 
 
     std::cin.get();

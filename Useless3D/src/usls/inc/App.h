@@ -11,22 +11,27 @@ namespace usls
     
     class App
     {
-    private:
+    protected:
         Ini             ini;
     public:
         glm::vec2       screenSize;
-    private:
+    protected:
         Window          window;
-        bool            initFailed = false;
-        std::string     initMessage = "ok";
+        double          maxFps;
+        double          logicTick;
+        double			deltaTime = 0.0;
+        double			currentTime = 0.0;
+        double			newTime = 0.0;
+        double			frameTime = 0.0;
+        double			accumulator = 0.0;
         //Scene           scene;
 
     public:       
         InputState      input;
         App(Ini ini);
         ~App();
-        bool            getInitFailed();
-        std::string     getInitMessage();
+        virtual void    logicLoop() = 0;
+        void            startLoop();
 
     };
 

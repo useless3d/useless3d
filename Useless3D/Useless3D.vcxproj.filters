@@ -30,21 +30,51 @@
     <ClCompile Include="src\usls\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\usls\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\usls\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\usls\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\usls\App.h">
+    <ClInclude Include="src\usls\inc\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\usls\InputState.h">
+    <ClInclude Include="src\usls\inc\Ini.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\usls\Scene.h">
+    <ClInclude Include="src\usls\inc\InputState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\usls\Window.h">
+    <ClInclude Include="src\usls\inc\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\usls\Ini.h">
+    <ClInclude Include="src\usls\inc\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\usls\inc\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\usls\inc\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\usls\inc\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\usls\inc\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\usls\inc\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\MyApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

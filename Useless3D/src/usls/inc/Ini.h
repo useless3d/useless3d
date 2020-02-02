@@ -1,9 +1,13 @@
 #pragma once
 
+#include <string>
+
 namespace usls
 {
     struct Ini
     {
+        bool        logEnabled = true;
+        std::string logPath = "data/log.txt";
         int         screenWidth = 1280;
         int         screenHeight = 720;
         bool        fullScreen = false;
