@@ -7,8 +7,8 @@ class MyApp : public usls::App
 {
 
 public:
-    MyApp(usls::Ini ini);
-    ~MyApp();
+    MyApp(usls::Ini ini) : usls::App(ini) {};
+    ~MyApp() {};
     void    logicLoop();
 
 };
