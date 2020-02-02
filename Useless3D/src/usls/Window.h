@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-
+#include <glm/glm.hpp>
 #include "InputState.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -15,14 +15,16 @@ namespace usls
     {
        
     private:
-
-        GLFWwindow*     window;
+        glm::vec2*		screenSize;
+        InputState*		input;
+        GLFWwindow*     glfwWindow;
         bool            initFailed = false;
-        std::string		initMessage;
+        std::string		initMessage = "ok";
         int				screenWidth;
         int				screenHeight;
         double			scrollX = 0;
         double			scrollY = 0;
+        bool            fullscreen = false;
 
 
         void			setKeys();
@@ -31,7 +33,7 @@ namespace usls
         void			setCallbacks();
 
     public:
-        Window();
+        Window(glm::vec2* screen_size, InputState* input, bool fullscreen);
         ~Window();
         bool			getInitFailed();
         std::string		getInitMessage();
@@ -42,7 +44,7 @@ namespace usls
 
 
         void			swapBuffers();
-        void			vsync();
+        //void			vsync();
     };
     
     

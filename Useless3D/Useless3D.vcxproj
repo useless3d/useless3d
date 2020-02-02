@@ -150,9 +150,11 @@
     <ClCompile Include="src\usls\App.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
     <ClCompile Include="src\usls\dep\stb_image.cpp" />
+    <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\usls\App.h" />
+    <ClInclude Include="src\usls\Ini.h" />
     <ClInclude Include="src\usls\InputState.h" />
     <ClInclude Include="src\usls\Scene.h" />
     <ClInclude Include="src\usls\Window.h" />

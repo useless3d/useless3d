@@ -2,7 +2,8 @@
 
 #include <glm/glm.hpp>
 #include "InputState.h"
-//#include "Window.h"
+#include "Window.h"
+#include "Ini.h"
 //#include "Scene.h"
 
 namespace usls 
@@ -10,16 +11,22 @@ namespace usls
     
     class App
     {
+    private:
+        Ini             ini;
     public:
-        App();
-        ~App();
         glm::vec2       screenSize;
-        InputState      input;
-        //Window          window;
+    private:
+        Window          window;
+        bool            initFailed = false;
+        std::string     initMessage = "ok";
         //Scene           scene;
-             
-        
 
+    public:       
+        InputState      input;
+        App(Ini ini);
+        ~App();
+        bool            getInitFailed();
+        std::string     getInitMessage();
 
     };
 
