@@ -1,33 +1,47 @@
 #pragma once
 
+#include <glad/glad.h>
+#include <STB_IMAGE/stb_image.h>
+
 #include <vector>
 #include <string>
-
+#include <memory>
 #include "Vertex.h"
 #include "Texture.h"
-#include "Shader.h"
 
 namespace usls
 {
+    // Private constructor so same mesh is not created twice, return existing pointer if mesh
+    // to be created is an instance of an already instantiated mesh. This is to be
+    // determined by the "name" parameter
     class Mesh 
     {
 
     private:
+        Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
+        ~Mesh();
+        static std::vector<std::unique_ptr<Mesh>>   meshes;
+
+        void                        sendToGpu();
+        void                        loadGpuTexture();
+
+
+        std::string                 name;
+        std::vector<Vertex>			vertices;
+        std::vector<unsigned int>   indices;
+
+        Texture						texture;
         unsigned int				VAO;
         unsigned int				VBO;
         unsigned int				EBO;
-        std::vector<Vertex>			vertices;
-        std::vector<unsigned int>	indices;
-        Texture						texture;
-        void						setupMesh();
-        void						loadTexture(std::string path);
+
 
     public:
-        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::string texturePath);
-        ~Mesh();
-        void						draw(Shader& shader);
-        std::vector<Vertex>			getVerticies();
+        static Mesh* createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
+        std::vector<Vertex>			getVertices();
         std::vector<unsigned int>	getIndices();
+        std::string                 getName();
+        Texture                     getTexture();
 
     };
 }

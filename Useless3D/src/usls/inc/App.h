@@ -31,7 +31,8 @@ namespace usls
         App(Ini ini);
         ~App();
         virtual void    logicLoop() = 0;
-        void            startLoop();
+        virtual void    init() = 0;
+        void            execute();
 
     };
 

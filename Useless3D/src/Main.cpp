@@ -9,7 +9,7 @@ int main()
     usls::Ini   ini;
     MyApp       app(ini);
 
-    app.startLoop();
+    app.execute();
 
 
     std::cin.get();

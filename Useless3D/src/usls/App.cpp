@@ -38,9 +38,10 @@ namespace usls
     }
     App::~App() {}
 
-    void App::startLoop() 
+    void App::execute()
     {
-        this->logicLoop();
+        this->init();
+        //this->logicLoop();
     }
 
 }

@@ -92,6 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)dep\lib</AdditionalLibraryDirectories>
@@ -105,6 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)dep\lib</AdditionalLibraryDirectories>
@@ -120,6 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -137,6 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -149,25 +153,36 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MyApp.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
+    <ClCompile Include="src\usls\AssetLoader.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
     <ClCompile Include="src\usls\dep\stb_image.cpp" />
+    <ClCompile Include="src\usls\inc\Actor.h" />
     <ClCompile Include="src\usls\Logger.cpp" />
     <ClCompile Include="src\usls\Mesh.cpp" />
+    <ClCompile Include="src\usls\Prop.cpp" />
+    <ClCompile Include="src\usls\Scene.cpp" />
     <ClCompile Include="src\usls\Shader.cpp" />
+    <ClCompile Include="src\usls\Stage.cpp" />
+    <ClCompile Include="src\usls\Transformable.cpp" />
     <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\inc\MyApp.h" />
     <ClInclude Include="src\usls\inc\App.h" />
+    <ClInclude Include="src\usls\inc\AssetLoader.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
     <ClInclude Include="src\usls\inc\InputState.h" />
     <ClInclude Include="src\usls\inc\Logger.h" />
     <ClInclude Include="src\usls\inc\Mesh.h" />
+    <ClInclude Include="src\usls\inc\Prop.h" />
+    <ClInclude Include="src\usls\inc\Rotation.h" />
     <ClInclude Include="src\usls\inc\Scene.h" />
     <ClInclude Include="src\usls\inc\Shader.h" />
     <ClInclude Include="src\usls\inc\Texture.h" />
+    <ClInclude Include="src\usls\inc\Transformable.h" />
     <ClInclude Include="src\usls\inc\Vertex.h" />
     <ClInclude Include="src\usls\inc\Window.h" />
+    <ClInclude Include="src\usls\inc\Stage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
