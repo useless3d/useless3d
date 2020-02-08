@@ -1,11 +1,15 @@
 #include <glad/glad.h>
 #include <STB_IMAGE/stb_image.h>
 
+#include <iostream>
+
 #include "inc/Mesh.h"
 #include "inc/Logger.h"
 
 namespace usls
 {
+
+    std::vector<Mesh*>   Mesh::meshes;
 
     Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture) :
         name(name),
@@ -13,28 +17,30 @@ namespace usls
         indices(indices),
         texture(texture)
     {
-        this->sendToGpu();
+        //this->sendToGpu();
     }
-
+    
     Mesh::~Mesh(){}
+
+    //std::vector<Mesh*>   Mesh::meshes;
 
     Mesh* Mesh::createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture)
     {
         // Does the exact same mesh exist? If so return the pointer to that mesh.
 
-        // Loop through each existing meshes Mesh and determine if the verticies, indicies, and texture(textures in the future) are the same.
+        // Loop through each existing meshes and determine if the verticies, indicies, and texture(textures in the future) are the same.
         for (int i = 0; i < Mesh::meshes.size(); i++)
         {
             if (vertices == Mesh::meshes[i]->getVertices() && indices == Mesh::meshes[i]->getIndices() && texture.path == Mesh::meshes[i]->getTexture().path) 
             {
-                return Mesh::meshes[i].get();
+                return Mesh::meshes[i];
             }
         }
 
         // There is no existing mesh for this data, create a new meshes pointer and return
-        Mesh::meshes.push_back(std::make_unique<Mesh>(name, vertices, indices, texture));
-        return Mesh::meshes[Mesh::meshes.size()].get();
-
+        Mesh* newMesh = new Mesh(name, vertices, indices, texture);
+        Mesh::meshes.push_back(newMesh);
+        return newMesh;
     }
 
     void Mesh::sendToGpu()
@@ -130,6 +136,11 @@ namespace usls
     std::string Mesh::getName()
     {
         return this->name;
+    }
+
+    int Mesh::getMeshCount()
+    {
+        return Mesh::meshes.size();
     }
 
 }

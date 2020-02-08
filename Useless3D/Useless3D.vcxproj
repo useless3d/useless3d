@@ -164,6 +164,7 @@
     <ClCompile Include="src\usls\Shader.cpp" />
     <ClCompile Include="src\usls\Stage.cpp" />
     <ClCompile Include="src\usls\Transformable.cpp" />
+    <ClCompile Include="src\usls\Vertex.cpp" />
     <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
   <ItemGroup>

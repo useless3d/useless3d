@@ -18,9 +18,9 @@ namespace usls
     {
 
     private:
-        Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
         ~Mesh();
-        static std::vector<std::unique_ptr<Mesh>>   meshes;
+        Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
+        static std::vector<Mesh*>   meshes;
 
         void                        sendToGpu();
         void                        loadGpuTexture();
@@ -37,7 +37,9 @@ namespace usls
 
 
     public:
-        static Mesh* createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
+        
+        static Mesh*                createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
+        static int                  getMeshCount();
         std::vector<Vertex>			getVertices();
         std::vector<unsigned int>	getIndices();
         std::string                 getName();

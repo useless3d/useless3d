@@ -2,7 +2,7 @@
 
 namespace usls
 {
-    std::optional<std::unique_ptr<Stage>> Scene::stage;
+    //std::optional<std::unique_ptr<Stage>> Scene::stage;
 
 
     Scene::Scene() {};
@@ -10,7 +10,7 @@ namespace usls
 
     void Scene::setStage(std::string file)
     {
-        Scene::stage = std::make_unique<Stage>(file);
+        this->stage = std::make_unique<Stage>(file);
     }
 
 }

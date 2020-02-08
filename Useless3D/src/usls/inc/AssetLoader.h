@@ -16,8 +16,9 @@ namespace usls
     private:
         static std::string currentAssetDirectory;
         static std::string pathWithoutFilename(std::string filePath);
-        static const aiScene* loadScene(std::string file);
         static void processNode(aiNode* node, const aiScene* scene, std::function<void(aiNode* node, Mesh* mesh)> cb);
+        //static void processNode(aiNode* node, const aiScene* scene);
+        static void processMesh(Mesh* ourMesh, aiNode* node, const aiScene* scene);
     public:
         static void loadStage(std::string file, Stage* stage);
         

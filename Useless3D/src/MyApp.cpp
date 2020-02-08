@@ -7,6 +7,7 @@ void MyApp::init()
 {
     auto scene = std::make_unique<usls::Scene>();
     scene->setStage("data/models/bin/stages/003FBX/003.fbx");
+    std::cout << usls::Mesh::getMeshCount();
 }
 
 
