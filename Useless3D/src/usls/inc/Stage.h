@@ -15,7 +15,7 @@ namespace usls
     public:
         Stage(std::string file);
         ~Stage();
-        void                addProp();
+        void                addProp(Prop prop);
         int                 getNumProps();
     };
 }

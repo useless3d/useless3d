@@ -14,6 +14,8 @@ namespace usls
 
     public:
         void setStage(std::string file);
+        Stage* getStage();
+        void draw();
 
         Scene();
         ~Scene();

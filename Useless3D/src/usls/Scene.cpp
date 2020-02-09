@@ -13,4 +13,21 @@ namespace usls
         this->stage = std::make_unique<Stage>(file);
     }
 
+    Stage* Scene::getStage()
+    {
+        if (this->stage) 
+        {
+            return this->stage->get();
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    void Scene::draw()
+    {
+
+    }
+
 }

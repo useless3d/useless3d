@@ -1,5 +1,6 @@
 #include "inc/AssetLoader.h"
 #include "inc/Logger.h"
+#include "inc/Prop.h"
 
 #include <iostream>
 
@@ -27,7 +28,26 @@ namespace usls
         processNode(scene->mRootNode, scene, [&](aiNode* node, Mesh* mesh) {
 
             if (mesh != nullptr) {
-                std::cout << mesh->getName() << "\n";
+                //std::cout << mesh->getName() << "\n";
+
+                aiVector3D aiScale;
+                aiVector3D aiPosition;
+                aiVector3D aiRotationAxis;
+                float rotationAngle;
+                node->mTransformation.Decompose(aiScale, aiRotationAxis, rotationAngle, aiPosition);
+
+                glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
+                glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);
+                glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
+
+                Rotation rotation;
+                rotation.angle = rotationAngle;
+                rotation.axis = rotationAxis;
+
+                Prop prop(mesh, translation, rotation, scale);
+
+                stage->addProp(prop);
+
             }
 
             //std::cout << stage->getNumProps() + "\n";
@@ -94,11 +114,11 @@ namespace usls
 
     }
 
-    void AssetLoader::processMesh(Mesh* ourMesh, aiNode* node, const aiScene* scene)
+    void AssetLoader::processMesh(Mesh*& ourMesh, aiNode* node, const aiScene* scene)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[0]];
-        std::cout << mesh->mName.C_Str();
-        std::cout << "\n";
+        //std::cout << mesh->mName.C_Str();
+        //std::cout << "\n";
 
         // process mesh
         std::vector<Vertex> vertices;
@@ -162,7 +182,7 @@ namespace usls
         texture.type = "diffuse";
         texture.path = currentAssetDirectory + "/";
         texture.path += str.C_Str();
-        std::cout << texture.path << "\n";
+        //std::cout << texture.path << "\n";
 
         ourMesh = Mesh::createMesh(mesh->mName.C_Str(), vertices, indices, texture);
 

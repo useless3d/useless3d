@@ -10,9 +10,9 @@ namespace usls
     }
     Stage::~Stage() {}
 
-    void Stage::addProp() 
+    void Stage::addProp(Prop prop) 
     {
-        
+        this->props.push_back(prop);
     }
 
     int Stage::getNumProps()
