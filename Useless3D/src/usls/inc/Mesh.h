@@ -12,15 +12,14 @@
 namespace usls
 {
     // Private constructor so same mesh is not created twice, return existing pointer if mesh
-    // to be created is an instance of an already instantiated mesh. This is to be
-    // determined by the "name" parameter
+    // to be created is an instance of an already instantiated mesh.
     class Mesh 
     {
 
     private:
         ~Mesh();
         Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
-        static std::vector<Mesh*>   meshes;
+        static std::vector<Mesh* const>   meshes;
 
         void                        sendToGpu();
         void                        loadGpuTexture();
@@ -37,9 +36,10 @@ namespace usls
 
 
     public:
-        
-        static Mesh*                createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
+        static Mesh* const          createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
         static int                  getMeshCount();
+        static void                 clearMeshes();
+
         std::vector<Vertex>			getVertices();
         std::vector<unsigned int>	getIndices();
         std::string                 getName();

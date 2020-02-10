@@ -11,23 +11,25 @@ namespace usls
 
     void AssetLoader::loadStage(std::string file, Stage* stage)
     {
+        currentAssetDirectory = pathWithoutFilename(file);
+
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(file, aiProcess_Triangulate | aiProcess_FlipUVs);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
-            if (Logger::isEnabled()) {
+            if (Logger::isEnabled()) 
+            {
                 std::string errorMessage = importer.GetErrorString();
                 Logger::log("ERROR::ASSIMP::" + errorMessage);
             }
             exit(EXIT_FAILURE);
         }
 
-        currentAssetDirectory = pathWithoutFilename(file);
-        
-        processNode(scene->mRootNode, scene, [&](aiNode* node, Mesh* mesh) {
+        processNode(scene->mRootNode, scene, [&](aiNode* node, Mesh* const mesh) {
 
-            if (mesh != nullptr) {
+            if (mesh != nullptr) 
+            {
                 //std::cout << mesh->getName() << "\n";
 
                 aiVector3D aiScale;
@@ -44,18 +46,11 @@ namespace usls
                 rotation.angle = rotationAngle;
                 rotation.axis = rotationAxis;
 
-                Prop prop(mesh, translation, rotation, scale);
-
-                stage->addProp(prop);
+                stage->addProp(Prop(mesh, translation, rotation, scale));
 
             }
 
-            //std::cout << stage->getNumProps() + "\n";
-
         });
-        
-
-        //processNode(scene->mRootNode, scene);
 
     }
 
@@ -65,7 +60,6 @@ namespace usls
     }
 
     void AssetLoader::processNode(aiNode* node, const aiScene* scene, std::function<void(aiNode* node, Mesh* mesh)> cb)
-    //void AssetLoader::processNode(aiNode* node, const aiScene* scene)
     {
         // For debugging
         //std::cout << "node:";
@@ -95,16 +89,15 @@ namespace usls
         }
 
 
-        Mesh* ourMesh = nullptr;
-
         if (node->mNumMeshes == 1) // process mesh
         {
-            processMesh(ourMesh, node, scene);
+            Mesh* const ourMesh = processMesh(node, scene);
+            cb(node, ourMesh);
         }
-
-        // asset specific logic, the prop/actor would be built within this function callback
-        cb(node, ourMesh);
-
+        else
+        {
+            cb(node, nullptr);
+        }
 
         // Do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -114,7 +107,7 @@ namespace usls
 
     }
 
-    void AssetLoader::processMesh(Mesh*& ourMesh, aiNode* node, const aiScene* scene)
+    Mesh* const AssetLoader::processMesh(aiNode* node, const aiScene* scene)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[0]];
         //std::cout << mesh->mName.C_Str();
@@ -125,7 +118,8 @@ namespace usls
         std::vector<unsigned int> indices;
 
         // Walk through each of the mesh's vertices
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+        for (unsigned int i = 0; i < mesh->mNumVertices; i++) 
+        {
 
             Vertex vertex;
             glm::vec3 vector;
@@ -153,7 +147,8 @@ namespace usls
                 vertex.textureCoordinates = vec;
 
             }
-            else {
+            else 
+            {
                 vertex.textureCoordinates = glm::vec2(0.0f, 0.0f);
             }
 
@@ -162,15 +157,15 @@ namespace usls
         }
 
         // now walk through each of the mesh's faces (a face is a mesh's triangle) and retrieve the corresponding vertex indices.
-        for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-
+        for (unsigned int i = 0; i < mesh->mNumFaces; i++) 
+        {
             aiFace face = mesh->mFaces[i];
 
             // retrieve all indices of the face and store them in the indices vector
-            for (unsigned int j = 0; j < face.mNumIndices; j++) {
+            for (unsigned int j = 0; j < face.mNumIndices; j++)
+            {
                 indices.push_back(face.mIndices[j]);
             }
-
         }
 
         // process materials
@@ -182,9 +177,8 @@ namespace usls
         texture.type = "diffuse";
         texture.path = currentAssetDirectory + "/";
         texture.path += str.C_Str();
-        //std::cout << texture.path << "\n";
 
-        ourMesh = Mesh::createMesh(mesh->mName.C_Str(), vertices, indices, texture);
+        return Mesh::createMesh(mesh->mName.C_Str(), vertices, indices, texture);
 
     }
 

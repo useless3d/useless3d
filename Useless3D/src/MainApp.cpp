@@ -1,19 +1,20 @@
-#include "inc/MyApp.h"
+#include "inc/MainApp.h"
 
 #include <iostream>
 #include "usls/inc/Scene.h"
 
-void MyApp::init()
+void MainApp::init()
 {
     auto scene = std::make_unique<usls::Scene>();
     scene->setStage("data/models/bin/stages/003FBX/003.fbx");
-    std::cout << scene->getStage()->getNumProps();
-    //std::cout << usls::Mesh::getMeshCount();
+    
+    
+
 }
 
 
-void MyApp::logicLoop() 
+void MainApp::logicLoop()
 {
     std::cout << "YEEEEEAAAAAAHhhhh\n";
-    std::cout << this->ini.maxFps;
+    std::cout << this->config.maxFps;
 }

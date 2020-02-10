@@ -10,24 +10,20 @@ namespace usls
 
     void Scene::setStage(std::string file)
     {
-        this->stage = std::make_unique<Stage>(file);
-    }
-
-    Stage* Scene::getStage()
-    {
-        if (this->stage) 
-        {
-            return this->stage->get();
-        }
-        else
-        {
-            return nullptr;
-        }
+        Scene::stage = std::make_unique<Stage>(file);
     }
 
     void Scene::draw()
     {
 
+    }
+
+    void Scene::clear()
+    {
+        if (Scene::stage) 
+        {
+            
+        }
     }
 
 }

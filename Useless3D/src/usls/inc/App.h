@@ -3,16 +3,15 @@
 #include <glm/glm.hpp>
 #include "InputState.h"
 #include "Window.h"
-#include "Ini.h"
+#include "Config.h"
 //#include "Scene.h"
 
 namespace usls 
 {
-    
     class App
     {
     protected:
-        Ini             ini;
+        Config          config;
     public:
         glm::vec2       screenSize;
     protected:
@@ -24,16 +23,14 @@ namespace usls
         double			newTime = 0.0;
         double			frameTime = 0.0;
         double			accumulator = 0.0;
-        //Scene           scene;
 
     public:       
         InputState      input;
-        App(Ini ini);
+        App(Config config);
         ~App();
         virtual void    logicLoop() = 0;
         virtual void    init() = 0;
         void            execute();
 
     };
-
 };

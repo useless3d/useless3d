@@ -8,7 +8,10 @@ namespace usls
     {
         AssetLoader::loadStage(file, this);
     }
-    Stage::~Stage() {}
+    Stage::~Stage() 
+    {
+        
+    }
 
     void Stage::addProp(Prop prop) 
     {

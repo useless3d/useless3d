@@ -1,15 +1,15 @@
 #include <iostream>
 
-#include "usls/inc/Ini.h"
-#include "inc/MyApp.h"
+#include "usls/inc/Config.h"
+#include "inc/MainApp.h"
+#include <memory>
 
 int main()
 {
 
-    usls::Ini   ini;
-    MyApp       app(ini);
-
-    app.execute();
+    usls::Config                config;
+    std::unique_ptr<MainApp>    app = std::make_unique<MainApp>(config);
+    app->execute();
 
 
     std::cout << "\nEND\n";

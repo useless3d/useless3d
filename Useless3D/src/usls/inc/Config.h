@@ -4,7 +4,7 @@
 
 namespace usls
 {
-    struct Ini
+    struct Config
     {
         bool        logEnabled = true;
         std::string logPath = "data/log.txt";

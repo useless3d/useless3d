@@ -9,7 +9,7 @@
 namespace usls
 {
 
-    std::vector<Mesh*>   Mesh::meshes;
+    std::vector<Mesh* const>   Mesh::meshes;
 
     Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture) :
         name(name),
@@ -17,18 +17,34 @@ namespace usls
         indices(indices),
         texture(texture)
     {
-        //this->sendToGpu();
+        this->sendToGpu();
     }
     
-    Mesh::~Mesh(){}
+    Mesh::~Mesh()
+    {
+        glDeleteVertexArrays(1, &this->VAO);
+        glDeleteBuffers(1, &this->VBO);
+        glDeleteBuffers(1, &this->EBO);
+        glDeleteTextures(1, &this->texture.id);
+    }
 
-    //std::vector<Mesh*>   Mesh::meshes;
+    void Mesh::clearMeshes()
+    {
+        for (Mesh* const m : Mesh::meshes)
+        {
+            delete m;
+        }
+        Mesh::meshes.clear();
+    }
 
-    Mesh* Mesh::createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture)
+    Mesh* const Mesh::createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture)
     {
         // Does the exact same mesh exist? If so return the pointer to that mesh.
 
         // Loop through each existing meshes and determine if the verticies, indicies, and texture(textures in the future) are the same.
+        // (I can't imagine this will scale well, and a more clever solution should be implemented in the future, BUT premature optimization never helped anyone)
+        // AND keep in mind this is only insuring that a single VBO/EBO/VAO/Texture are sent to the gpu for drawing...we will still need to implement
+        // "instancing" so all instances can be drawn with a single draw call in the future.
         for (int i = 0; i < Mesh::meshes.size(); i++)
         {
             if (vertices == Mesh::meshes[i]->getVertices() && indices == Mesh::meshes[i]->getIndices() && texture.path == Mesh::meshes[i]->getTexture().path) 
@@ -38,7 +54,7 @@ namespace usls
         }
 
         // There is no existing mesh for this data, create a new meshes pointer and return
-        Mesh* newMesh = new Mesh(name, vertices, indices, texture);
+        Mesh* const newMesh = new Mesh(name, vertices, indices, texture);
         Mesh::meshes.push_back(newMesh);
         return newMesh;
     }
@@ -76,6 +92,7 @@ namespace usls
 
         // Unbind the vertex array to prevent accidental operations
         glBindVertexArray(0);
+
     }
 
     void Mesh::loadGpuTexture()

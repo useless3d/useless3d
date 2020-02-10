@@ -5,16 +5,16 @@
 namespace usls
 {
     
-    App::App(Ini ini) : 
-        ini(ini),
-        screenSize(glm::vec2(this->ini.screenWidth, this->ini.screenHeight)), 
-        window(Window(&this->screenSize, &this->input, this->ini.fullScreen)),
-        maxFps((double)this->ini.maxFps),
-        logicTick((double)this->ini.logicTick)
+    App::App(Config config) : 
+        config(config),
+        screenSize(glm::vec2(this->config.screenWidth, this->config.screenHeight)),
+        window(Window(&this->screenSize, &this->input, this->config.fullScreen)),
+        maxFps((double)this->config.maxFps),
+        logicTick((double)this->config.logicTick)
     {
         // Enable logging
-        if (this->ini.logEnabled) {
-            Logger::enable(this->ini.logPath);
+        if (this->config.logEnabled) {
+            Logger::enable(this->config.logPath);
         }
 
         // If window is not successfully created, log message and exit

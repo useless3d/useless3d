@@ -10,14 +10,16 @@ namespace usls
     class Scene
     {
     private:
-        std::optional<std::unique_ptr<Stage>>    stage;
+        std::optional<std::unique_ptr<Stage>> stage;
+
 
     public:
-        void setStage(std::string file);
-        Stage* getStage();
-        void draw();
-
         Scene();
         ~Scene();
+        void    setStage(std::string file);
+        void    draw();
+        void    clear();
+
+        
     };
 }

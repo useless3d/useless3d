@@ -33,7 +33,7 @@ namespace usls
         void			setCallbacks();
 
     public:
-        Window(glm::vec2* screen_size, InputState* input, bool fullscreen);
+        Window(glm::vec2* screenSize, InputState* input, bool fullscreen);
         ~Window();
         bool			getInitFailed();
         std::string		getInitMessage();
