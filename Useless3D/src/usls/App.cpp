@@ -10,7 +10,8 @@ namespace usls
         screenSize(glm::vec2(this->config.screenWidth, this->config.screenHeight)),
         window(Window(&this->screenSize, &this->input, this->config.fullScreen)),
         maxFps((double)this->config.maxFps),
-        logicTick((double)this->config.logicTick)
+        logicTick((double)this->config.logicTick),
+        scene(std::make_unique<usls::Scene>())
     {
         // Enable logging
         if (this->config.logEnabled) {
