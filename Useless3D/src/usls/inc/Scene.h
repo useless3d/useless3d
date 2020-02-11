@@ -4,12 +4,14 @@
 #include <optional>
 #include <string>
 #include <memory>
+#include "Mesh.h"
 
 namespace usls
 {
     class Scene
     {
     private:
+        std::vector<std::shared_ptr<Mesh>> meshes;
         std::optional<std::unique_ptr<Stage>> stage;
 
 

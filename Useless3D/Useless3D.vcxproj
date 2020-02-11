@@ -151,7 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\MyApp.cpp" />
+    <ClCompile Include="src\MainApp.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
     <ClCompile Include="src\usls\AssetLoader.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
@@ -168,9 +168,10 @@
     <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\inc\MyApp.h" />
+    <ClInclude Include="src\inc\MainApp.h" />
     <ClInclude Include="src\usls\inc\App.h" />
     <ClInclude Include="src\usls\inc\AssetLoader.h" />
+    <ClInclude Include="src\usls\inc\Config.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
     <ClInclude Include="src\usls\inc\InputState.h" />
     <ClInclude Include="src\usls\inc\Logger.h" />
