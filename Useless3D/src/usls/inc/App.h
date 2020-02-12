@@ -11,8 +11,6 @@ namespace usls
 {
     class App
     {
-    protected:
-        Config          config;
     public:
         glm::vec2       screenSize;
     protected:
@@ -26,10 +24,9 @@ namespace usls
         double			accumulator = 0.0;
 
     public:
-        App(Config config);
+        App();
         ~App();
         InputState              input;
-        std::unique_ptr<Scene>  scene;
         virtual void            logicLoop() = 0;
         virtual void            init() = 0;
         void                    execute();

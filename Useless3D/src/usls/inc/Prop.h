@@ -8,10 +8,10 @@ namespace usls
     class Prop : public Transformable
     {
     private:
-        Mesh* const mesh;
+        Mesh* mesh;
 
     public:
-        Prop(Mesh* const mesh, glm::vec3 translation, Rotation rotation, glm::vec3 scale);
+        Prop(Mesh* mesh, glm::vec3 translation, Rotation rotation, glm::vec3 scale);
         ~Prop();
 
     };

@@ -9,7 +9,7 @@
 namespace usls
 {
 
-    std::vector<Mesh* const>   Mesh::meshes;
+    std::vector<Mesh*>   Mesh::meshes;
 
     Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture) :
         name(name),
@@ -30,14 +30,14 @@ namespace usls
 
     void Mesh::clearMeshes()
     {
-        for (Mesh* const m : Mesh::meshes)
+        for (auto& m : Mesh::meshes)
         {
             delete m;
         }
         Mesh::meshes.clear();
     }
 
-    Mesh* const Mesh::createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture)
+    Mesh* Mesh::createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture)
     {
         // Does the exact same mesh exist? If so return the pointer to that mesh.
 
@@ -54,7 +54,7 @@ namespace usls
         }
 
         // There is no existing mesh for this data, create a new meshes pointer and return
-        Mesh* const newMesh = new Mesh(name, vertices, indices, texture);
+        Mesh* newMesh = new Mesh(name, vertices, indices, texture);
         Mesh::meshes.push_back(newMesh);
         return newMesh;
     }

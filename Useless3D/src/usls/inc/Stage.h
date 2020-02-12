@@ -17,6 +17,6 @@ namespace usls
         ~Stage();
         void                addProp(Prop prop);
         int                 getNumProps();
-        void                clearStage();
+        //void                clearStage();
     };
 }

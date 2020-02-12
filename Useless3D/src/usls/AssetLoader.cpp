@@ -26,7 +26,7 @@ namespace usls
             exit(EXIT_FAILURE);
         }
 
-        processNode(scene->mRootNode, scene, [&](aiNode* node, Mesh* const mesh) {
+        processNode(scene->mRootNode, scene, [&](aiNode* node, Mesh* mesh) {
 
             if (mesh != nullptr) 
             {
@@ -91,7 +91,7 @@ namespace usls
 
         if (node->mNumMeshes == 1) // process mesh
         {
-            Mesh* const ourMesh = processMesh(node, scene);
+            Mesh* ourMesh = processMesh(node, scene);
             cb(node, ourMesh);
         }
         else
@@ -107,7 +107,7 @@ namespace usls
 
     }
 
-    Mesh* const AssetLoader::processMesh(aiNode* node, const aiScene* scene)
+    Mesh* AssetLoader::processMesh(aiNode* node, const aiScene* scene)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[0]];
         //std::cout << mesh->mName.C_Str();

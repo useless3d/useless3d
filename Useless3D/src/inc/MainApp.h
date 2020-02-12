@@ -7,7 +7,7 @@ class MainApp : public usls::App
 {
 
 public:
-    MainApp(usls::Config config) : usls::App(config) {};
+    MainApp() : usls::App() {};
     ~MainApp() {};
     void    logicLoop();
     void    init();

@@ -7,8 +7,7 @@
 int main()
 {
 
-    usls::Config                config;
-    std::unique_ptr<MainApp>    app = std::make_unique<MainApp>(config);
+    std::unique_ptr<MainApp>    app = std::make_unique<MainApp>();
     app->execute();
 
 

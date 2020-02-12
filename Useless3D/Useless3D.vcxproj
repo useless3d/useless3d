@@ -154,6 +154,7 @@
     <ClCompile Include="src\MainApp.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
     <ClCompile Include="src\usls\AssetLoader.cpp" />
+    <ClCompile Include="src\usls\Config.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
     <ClCompile Include="src\usls\dep\stb_image.cpp" />
     <ClCompile Include="src\usls\inc\Actor.h" />
