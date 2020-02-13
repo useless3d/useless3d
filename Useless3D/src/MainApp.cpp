@@ -3,11 +3,16 @@
 #include <iostream>
 #include "usls/inc/Scene.h"
 #include "usls/inc/Config.h"
+#include "usls/inc/Stage.h"
 
 void MainApp::init()
 {
     usls::Scene* scene = usls::Scene::get();
-    scene->setStage("data/models/bin/stages/003FBX/003.fbx");
+    scene->addStage("TestStage","data/models/bin/stages/003FBX/003.fbx", 
+        usls::ProjectionType::PERSPECTIVE, usls::ViewSpace::WORLD);
+
+    //std::cout << "Props:" << scene->getStagePropCount("TestStage") << "\n";
+    //std::cout << "Meshes:" << scene->getTotalMeshCount() << "\n";
     
 
 
@@ -16,6 +21,8 @@ void MainApp::init()
 
 void MainApp::logicLoop()
 {
-    std::cout << "YEEEEEAAAAAAHhhhh\n";
-    std::cout << usls::Config::get()->maxFps;
+    // Application logic, move things around, etc
+    //usls::Scene* scene = usls::Scene::get();
+    
+
 }

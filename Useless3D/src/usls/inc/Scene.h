@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Stage.h"
-#include <optional>
+#include "Camera.h"
 #include <string>
+#include <vector>
+#include <map>
 
 
 namespace usls
@@ -13,21 +15,25 @@ namespace usls
         Scene();
         static Scene* instance;
         
-        std::optional<Stage*> stage;
+        std::map<std::string, Stage*> stages;
+
+        std::vector<Prop>   getStageProps(std::string sName);
         
 
 
     public:
-        static Scene*   get();
+        static Scene*       get();
         
-        int             getStagePropCount();
-        void            setStage(std::string file);
-        void            clearStage();
+        int                 getStageCount();
+        int                 getStagePropCount(std::string sName);
+        
+        void                addStage(std::string name, std::string file, ProjectionType pType, ViewSpace vSpace);
+        void                clearStages();
 
-        int             getTotalMeshCount();
+        int                 getTotalMeshCount();
 
-        void            draw();
-        void            clear();
+        void                draw();
+        void                clear();
 
         
     };

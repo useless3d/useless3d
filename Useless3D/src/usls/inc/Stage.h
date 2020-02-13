@@ -7,16 +7,31 @@
 
 namespace usls
 {
+    enum ProjectionType
+    {
+        PERSPECTIVE,
+        ORTHOGRAPHIC
+    };
+
+    enum ViewSpace
+    {
+        VIEW,
+        WORLD
+    };
+
     class Stage
     {
     private:
         std::vector<Prop>       props;
+        ProjectionType          pType;
+        ViewSpace               vSpace;
 
     public:
-        Stage(std::string file);
+        Stage(std::string file, ProjectionType pType, ViewSpace vSpace);
         ~Stage();
         void                addProp(Prop prop);
         int                 getNumProps();
-        //void                clearStage();
+        std::vector<Prop>   getProps();
+
     };
 }

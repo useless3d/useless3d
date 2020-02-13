@@ -1,9 +1,13 @@
 #include "inc/Scene.h"
 #include "inc/Mesh.h"
+#include "inc/Camera.h"
 
 namespace usls
 {
-    Scene::Scene() {};
+    Scene::Scene()
+    {
+        
+    };
 
     Scene* Scene::instance = 0;
 
@@ -19,26 +23,32 @@ namespace usls
 
     /* Functionality for operating on stage
     ************************************************************************/
-    int Scene::getStagePropCount()
+    void Scene::addStage(std::string name, std::string file, ProjectionType pType, ViewSpace vSpace)
     {
-        if (this->stage) {
-            return this->stage.value()->getNumProps();
-        }
-        else
+        this->stages[name] = new Stage(file, pType, vSpace);
+    }
+
+    int Scene::getStageCount()
+    {
+        return this->stages.size();
+    }
+
+    int Scene::getStagePropCount(std::string sName)
+    {
+        return this->stages[sName]->getNumProps();
+    }
+
+    void Scene::clearStages()
+    {
+        for (auto& [key, val] : this->stages)
         {
-            return 0;
+            delete val;
         }
+        this->stages.clear();
     }
 
-    void Scene::setStage(std::string file)
-    {
-        this->stage = new Stage(file);
-    }
 
-    void Scene::clearStage()
-    {
-        this->stage.reset();
-    }
+
 
 
     int Scene::getTotalMeshCount()
@@ -46,19 +56,22 @@ namespace usls
         return Mesh::getMeshCount();
     }
 
-
-
     void Scene::draw()
     {
+        for (auto& [skey, sval] : this->stages)
+        {
+            for (auto& p : sval->getProps())
+            {
 
+
+
+            }
+        }
     }
 
     void Scene::clear()
     {
-        if (this->stage)
-        {
-            this->clearStage();
-        }
+        this->clearStages();
         Mesh::clearMeshes();
     }
 

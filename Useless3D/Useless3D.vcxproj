@@ -172,6 +172,7 @@
     <ClInclude Include="src\inc\MainApp.h" />
     <ClInclude Include="src\usls\inc\App.h" />
     <ClInclude Include="src\usls\inc\AssetLoader.h" />
+    <ClInclude Include="src\usls\inc\Camera.h" />
     <ClInclude Include="src\usls\inc\Config.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
     <ClInclude Include="src\usls\inc\InputState.h" />
