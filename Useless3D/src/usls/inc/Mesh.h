@@ -45,5 +45,7 @@ namespace usls
         std::string                 getName();
         Texture                     getTexture();
 
+        const unsigned int&         getVAO();
+
     };
 }

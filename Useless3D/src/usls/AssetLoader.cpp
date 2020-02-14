@@ -2,6 +2,8 @@
 #include "inc/Logger.h"
 #include "inc/Prop.h"
 
+
+
 #include <iostream>
 
 namespace usls
@@ -37,6 +39,13 @@ namespace usls
                 aiVector3D aiRotationAxis;
                 float rotationAngle;
                 node->mTransformation.Decompose(aiScale, aiRotationAxis, rotationAngle, aiPosition);
+
+                std::cout << "-------------\n";
+                std::cout << aiScale.x << "," << aiScale.y << "," << aiScale.z << "\n";
+                std::cout << aiPosition.x << "," << aiPosition.y << "," << aiPosition.z << "\n";
+                std::cout << aiRotationAxis.x << "," << aiRotationAxis.y << "," << aiRotationAxis.z << "\n";
+                std::cout << rotationAngle << "\n";
+                std::cout << "-------------\n";
 
                 glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
                 glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);

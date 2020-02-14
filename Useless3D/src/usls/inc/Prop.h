@@ -14,5 +14,7 @@ namespace usls
         Prop(Mesh* mesh, glm::vec3 translation, Rotation rotation, glm::vec3 scale);
         ~Prop();
 
+        Mesh* getMesh();
+
     };
 }

@@ -11,4 +11,9 @@ namespace usls
     }
     Prop::~Prop() {}
 
+    Mesh* Prop::getMesh()
+    {
+        return this->mesh;
+    }
+
 }

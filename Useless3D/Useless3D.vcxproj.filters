@@ -66,6 +66,9 @@
     <ClCompile Include="src\usls\Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\usls\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\usls\inc\App.h">
@@ -122,5 +125,9 @@
     <ClInclude Include="src\usls\inc\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\usls\shaders\default.frag" />
+    <None Include="src\usls\shaders\default.vert" />
   </ItemGroup>
 </Project>

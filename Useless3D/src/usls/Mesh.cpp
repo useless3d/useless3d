@@ -160,4 +160,9 @@ namespace usls
         return Mesh::meshes.size();
     }
 
+    const unsigned int& Mesh::getVAO()
+    {
+        return this->VAO;
+    }
+
 }

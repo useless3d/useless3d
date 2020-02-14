@@ -11,7 +11,7 @@ int main()
     app->execute();
 
 
-    std::cout << "\nEND\n";
-    std::cin.get();
+    //std::cout << "\nEND\n";
+    //std::cin.get();
     return 0;
 }

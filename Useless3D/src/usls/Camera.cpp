@@ -24,6 +24,12 @@ namespace usls
         return instance;
     }
 
+    void Camera::update()
+    {
+        this->updateViewMatrix();
+        this->updatePerspectiveProjectionMatrix();
+    }
+
     void Camera::setFov(float fov)
     {
         this->fov = fov;
@@ -66,13 +72,14 @@ namespace usls
 
     void Camera::updateViewMatrix() 
     {
-        this->viewMatrix = glm::lookAt(this->position, this->position + this->direction, this->up);
+        //this->viewMatrix = glm::lookAt(this->position, this->position + this->direction, this->up);
+        this->viewMatrix = glm::lookAt(this->position, this->direction, this->up);
     }
 
     void Camera::updatePerspectiveProjectionMatrix() 
     {
         this->perspectiveProjectionMatrix = glm::perspective(glm::radians(this->fov),
-            (float)this->screenSize->x / (float)this->screenSize->y, 0.1f, 100.0f);
+            (float)this->screenSize->x / (float)this->screenSize->y, 0.1f, 500.0f);
     }
 
 }

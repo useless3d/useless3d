@@ -22,6 +22,9 @@ namespace usls
         glm::mat4			viewMatrix = glm::mat4(1.0f); // initialized as identity matrix
         glm::mat4			perspectiveProjectionMatrix = glm::mat4(1.0f); // initialized as identity matrix
 
+        void        updateViewMatrix();
+        void        updatePerspectiveProjectionMatrix();
+
     public:
         static Camera* init(glm::vec2* screenSize);
         static Camera* get();
@@ -35,12 +38,10 @@ namespace usls
         glm::vec3   getDirection();
         glm::vec3   getPosition();
 
-        void        updateViewMatrix();
-        void        updatePerspectiveProjectionMatrix();
-
         glm::mat4   getViewMatrix();
         glm::mat4   getPerspectiveProjectionMatrix();
 
+        void        update();
 
     };
 }

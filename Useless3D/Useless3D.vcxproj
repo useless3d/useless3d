@@ -154,6 +154,7 @@
     <ClCompile Include="src\MainApp.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
     <ClCompile Include="src\usls\AssetLoader.cpp" />
+    <ClCompile Include="src\usls\Camera.cpp" />
     <ClCompile Include="src\usls\Config.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
     <ClCompile Include="src\usls\dep\stb_image.cpp" />
@@ -187,6 +188,10 @@
     <ClInclude Include="src\usls\inc\Vertex.h" />
     <ClInclude Include="src\usls\inc\Window.h" />
     <ClInclude Include="src\usls\inc\Stage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\usls\shaders\default.frag" />
+    <None Include="src\usls\shaders\default.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "Shader.h"
 
 
 namespace usls
@@ -15,11 +16,9 @@ namespace usls
         Scene();
         static Scene* instance;
         
-        std::map<std::string, Stage*> stages;
+        std::map<std::string, Stage*> stages;       
 
-        std::vector<Prop>   getStageProps(std::string sName);
-        
-
+        Shader              shader; // default shader, everything renderd using this for now, will consider multiple shaders down the road once this solidifies more
 
     public:
         static Scene*       get();

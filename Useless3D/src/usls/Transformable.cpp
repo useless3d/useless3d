@@ -1,6 +1,8 @@
 #include "inc/Transformable.h"
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <iostream>
+
 namespace usls
 {
 
@@ -44,10 +46,12 @@ namespace usls
 
     glm::mat4 Transformable::getMatrix() 
     {
+        //std::cout << this->translation.x << "," << this->translation.y << "," << this->translation.z << "\n";
+
         glm::mat4 m = glm::mat4(1.0f);
-        m = glm::translate(m, translation);
-        m = glm::rotate(m, glm::radians(rotation.angle), rotation.axis);
-        m = glm::scale(m, scale);
+        m = glm::translate(m, this->translation);
+        m = glm::rotate(m, glm::radians(this->rotation.angle), this->rotation.axis);
+        m = glm::scale(m, this->scale);
         return m;
     }
 
