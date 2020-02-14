@@ -34,6 +34,20 @@ namespace usls
             {
                 //std::cout << mesh->getName() << "\n";
 
+
+                //aiVector3D aiScale2;
+                //aiVector3D aiPosition2;
+                //aiVector3D aiRotation2;
+                //node->mTransformation.Decompose(aiScale2, aiRotation2, aiPosition2);
+
+                //std::cout << "-------------\n";
+                //std::cout << aiScale2.x << "," << aiScale2.y << "," << aiScale2.z << "\n";
+                //std::cout << aiPosition2.x << "," << aiPosition2.y << "," << aiPosition2.z << "\n";
+                //std::cout << aiRotation2.x << "," << aiRotation2.y << "," << aiRotation2.z << "\n";
+                //std::cout << "-------------\n";
+
+
+
                 aiVector3D aiScale;
                 aiVector3D aiPosition;
                 aiVector3D aiRotationAxis;
@@ -47,12 +61,13 @@ namespace usls
                 std::cout << rotationAngle << "\n";
                 std::cout << "-------------\n";
 
-                glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
+                //glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
+                glm::vec3 scale = glm::vec3(aiScale.x, aiScale.z, aiScale.y); // swap z/y to compensate for blender .fbx export issue
                 glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);
                 glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
 
                 Rotation rotation;
-                rotation.angle = rotationAngle;
+                rotation.angle = rotationAngle * (180 / 3.124);
                 rotation.axis = rotationAxis;
 
                 stage->addProp(Prop(mesh, translation, rotation, scale));
@@ -133,6 +148,7 @@ namespace usls
             Vertex vertex;
             glm::vec3 vector;
 
+            
             // position
             vector.x = mesh->mVertices[i].x;
             vector.y = mesh->mVertices[i].y;
@@ -144,6 +160,23 @@ namespace usls
             vector.y = mesh->mNormals[i].y;
             vector.z = mesh->mNormals[i].z;
             vertex.normal = vector;
+            
+
+
+            /*
+            // position
+            vector.x = mesh->mVertices[i].x;
+            vector.y = mesh->mVertices[i].z;
+            vector.z = mesh->mVertices[i].y;
+            vertex.position = vector;
+
+            // normal
+            vector.x = mesh->mNormals[i].x;
+            vector.y = mesh->mNormals[i].z;
+            vector.z = mesh->mNormals[i].y;
+            vertex.normal = vector;
+            */
+
 
             // texture coordinates
             if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?

@@ -75,7 +75,7 @@ namespace usls
         for (auto& [skey, sval] : this->stages)
         {
          
-            std::cout << "------------\n";
+            //std::cout << "------------\n";
             for (auto& p : sval->getProps())
             {
 
@@ -106,7 +106,7 @@ namespace usls
                 
 
             }
-            std::cout << "------------\n";
+            //std::cout << "------------\n";
         }
     }
 
