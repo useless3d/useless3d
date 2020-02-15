@@ -15,8 +15,9 @@ namespace usls
     {
        
     private:
-        glm::vec2*		screenSize;
-        InputState*		input;
+        glm::vec2		screenSize;
+        bool            fullScreen = false;
+        InputState		inputState;
         GLFWwindow*     glfwWindow;
         bool            initFailed = false;
         std::string		initMessage = "ok";
@@ -24,7 +25,7 @@ namespace usls
         int				screenHeight;
         double			scrollX = 0;
         double			scrollY = 0;
-        bool            fullscreen = false;
+        
 
 
         void			setKeys();
@@ -33,7 +34,7 @@ namespace usls
         void			setCallbacks();
 
     public:
-        Window(glm::vec2* screenSize, InputState* input, bool fullscreen);
+        Window(int screenWidth, int screenHeight, bool fullScreen);
         ~Window();
         bool			getInitFailed();
         std::string		getInitMessage();
@@ -42,6 +43,7 @@ namespace usls
         void			update();
         double			time();
 
+        const InputState& getInputState() const;
 
         void			swapBuffers();
         //void			vsync();

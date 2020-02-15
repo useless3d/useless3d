@@ -6,14 +6,13 @@ namespace usls
 {
     
     App::App() : 
-        screenSize(glm::vec2(Config::get()->screenWidth, Config::get()->screenHeight)),
-        window(Window(&this->screenSize, &this->input, Config::get()->fullScreen)),
-        maxFps((double)Config::get()->maxFps),
-        logicTick((double)Config::get()->logicTick)
+        config(Config("config.ini")),
+        window(Window(this->config.getScreenWidth(), this->config.getScreenHeight(), this->config.getFullScreen())),
+        maxFps((double)this->config.getMaxFps())
     {
         // Enable logging
-        if (Config::get()->logEnabled) {
-            Logger::enable(Config::get()->logPath);
+        if (this->config.getLogEnabled()) {
+            Logger::enable(this->config.getLogPath());
         }
 
         // If window is not successfully created, log message and exit
@@ -33,6 +32,11 @@ namespace usls
 
     }
     App::~App() {}
+
+    const InputState& App::getInputState() const
+    {
+        return this->window.getInputState();
+    }
 
     void App::execute()
     {
@@ -60,7 +64,7 @@ namespace usls
                 this->accumulator += this->frameTime;
 
                 // exit if keyEsc pressed (remove this and let user determine this behaviour in their loop)
-                if (this->input.keyEsc)
+                if (this->getInputState().keyEsc)
                 {
                     this->window.setToClose();
                     continue;

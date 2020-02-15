@@ -1,29 +1,33 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace usls
 {
-    /*
-        This will eventually have functionality for reading and writing values to and from
-        an .ini file
-    */
     class Config
     {
     private:
-        Config();
-        static Config* instance;
+        std::vector<std::string> explode(std::string const & s, char delim);
+
+        bool        logEnabled;
+        std::string logPath;
+        int         screenWidth;
+        int         screenHeight;
+        bool        fullScreen;
+        int         maxFps;
 
     public:
-        static Config* get();
+        Config(std::string configPath);
+        ~Config();
 
-        bool        logEnabled = true;
-        std::string logPath = "data/log.txt";
-        int         screenWidth = 1280;
-        int         screenHeight = 720;
-        bool        fullScreen = false;
-        int         maxFps = 500;
-        int         logicTick = 120;
+        const bool& getLogEnabled() const;
+        const std::string& getLogPath() const;
+        const int& getScreenWidth() const;
+        const int& getScreenHeight() const;
+        const bool& getFullScreen() const;
+        const int& getMaxFps() const;
+
 
     };
 }

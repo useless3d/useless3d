@@ -190,6 +190,7 @@
     <ClInclude Include="src\usls\inc\Stage.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\config.ini" />
     <None Include="src\usls\shaders\default.frag" />
     <None Include="src\usls\shaders\default.vert" />
   </ItemGroup>

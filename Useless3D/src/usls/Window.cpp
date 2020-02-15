@@ -2,10 +2,9 @@
 
 namespace usls
 {
-    Window::Window(glm::vec2* screenSize, InputState* input, bool fullscreen) : 
-        screenSize(screenSize),
-        input(input),
-        fullscreen(fullscreen)
+    Window::Window(int screenWidth, int screenHeight, bool fullScreen) :
+        screenSize(glm::vec2(screenWidth, screenHeight)),
+        fullScreen(fullScreen)        
     {
 
         // Initialize GLFW. This is the library that creates our cross platform (kinda since
@@ -19,11 +18,11 @@ namespace usls
         // https://www.reddit.com/r/opengl/comments/8754el/stuttering_with_learnopengl_tutorials/dwbp7ta?utm_source=share&utm_medium=web2x
         // could be because of multiple monitors all running different refresh rates
 
-        if (!this->fullscreen) {
-            this->glfwWindow = glfwCreateWindow(this->screenSize->x, this->screenSize->y, "Useless3D", NULL, NULL);
+        if (!this->fullScreen) {
+            this->glfwWindow = glfwCreateWindow(this->screenSize.x, this->screenSize.y, "Useless3D", NULL, NULL);
         }
         else {
-            this->glfwWindow = glfwCreateWindow(this->screenSize->x, this->screenSize->y, "Useless3D", glfwGetPrimaryMonitor(), NULL);
+            this->glfwWindow = glfwCreateWindow(this->screenSize.x, this->screenSize.y, "Useless3D", glfwGetPrimaryMonitor(), NULL);
         }
 
         if (this->glfwWindow == NULL) {
@@ -58,7 +57,7 @@ namespace usls
                 //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
                 // Set opengl viewport size
-                glViewport(0, 0, this->screenSize->x, this->screenSize->y);
+                glViewport(0, 0, this->screenSize.x, this->screenSize.y);
 
             }
 
@@ -66,17 +65,16 @@ namespace usls
 
 
     }
-    Window::~Window() {
-
+    Window::~Window() 
+    {
         glfwDestroyWindow(this->glfwWindow);
 
         // Terminate GLFW application process
         glfwTerminate();
-
     }
 
-    void Window::setCallbacks() {
-
+    void Window::setCallbacks() 
+    {
         // Scroll
         glfwSetScrollCallback(this->glfwWindow, [](GLFWwindow* window, double xoffset, double yoffset) {
 
@@ -94,17 +92,16 @@ namespace usls
             // get this from window
             void* data = glfwGetWindowUserPointer(window);
             Window* w = static_cast<Window*>(data);
-            w->screenSize->x = width;
-            w->screenSize->y = height;
+            w->screenSize.x = width;
+            w->screenSize.y = height;
 
             glViewport(0, 0, width, height);
 
         });
-
     }
 
-    void Window::update() {
-
+    void Window::update() 
+    {
         // this method is invoked every tick
 
         // check if any events are triggered
@@ -113,73 +110,67 @@ namespace usls
         setKeys();
         setMouse();
         setScroll();
-
     }
 
 
-    void Window::swapBuffers() {
-
+    void Window::swapBuffers() 
+    {
         // swap the color buffer (a large buffer that contains color values for each pixel in GLFW's window) 
         // that has been used to draw in during this iteration and show it as output to the screen
         glfwSwapBuffers(this->glfwWindow);
-
     }
 
-
-    double Window::time() {
-
+    double Window::time() 
+    {
         return glfwGetTime();
-
     }
 
-
-    bool Window::getInitFailed() {
-
+    bool Window::getInitFailed() 
+    {
         return initFailed;
-
     }
 
-    std::string Window::getInitMessage() {
-
+    std::string Window::getInitMessage() 
+    {
         return initMessage;
-
     }
 
-    bool Window::shouldClose() {
-
+    bool Window::shouldClose() 
+    {
         return glfwWindowShouldClose(this->glfwWindow);
-
     }
 
-    void Window::setKeys() {
-
-        this->input->keyEsc = glfwGetKey(this->glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
-        this->input->keyW = glfwGetKey(this->glfwWindow, GLFW_KEY_W) == GLFW_PRESS;
-        this->input->keyA = glfwGetKey(this->glfwWindow, GLFW_KEY_A) == GLFW_PRESS;
-        this->input->keyS = glfwGetKey(this->glfwWindow, GLFW_KEY_S) == GLFW_PRESS;
-        this->input->keyD = glfwGetKey(this->glfwWindow, GLFW_KEY_D) == GLFW_PRESS;
-        this->input->keySpace = glfwGetKey(this->glfwWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
-
+    void Window::setKeys() 
+    {
+        this->inputState.keyEsc = glfwGetKey(this->glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+        this->inputState.keyW = glfwGetKey(this->glfwWindow, GLFW_KEY_W) == GLFW_PRESS;
+        this->inputState.keyA = glfwGetKey(this->glfwWindow, GLFW_KEY_A) == GLFW_PRESS;
+        this->inputState.keyS = glfwGetKey(this->glfwWindow, GLFW_KEY_S) == GLFW_PRESS;
+        this->inputState.keyD = glfwGetKey(this->glfwWindow, GLFW_KEY_D) == GLFW_PRESS;
+        this->inputState.keySpace = glfwGetKey(this->glfwWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
     }
 
-    void Window::setMouse() {
-
-        glfwGetCursorPos(this->glfwWindow, &this->input->mouseXPos, &this->input->mouseYPos);
-
+    void Window::setMouse() 
+    {
+        glfwGetCursorPos(this->glfwWindow, &this->inputState.mouseXPos, &this->inputState.mouseYPos);
     }
 
-    void Window::setScroll() {
-
-        this->input->scrollX = scrollX;
-        this->input->scrollY = scrollY;
+    void Window::setScroll() 
+    {
+        this->inputState.scrollX = scrollX;
+        this->inputState.scrollY = scrollY;
         scrollX = 0;
         scrollY = 0;
-
     }
 
-    void Window::setToClose() {
-
+    void Window::setToClose() 
+    {
         glfwSetWindowShouldClose(this->glfwWindow, true);
-
     }
+
+    const InputState& Window::getInputState() const
+    {
+        return this->inputState;
+    }
+
 }

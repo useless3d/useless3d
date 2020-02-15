@@ -129,5 +129,6 @@
   <ItemGroup>
     <None Include="src\usls\shaders\default.frag" />
     <None Include="src\usls\shaders\default.vert" />
+    <None Include="src\config.ini" />
   </ItemGroup>
 </Project>
