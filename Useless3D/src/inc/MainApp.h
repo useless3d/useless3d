@@ -9,7 +9,7 @@ class MainApp : public usls::App
 public:
     MainApp() : usls::App() {};
     ~MainApp() {};
-    void    logicLoop();
+    void    perFrameLogic();
     void    init();
 
 };

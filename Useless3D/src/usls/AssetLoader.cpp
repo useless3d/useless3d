@@ -34,20 +34,6 @@ namespace usls
             {
                 //std::cout << mesh->getName() << "\n";
 
-
-                //aiVector3D aiScale2;
-                //aiVector3D aiPosition2;
-                //aiVector3D aiRotation2;
-                //node->mTransformation.Decompose(aiScale2, aiRotation2, aiPosition2);
-
-                //std::cout << "-------------\n";
-                //std::cout << aiScale2.x << "," << aiScale2.y << "," << aiScale2.z << "\n";
-                //std::cout << aiPosition2.x << "," << aiPosition2.y << "," << aiPosition2.z << "\n";
-                //std::cout << aiRotation2.x << "," << aiRotation2.y << "," << aiRotation2.z << "\n";
-                //std::cout << "-------------\n";
-
-
-
                 aiVector3D aiScale;
                 aiVector3D aiPosition;
                 aiVector3D aiRotationAxis;

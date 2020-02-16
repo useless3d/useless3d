@@ -6,7 +6,6 @@ namespace usls
         screenSize(glm::vec2(screenWidth, screenHeight)),
         fullScreen(fullScreen)        
     {
-
         // Initialize GLFW. This is the library that creates our cross platform (kinda since
         // apple decided to ditch opengl support for metal only) window object
         glfwInit();

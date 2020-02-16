@@ -1,33 +1,44 @@
 #include "inc/Stage.h"
-#include "inc/AssetLoader.h"
+#include "inc/Logger.h"
 
 namespace usls
 {
 
-    Stage::Stage(std::string file, ProjectionType pType, ViewSpace vSpace) :
+    Stage::Stage(std::string name, ProjectionType pType, ViewSpace vSpace) :
+        name(name),
         pType(pType),
         vSpace(vSpace)
     {
-        AssetLoader::loadStage(file, this);
+        //AssetLoader::loadStage(file, this);
     }
     Stage::~Stage() 
     {
         
     }
 
-    void Stage::addProp(Prop prop) 
+    void Stage::addProps(std::string filePath)
     {
-        this->props.push_back(prop);
+        Assimp::Importer importer;
+        const aiScene* scene;
+        this->getAssimpScene(filePath, importer, scene);
+
+
+
     }
 
-    int Stage::getNumProps()
+    void Stage::getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene)
     {
-        return this->props.size();
-    }
+        scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-    std::vector<Prop> Stage::getProps()
-    {
-        return this->props;
+        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+        {
+            if (Logger::isEnabled())
+            {
+                std::string errorMessage = importer.GetErrorString();
+                Logger::log("ERROR::ASSIMP::" + errorMessage);
+            }
+            exit(EXIT_FAILURE);
+        }
     }
 
 }

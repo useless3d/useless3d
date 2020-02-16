@@ -4,34 +4,34 @@
 
 namespace usls
 {
-    
     App::App() : 
         config(Config("config.ini")),
         window(Window(this->config.getScreenWidth(), this->config.getScreenHeight(), this->config.getFullScreen())),
         maxFps((double)this->config.getMaxFps())
     {
         // Enable logging
-        if (this->config.getLogEnabled()) {
+        if (this->config.getLogEnabled()) 
+        {
             Logger::enable(this->config.getLogPath());
         }
 
         // If window is not successfully created, log message and exit
-        if (this->window.getInitFailed()) {
-            if (Logger::isEnabled()) {
+        if (this->window.getInitFailed()) 
+        {
+            if (Logger::isEnabled()) 
+            {
                 Logger::log(this->window.getInitMessage());
             }
             exit(EXIT_FAILURE);
         }
-        // Window was successfully created, continue initialization
-        else {
-
-            // Initialize camera
-            Camera::init(&this->screenSize);
-
-        }
-
+        
     }
     App::~App() {}
+
+    void App::addStage(std::string stageName, std::string filePath, ProjectionType projType, ViewSpace vSpace) 
+    {
+        this->stages.push_back(Stage(stageName, filePath, projType, vSpace));
+    }
 
     const InputState& App::getInputState() const
     {
@@ -73,19 +73,18 @@ namespace usls
                 // process update logic
                 while (this->accumulator >= this->deltaTime)
                 {
-                    // capture input state
+                    // update window, which includes capturing input state
                     this->window.update();
 
-                    // call user defined loop
-                    this->logicLoop();
+                    // call user defined perFrameLogic method
+                    this->perFrameLogic();
 
                     // decrement accumulator
                     this->accumulator -= this->deltaTime;
-
                 }
 
                 // perform draw (render) logic with (eventually) automatic interpolation of stage actors
-                usls::Scene::get()->draw();
+                //usls::Scene::get()->draw();
 
                 this->window.swapBuffers();
 

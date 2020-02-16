@@ -1,9 +1,14 @@
 #pragma once
 
 #include <vector>
+#include <string>
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "Mesh.h"
 #include "Prop.h"
-#include <string>
 
 namespace usls
 {
@@ -22,16 +27,18 @@ namespace usls
     class Stage
     {
     private:
+        std::string             name;
         std::vector<Prop>       props;
         ProjectionType          pType;
         ViewSpace               vSpace;
 
+        void                    getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene);
+
     public:
-        Stage(std::string file, ProjectionType pType, ViewSpace vSpace);
+        Stage(std::string name, ProjectionType pType, ViewSpace vSpace);
         ~Stage();
-        void                addProp(Prop prop);
-        int                 getNumProps();
-        std::vector<Prop>   getProps();
+        void                addProps(std::string filePath);
+  
 
     };
 }
