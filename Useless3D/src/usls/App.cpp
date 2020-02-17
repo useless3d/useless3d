@@ -4,7 +4,8 @@
 
 namespace usls
 {
-    App::App() : 
+    App::App(bool headless) : 
+        headless(headless),
         config(Config("config.ini")),
         window(Window(this->config.getScreenWidth(), this->config.getScreenHeight(), this->config.getFullScreen())),
         maxFps((double)this->config.getMaxFps())
@@ -28,9 +29,22 @@ namespace usls
     }
     App::~App() {}
 
-    void App::addStage(std::string stageName, std::string filePath, ProjectionType projType, ViewSpace vSpace) 
+    /*
+    * Add a headless stage
+    */
+    void App::addStage(std::string stageName)
     {
-        this->stages.push_back(Stage(stageName, filePath, projType, vSpace));
+        this->stages.push_back(Stage(stageName));
+    }
+
+    /*
+    * Add a NON-headless stage. Since ProjectionType and ViewSpace are passed we know the user
+    * intends for this to be a renderable stage. However this will be overwritten if the state of the app
+    * is set to headless.
+    */
+    void App::addStage(std::string stageName, ProjectionType projType, ViewSpace vSpace) 
+    {
+        this->stages.push_back(Stage(stageName, projType, vSpace));
     }
 
     const InputState& App::getInputState() const

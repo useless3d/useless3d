@@ -1,5 +1,8 @@
 #pragma once
 
+#include <optional>
+#include <string>
+
 #include "Transformable.h"
 #include "Mesh.h"
 
@@ -8,13 +11,12 @@ namespace usls
     class Prop : public Transformable
     {
     private:
-        Mesh* mesh;
+        std::optional<Mesh*>    mesh;
+        std::string             name;
 
     public:
-        Prop(Mesh* mesh, glm::vec3 translation, Rotation rotation, glm::vec3 scale);
+        Prop(std::string name, glm::vec3 translation, Rotation rotation, glm::vec3 scale, Mesh* mesh);
         ~Prop();
-
-        Mesh* getMesh();
 
     };
 }

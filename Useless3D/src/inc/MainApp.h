@@ -7,7 +7,7 @@ class MainApp : public usls::App
 {
 
 public:
-    MainApp() : usls::App() {};
+    MainApp(bool headless) : usls::App(headless) {};
     ~MainApp() {};
     void    perFrameLogic();
     void    init();

@@ -6,7 +6,7 @@
 int main()
 {
     // Bootstrap MainApp
-    std::unique_ptr<MainApp>    app = std::make_unique<MainApp>();
-    app->execute();
+    MainApp app(false); // false means we are not running headless
+    app.execute();
     return 0;
 }

@@ -14,7 +14,7 @@ namespace usls
     class App
     {
     protected:
-
+        bool                headless;
         Config              config;
         Window              window;
         double              maxFps;
@@ -26,7 +26,8 @@ namespace usls
         double			    accumulator = 0.0;
 
         std::vector<Stage>  stages;
-        void                addStage(std::string stageName, std::string filePath, ProjectionType projType, ViewSpace vSpace);
+        void                addStage(std::string stageName);
+        void                addStage(std::string stageName, ProjectionType projType, ViewSpace vSpace);
 
         const InputState&   getInputState() const;
 
@@ -35,7 +36,7 @@ namespace usls
         
 
     public:
-        App();
+        App(bool headless);
         ~App();
         void                execute();
 

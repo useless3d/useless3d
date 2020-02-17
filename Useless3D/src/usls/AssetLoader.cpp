@@ -130,11 +130,9 @@ namespace usls
         // Walk through each of the mesh's vertices
         for (unsigned int i = 0; i < mesh->mNumVertices; i++) 
         {
-
             Vertex vertex;
             glm::vec3 vector;
-
-            
+      
             // position
             vector.x = mesh->mVertices[i].x;
             vector.y = mesh->mVertices[i].y;
@@ -146,23 +144,6 @@ namespace usls
             vector.y = mesh->mNormals[i].y;
             vector.z = mesh->mNormals[i].z;
             vertex.normal = vector;
-            
-
-
-            /*
-            // position
-            vector.x = mesh->mVertices[i].x;
-            vector.y = mesh->mVertices[i].z;
-            vector.z = mesh->mVertices[i].y;
-            vertex.position = vector;
-
-            // normal
-            vector.x = mesh->mNormals[i].x;
-            vector.y = mesh->mNormals[i].z;
-            vector.z = mesh->mNormals[i].y;
-            vertex.normal = vector;
-            */
-
 
             // texture coordinates
             if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
@@ -173,7 +154,6 @@ namespace usls
                 vec.x = mesh->mTextureCoords[0][i].x;
                 vec.y = mesh->mTextureCoords[0][i].y;
                 vertex.textureCoordinates = vec;
-
             }
             else 
             {

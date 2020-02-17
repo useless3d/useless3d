@@ -162,6 +162,7 @@
     <ClCompile Include="src\usls\Logger.cpp" />
     <ClCompile Include="src\usls\Mesh.cpp" />
     <ClCompile Include="src\usls\Prop.cpp" />
+    <ClCompile Include="src\usls\Renderable.cpp" />
     <ClCompile Include="src\usls\Scene.cpp" />
     <ClCompile Include="src\usls\Shader.cpp" />
     <ClCompile Include="src\usls\Stage.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src\usls\inc\Logger.h" />
     <ClInclude Include="src\usls\inc\Mesh.h" />
     <ClInclude Include="src\usls\inc\Prop.h" />
+    <ClInclude Include="src\usls\inc\Renderable.h" />
     <ClInclude Include="src\usls\inc\Rotation.h" />
     <ClInclude Include="src\usls\inc\Scene.h" />
     <ClInclude Include="src\usls\inc\Shader.h" />

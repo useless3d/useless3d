@@ -1,51 +1,35 @@
 #pragma once
 
-#include <glad/glad.h>
-#include <STB_IMAGE/stb_image.h>
-
 #include <vector>
 #include <string>
-#include <memory>
+#include <optional>
 #include "Vertex.h"
 #include "Texture.h"
+#include "Renderable.h"
 
 namespace usls
 {
-    // Private constructor so same mesh is not created twice, return existing pointer if mesh
-    // to be created is an instance of an already instantiated mesh.
     class Mesh 
     {
 
     private:
-        ~Mesh();
-        Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
-        static std::vector<Mesh*>   meshes;
-
-        void                        sendToGpu();
-        void                        loadGpuTexture();
-
-
         std::string                 name;
         std::vector<Vertex>			vertices;
         std::vector<unsigned int>   indices;
-
-        Texture						texture;
-        unsigned int				VAO;
-        unsigned int				VBO;
-        unsigned int				EBO;
-
+        std::optional<Renderable>   renderable;
 
     public:
-        static Mesh*                createMesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices, Texture texture);
-        static int                  getMeshCount();
-        static void                 clearMeshes();
+        ~Mesh();
+        Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
-        std::vector<Vertex>			getVertices();
-        std::vector<unsigned int>	getIndices();
-        std::string                 getName();
-        Texture                     getTexture();
+        void                                makeRenderable(Texture texture);
+        const Renderable&                   getRenderable() const;
 
-        const unsigned int&         getVAO();
+        const std::string                   getName() const;
+        const std::vector<Vertex>&			getVertices() const;
+        const std::vector<unsigned int>&	getIndices() const;
+
+        //const unsigned int&         getVAO();
 
     };
 }
