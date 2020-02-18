@@ -6,11 +6,10 @@
 namespace usls
 {
 
-    Stage::Stage(std::string name, ProjectionType pType, ViewSpace vSpace) :
+    Stage::Stage(std::string name, std::unique_ptr<Camera> camera) :
         headless(false),
         name(name),
-        pType(pType),
-        vSpace(vSpace)
+        camera(std::move(camera))
     {
         
     }

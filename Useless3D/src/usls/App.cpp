@@ -38,13 +38,12 @@ namespace usls
     }
 
     /*
-    * Add a NON-headless stage. Since ProjectionType and ViewSpace are passed we know the user
-    * intends for this to be a renderable stage. However this will be overwritten if the state of the app
-    * is set to headless.
+    * Add a NON-headless stage. Since camera is passed we know the user intends for this to be a renderable stage. 
+    * However this will be overwritten if the state of the app is set to headless.
     */
-    void App::addStage(std::string stageName, ProjectionType projType, ViewSpace vSpace) 
+    void App::addStage(std::string stageName, std::unique_ptr<Camera> camera)
     {
-        this->stages.push_back(Stage(stageName, projType, vSpace));
+        this->stages.push_back(Stage(stageName, std::move(camera)));
     }
 
     const InputState& App::getInputState() const

@@ -8,40 +8,43 @@ namespace usls
 {
     class Camera
     {
-    private:
-        Camera(glm::vec2* screenSize);
-        static Camera* instance;
+    public:
+        enum Projection
+        {
+            PERSPECTIVE,
+            ORTHOGRAPHIC
+        };
+        enum ViewSpace
+        {
+            VIEW,
+            WORLD
+        };
 
-        glm::vec2*			screenSize;
-        float				fov = 45.0f;
+        Camera(const glm::vec2* screenSize, Projection projectionType, ViewSpace viewSpace, float nearPlane, float farPlane);
+        ~Camera();
+
+        void        update();
+        glm::mat4   getViewMatrix();
+        glm::mat4   getProjectionMatrix();
+        
+    protected:
+        const glm::vec2* 	screenSize;
+        float               nearPlane;
+        float               farPlane;
 
         glm::vec3			position = glm::vec3(0.0f, 0.0f, 0.0f);
-        glm::vec3			direction = glm::vec3(0.0f, 0.0f, -1.0f);
+        glm::vec3			lookAtVec = glm::vec3(0.0f, 0.0f, 0.0f);
         glm::vec3			up = glm::vec3(0.0f, 1.0f, 0.0f);
 
         glm::mat4			viewMatrix = glm::mat4(1.0f); // initialized as identity matrix
-        glm::mat4			perspectiveProjectionMatrix = glm::mat4(1.0f); // initialized as identity matrix
+        glm::mat4			projectionMatrix = glm::mat4(1.0f); // initialized as identity matrix
 
-        void        updateViewMatrix();
-        void        updatePerspectiveProjectionMatrix();
+        Projection          projectionType;
+        ViewSpace           viewSpace;
 
-    public:
-        static Camera* init(glm::vec2* screenSize);
-        static Camera* get();
-        
-        void        setFov(float fov);
-        float       getFov();
-
-        void	    setDirection(glm::vec3 direction);
-        void	    setPosition(glm::vec3 position);
-
-        glm::vec3   getDirection();
-        glm::vec3   getPosition();
-
-        glm::mat4   getViewMatrix();
-        glm::mat4   getPerspectiveProjectionMatrix();
-
-        void        update();
+        void                updateViewMatrix();
+        virtual void        updateProjectionMatrix() = 0;
+    
 
     };
 }

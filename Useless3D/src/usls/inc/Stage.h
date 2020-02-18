@@ -12,29 +12,17 @@
 
 #include "Mesh.h"
 #include "Prop.h"
+#include "Camera.h"
 
 namespace usls
 {
-    enum ProjectionType
-    {
-        PERSPECTIVE,
-        ORTHOGRAPHIC
-    };
-
-    enum ViewSpace
-    {
-        VIEW,
-        WORLD
-    };
-
     class Stage
     {
     private:
         bool                            headless;
         std::string                     name;
         std::vector<Prop>               props;
-        std::optional<ProjectionType>   pType;
-        std::optional<ViewSpace>        vSpace;
+        std::optional<std::unique_ptr<Camera>> camera;
         std::vector<std::unique_ptr<Mesh>> meshes;
         std::string                     currentAssetDirectory = "";
 
@@ -44,7 +32,7 @@ namespace usls
 
     public:
         Stage(std::string name);
-        Stage(std::string name, ProjectionType pType, ViewSpace vSpace);
+        Stage(std::string name, std::unique_ptr<Camera> camera);
         ~Stage();
         void                addProp(std::string filePath);
   

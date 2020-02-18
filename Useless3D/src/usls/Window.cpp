@@ -172,4 +172,9 @@ namespace usls
         return this->inputState;
     }
 
+    const glm::vec2& Window::getScreenSize() const
+    {
+        return this->screenSize;
+    }
+
 }

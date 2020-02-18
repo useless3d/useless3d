@@ -21,10 +21,8 @@ namespace usls
         GLFWwindow*     glfwWindow;
         bool            initFailed = false;
         std::string		initMessage = "ok";
-        int				screenWidth;
-        int				screenHeight;
-        double			scrollX = 0;
-        double			scrollY = 0;
+        double			scrollX = 0.0;
+        double			scrollY = 0.0;
         
 
 
@@ -44,6 +42,7 @@ namespace usls
         double			time();
 
         const InputState& getInputState() const;
+        const glm::vec2& getScreenSize() const;
 
         void			swapBuffers();
         //void			vsync();

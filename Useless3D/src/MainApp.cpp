@@ -1,18 +1,21 @@
 #include "inc/MainApp.h"
-
-#include <iostream>
 #include "usls/inc/Stage.h"
+#include "usls/inc/Camera.h"
+#include "usls/inc/PerspectiveCamera.h"
 
 void MainApp::init()
 {
-    usls::Scene* scene = usls::Scene::get();
-    scene->addStage("TestStage","data/models/bin/stages/003FBX/003.fbx", 
-        usls::ProjectionType::PERSPECTIVE, usls::ViewSpace::WORLD);
-    
-    usls::Camera* camera = usls::Camera::get();
-    camera->setPosition(glm::vec3(0.0f, 6.0f, 10.0f));
-    camera->setDirection(glm::vec3(0.0f, 0.0f, 0.0f));
-    camera->update();
+    //std::unique_ptr<usls::Camera> camera1 =
+    //    std::make_unique<usls::PerspectiveCamera>(
+    //        &this->window.getScreenSize(),
+    //        usls::Camera::Projection::PERSPECTIVE,
+    //        usls::Camera::ViewSpace::WORLD,
+    //        0.1f,
+    //        250.0f,
+    //        45.0f
+    //    );
+
+    //this->addStage("stage1", std::move(camera1));
 
 }
 

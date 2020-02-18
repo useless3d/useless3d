@@ -7,6 +7,7 @@
 #include "Config.h"
 #include "Window.h"
 #include "Stage.h"
+#include "Camera.h"
 
 
 namespace usls 
@@ -26,8 +27,8 @@ namespace usls
         double			    accumulator = 0.0;
 
         std::vector<Stage>  stages;
+        void                addStage(std::string stageName, std::unique_ptr<Camera> camera);
         void                addStage(std::string stageName);
-        void                addStage(std::string stageName, ProjectionType projType, ViewSpace vSpace);
 
         const InputState&   getInputState() const;
 
@@ -39,6 +40,8 @@ namespace usls
         App(bool headless);
         ~App();
         void                execute();
+
+        //const Window&       getWindow();
 
     };
 };

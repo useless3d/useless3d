@@ -153,7 +153,6 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MainApp.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
-    <ClCompile Include="src\usls\AssetLoader.cpp" />
     <ClCompile Include="src\usls\Camera.cpp" />
     <ClCompile Include="src\usls\Config.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
@@ -161,9 +160,9 @@
     <ClCompile Include="src\usls\inc\Actor.h" />
     <ClCompile Include="src\usls\Logger.cpp" />
     <ClCompile Include="src\usls\Mesh.cpp" />
+    <ClCompile Include="src\usls\PerspectiveCamera.cpp" />
     <ClCompile Include="src\usls\Prop.cpp" />
     <ClCompile Include="src\usls\Renderable.cpp" />
-    <ClCompile Include="src\usls\Scene.cpp" />
     <ClCompile Include="src\usls\Shader.cpp" />
     <ClCompile Include="src\usls\Stage.cpp" />
     <ClCompile Include="src\usls\Transformable.cpp" />
@@ -173,17 +172,16 @@
   <ItemGroup>
     <ClInclude Include="src\inc\MainApp.h" />
     <ClInclude Include="src\usls\inc\App.h" />
-    <ClInclude Include="src\usls\inc\AssetLoader.h" />
     <ClInclude Include="src\usls\inc\Camera.h" />
     <ClInclude Include="src\usls\inc\Config.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
     <ClInclude Include="src\usls\inc\InputState.h" />
     <ClInclude Include="src\usls\inc\Logger.h" />
     <ClInclude Include="src\usls\inc\Mesh.h" />
+    <ClInclude Include="src\usls\inc\PerspectiveCamera.h" />
     <ClInclude Include="src\usls\inc\Prop.h" />
     <ClInclude Include="src\usls\inc\Renderable.h" />
     <ClInclude Include="src\usls\inc\Rotation.h" />
-    <ClInclude Include="src\usls\inc\Scene.h" />
     <ClInclude Include="src\usls\inc\Shader.h" />
     <ClInclude Include="src\usls\inc\Texture.h" />
     <ClInclude Include="src\usls\inc\Transformable.h" />
