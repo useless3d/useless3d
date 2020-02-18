@@ -34,7 +34,7 @@ namespace usls
     */
     void App::addStage(std::string stageName)
     {
-        this->stages.push_back(Stage(stageName));
+        this->stages.push_back(std::move(Stage(stageName)));
     }
 
     /*
@@ -43,7 +43,7 @@ namespace usls
     */
     void App::addStage(std::string stageName, std::unique_ptr<Camera> camera)
     {
-        this->stages.push_back(Stage(stageName, std::move(camera)));
+        this->stages.push_back(std::move(Stage(stageName, std::move(camera))));
     }
 
     const InputState& App::getInputState() const

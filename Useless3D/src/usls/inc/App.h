@@ -41,7 +41,5 @@ namespace usls
         ~App();
         void                execute();
 
-        //const Window&       getWindow();
-
     };
 };
