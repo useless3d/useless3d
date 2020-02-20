@@ -58,7 +58,8 @@ namespace usls
             rotation.angle = rotationAngle * (180 / 3.124);
             rotation.axis = rotationAxis;
 
-            this->props.push_back(Prop(node->mName.C_Str(), translation, rotation, scale, mesh));
+            auto newProp = std::make_unique<Prop>(node->mName.C_Str(), translation, rotation, scale, mesh);
+            this->props.push_back(std::move(newProp));
 
         });
 
@@ -216,14 +217,36 @@ namespace usls
             }
         }
 
-        auto nm = std::make_unique<Mesh>(mesh->mName.C_Str(), vertices, indices);
+        auto newMesh = std::make_unique<Mesh>(mesh->mName.C_Str(), vertices, indices);
         if (!this->headless)
         {
-            nm->makeRenderable(texture);
+            newMesh->makeRenderable(texture);
         }
-        auto meshPtr = nm.get();
-        this->meshes.push_back(std::move(nm));
+        auto meshPtr = newMesh.get();
+        this->meshes.push_back(std::move(newMesh));
         return meshPtr;
     }
+
+    void Stage::setShader(Shader shader)
+    {
+        this->shader = shader;
+    }
+
+    void Stage::draw(Shader* appShader)
+    {
+        for (auto& p : this->props)
+        {
+            if (this->shader.has_value()) 
+            {
+                p->draw(&this->shader.value());
+            }
+            else
+            {
+                p->draw(appShader);
+            }
+        }
+    }
+
+
 
 }

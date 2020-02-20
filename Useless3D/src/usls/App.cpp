@@ -25,6 +25,8 @@ namespace usls
             }
             exit(EXIT_FAILURE);
         }
+
+        this->shader = Shader(config.SHADER_FILE_PATH, config.DEFAULT_VERTEX_SHADER, config.DEFAULT_FRAGMENT_SHADER);
         
     }
     App::~App() {}
@@ -34,7 +36,8 @@ namespace usls
     */
     void App::addStage(std::string stageName)
     {
-        this->stages.push_back(std::move(Stage(stageName)));
+        auto newStage = std::make_unique<Stage>(stageName);
+        this->stages.push_back(std::move(newStage));
     }
 
     /*
@@ -43,7 +46,8 @@ namespace usls
     */
     void App::addStage(std::string stageName, std::unique_ptr<Camera> camera)
     {
-        this->stages.push_back(std::move(Stage(stageName, std::move(camera))));
+        auto newStage = std::make_unique<Stage>(stageName, std::move(camera));
+        this->stages.push_back(std::move(newStage));
     }
 
     const InputState& App::getInputState() const
@@ -97,13 +101,36 @@ namespace usls
                 }
 
                 // perform draw (render) logic with (eventually) automatic interpolation of stage actors
-                //usls::Scene::get()->draw();
-
-                this->window.swapBuffers();
+                if (!this->headless)
+                {
+                    this->draw();
+                }
+                
 
             }
 
         }
+    }
+
+    void App::draw()
+    {
+        // TODO: Interpolation of all Stage Actors
+
+
+        glEnable(GL_DEPTH_TEST);
+        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw only lines for debugging
+
+        // Select a color to clear the screen with and clear screen
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Draw all stages in order they were created (layered)
+        for (auto& s : this->stages)
+        {
+            s->draw(&this->shader);
+        }
+
+        this->window.swapBuffers();
     }
 
 }

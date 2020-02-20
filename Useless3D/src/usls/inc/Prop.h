@@ -5,6 +5,7 @@
 
 #include "Transformable.h"
 #include "Mesh.h"
+#include "Shader.h"
 
 namespace usls
 {
@@ -17,6 +18,8 @@ namespace usls
     public:
         Prop(std::string name, glm::vec3 translation, Rotation rotation, glm::vec3 scale, Mesh* mesh);
         ~Prop();
+
+        void draw(Shader* appOrStageShader);
 
     };
 }

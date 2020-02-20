@@ -69,4 +69,17 @@ namespace usls
         }
     }
 
+    const bool Mesh::isRenderable() const
+    {
+        return this->renderable.has_value();
+    }
+
+    void Mesh::draw(Shader* shader)
+    {
+        if (this->isRenderable())
+        {
+            this->renderable.value().draw(shader);
+        }
+    }
+
 }

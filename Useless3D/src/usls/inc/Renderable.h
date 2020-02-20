@@ -3,6 +3,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "Texture.h"
+#include "Shader.h"
 
 namespace usls
 {
@@ -13,6 +14,7 @@ namespace usls
         unsigned int	VAO;
         unsigned int	VBO;
         unsigned int    EBO;
+        unsigned int    indiceCount;
 
         void            loadTexture();
         void            sendToGPU(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
@@ -21,7 +23,9 @@ namespace usls
         Renderable(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, Texture texture);
         ~Renderable();
 
-        const Texture&      getTexture() const;
+        const Texture&  getTexture() const;
+
+        void            draw(Shader* shader);
 
     };
 }

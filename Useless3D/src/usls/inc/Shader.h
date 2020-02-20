@@ -12,6 +12,7 @@ namespace usls
 
         unsigned int ID; //program ID
 
+        Shader() {};
         Shader(const std::string shaderDir, const std::string vertFile, const std::string fragFile);
         void use();
         void setBool(const std::string &name, bool value) const;

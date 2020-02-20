@@ -10,16 +10,19 @@ namespace usls
     private:
         std::vector<std::string> explode(std::string const & s, char delim);
 
-        bool        logEnabled;
-        std::string logPath;
-        int         screenWidth;
-        int         screenHeight;
-        bool        fullScreen;
-        int         maxFps;
+        bool                logEnabled;
+        std::string         logPath;
+        int                 screenWidth;
+        int                 screenHeight;
+        bool                fullScreen;
+        int                 maxFps;
 
     public:
         Config(std::string configPath);
-        ~Config();
+        
+        const std::string   SHADER_FILE_PATH = "Useless3D/src/usls/shaders";
+        const std::string   DEFAULT_VERTEX_SHADER = "default.vert";
+        const std::string   DEFAULT_FRAGMENT_SHADER = "default.frag";
 
         const bool& getLogEnabled() const;
         const std::string& getLogPath() const;

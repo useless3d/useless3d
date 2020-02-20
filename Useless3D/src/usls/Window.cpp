@@ -1,5 +1,8 @@
 #include "inc/Window.h"
 
+#include <iostream>
+
+
 namespace usls
 {
     Window::Window(int screenWidth, int screenHeight, bool fullScreen) :
@@ -12,6 +15,11 @@ namespace usls
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        glfwSetErrorCallback([](int error, const char* description) {
+            std::cout << description << "\n";
+            std::cin.get();
+        });
 
         // stutter caused when not in fullscreen mode: https://stackoverflow.com/a/21663076/1609485
         // https://www.reddit.com/r/opengl/comments/8754el/stuttering_with_learnopengl_tutorials/dwbp7ta?utm_source=share&utm_medium=web2x

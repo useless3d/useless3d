@@ -6,6 +6,7 @@
 #include "Vertex.h"
 #include "Texture.h"
 #include "Renderable.h"
+#include "Shader.h"
 
 namespace usls
 {
@@ -19,7 +20,6 @@ namespace usls
         std::optional<Renderable>   renderable;
 
     public:
-        ~Mesh();
         Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
         void                                makeRenderable(Texture texture);
@@ -29,7 +29,11 @@ namespace usls
         const std::vector<Vertex>&			getVertices() const;
         const std::vector<unsigned int>&	getIndices() const;
 
-        //const unsigned int&         getVAO();
+        const bool                          isRenderable() const;
+        
+        void                                draw(Shader* shader);
+
+
 
     };
 }

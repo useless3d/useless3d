@@ -9,6 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <iostream>
+
 namespace usls
 {
 
@@ -29,6 +31,9 @@ namespace usls
             // open files
             vShaderFile.open(shaderDir + "/" + vertFile);
             fShaderFile.open(shaderDir + "/" + fragFile);
+
+            std::cout << shaderDir + "/" + vertFile << "\n";
+
             std::stringstream vShaderStream, fShaderStream;
 
             // read file's buffer contents into streams

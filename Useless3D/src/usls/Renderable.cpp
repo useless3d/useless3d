@@ -7,7 +7,8 @@
 namespace usls
 {
     Renderable::Renderable(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, Texture texture) :
-        texture(texture)
+        texture(texture),
+        indiceCount(indices.size())
     {
         this->sendToGPU(vertices, indices);
     }
@@ -96,6 +97,21 @@ namespace usls
     const Texture& Renderable::getTexture() const
     {
         return this->texture;
+    }
+
+    void Renderable::draw(Shader* shader)
+    {
+        // activate proper texture unit before binding
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, this->texture.id);
+        shader->setInt("texture1", 0);
+
+        // draw mesh
+        glBindVertexArray(this->VAO);
+        glDrawElements(GL_TRIANGLES, this->indiceCount, GL_UNSIGNED_INT, 0);
+
+        // set everything back to defaults once configured
+        glBindVertexArray(0);
     }
 
 }
