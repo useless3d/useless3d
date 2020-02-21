@@ -1,6 +1,5 @@
 #include "inc/Prop.h"
 
-
 namespace usls
 {
     Prop::Prop(std::string name, glm::vec3 translation, Rotation rotation, glm::vec3 scale, Mesh* mesh) :
@@ -14,12 +13,13 @@ namespace usls
     }
     Prop::~Prop() {}
 
-    void Prop::draw(Shader* appOrStageShader)
+    void Prop::draw(Shader* appOrStageShader, Camera* camera)
     {
         if (this->mesh) 
         {
-            this->mesh.value()->draw(appOrStageShader);
+            this->mesh.value()->draw(appOrStageShader, camera, this->getMatrix());
         }
     }
+
 
 }

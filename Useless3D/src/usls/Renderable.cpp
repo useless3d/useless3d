@@ -4,13 +4,19 @@
 #include "inc/Renderable.h"
 #include "inc/Logger.h"
 
+#include <iostream>
+
+#include <glm/gtx/string_cast.hpp>
+
+
+
 namespace usls
 {
     Renderable::Renderable(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, Texture texture) :
         texture(texture),
         indiceCount(indices.size())
     {
-        this->sendToGPU(vertices, indices);
+        this->sendToGPU(vertices, indices);        
     }
 
     Renderable::~Renderable() 
@@ -99,8 +105,12 @@ namespace usls
         return this->texture;
     }
 
-    void Renderable::draw(Shader* shader)
+    void Renderable::draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix)
     {
+
+        shader->use();
+        shader->setMat4("mvp", camera->getProjectionMatrix() * camera->getViewMatrix() * modelMatrix);
+
         // activate proper texture unit before binding
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this->texture.id);

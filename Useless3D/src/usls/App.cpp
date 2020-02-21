@@ -6,7 +6,7 @@ namespace usls
 {
     App::App(bool headless) : 
         headless(headless),
-        config(Config("config.ini")),
+        config(Config("data/config.ini")),
         window(Window(this->config.getScreenWidth(), this->config.getScreenHeight(), this->config.getFullScreen())),
         maxFps((double)this->config.getMaxFps())
     {
@@ -114,7 +114,8 @@ namespace usls
 
     void App::draw()
     {
-        // TODO: Interpolation of all Stage Actors
+        // TODO: Interpolation of all Stage Actors (this will require a fair amout of restructuring of how
+        // we are currently drawing renderables)
 
 
         glEnable(GL_DEPTH_TEST);

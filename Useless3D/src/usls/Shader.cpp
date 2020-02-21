@@ -32,8 +32,6 @@ namespace usls
             vShaderFile.open(shaderDir + "/" + vertFile);
             fShaderFile.open(shaderDir + "/" + fragFile);
 
-            std::cout << shaderDir + "/" + vertFile << "\n";
-
             std::stringstream vShaderStream, fShaderStream;
 
             // read file's buffer contents into streams

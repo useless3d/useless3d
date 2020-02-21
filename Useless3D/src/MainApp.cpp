@@ -5,6 +5,7 @@
 
 void MainApp::init()
 {
+    // Create camera and set initial position and lookat vectors
     std::unique_ptr<usls::Camera> camera1 =
         std::make_unique<usls::PerspectiveCamera>(
             &this->window.getScreenSize(),
@@ -12,8 +13,9 @@ void MainApp::init()
             usls::Camera::ViewSpace::WORLD,
             0.1f,
             250.0f,
-            45.0f
-        );
+            45.0f);
+    camera1->setPosition(glm::vec3(0.0f, 6.0f, 10.0f));
+    camera1->setLookAt(glm::vec3(0.0f, 0.0f, 0.0f));
 
     this->addStage("stage1", std::move(camera1));
     this->stages.back()->addProp("data/models/bin/stages/003FBX/003.fbx");

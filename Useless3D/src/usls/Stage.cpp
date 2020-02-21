@@ -2,6 +2,7 @@
 #include "inc/Rotation.h"
 
 #include "inc/Logger.h"
+#include <iostream>
 
 namespace usls
 {
@@ -207,7 +208,7 @@ namespace usls
         {
             // If not running headless mode, determine if the vertices AND texture are already loaded. If so, return a pointer
             // to the already loaded mesh object, otherwise create a new mesh object save it within meshes and return a pointer to it
-            if (!this->headless && (vertices == m->getVertices() && texture.path == m->getRenderable().getTexture().path))
+            if (!this->headless && (vertices == m->getVertices() && texture.path == m->getTexturePath()))
             {
                 return m.get();
             } 
@@ -234,15 +235,17 @@ namespace usls
 
     void Stage::draw(Shader* appShader)
     {
+        this->camera.value()->update();
+
         for (auto& p : this->props)
         {
             if (this->shader.has_value()) 
             {
-                p->draw(&this->shader.value());
+                p->draw(&this->shader.value(), this->camera.value().get());
             }
             else
             {
-                p->draw(appShader);
+                p->draw(appShader, this->camera.value().get());
             }
         }
     }

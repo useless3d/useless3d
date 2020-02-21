@@ -4,6 +4,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <iostream>
+
 namespace usls
 {
     Config::Config(std::string configPath) 
@@ -12,11 +14,12 @@ namespace usls
 
         try
         {
-            conf.open(configPath);
+            conf.open(configPath); // not throwing error when file path incorrect
 
             std::string line;
             while (std::getline(conf, line))
             {
+
                 std::istringstream iss(line);
                 std::vector<std::string> e = this->explode(iss.str(), '=');
 

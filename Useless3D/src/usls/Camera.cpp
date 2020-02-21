@@ -18,7 +18,7 @@ namespace usls
     void Camera::updateViewMatrix()
     {
         if (this->viewSpace == Camera::ViewSpace::WORLD) {
-            this->viewMatrix = glm::lookAt(this->position, this->lookAtVec, this->up);
+            this->viewMatrix = glm::lookAt(this->position, this->lookAt, this->up);
         }
     }
 
@@ -37,4 +37,15 @@ namespace usls
     {
         return this->projectionMatrix;
     }
+
+    void Camera::setPosition(glm::vec3 p)
+    {
+        this->position = p;
+    }
+
+    void Camera::setLookAt(glm::vec3 la)
+    {
+        this->lookAt = la;
+    }
+
 }

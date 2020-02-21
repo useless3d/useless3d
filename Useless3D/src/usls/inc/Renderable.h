@@ -4,6 +4,7 @@
 #include "Vertex.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "Camera.h"
 
 namespace usls
 {
@@ -25,7 +26,7 @@ namespace usls
 
         const Texture&  getTexture() const;
 
-        void            draw(Shader* shader);
+        void            draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix);
 
     };
 }

@@ -3,9 +3,12 @@
 #include <optional>
 #include <string>
 
+#include <glm/glm.hpp>
+
 #include "Transformable.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "Camera.h"
 
 namespace usls
 {
@@ -19,7 +22,7 @@ namespace usls
         Prop(std::string name, glm::vec3 translation, Rotation rotation, glm::vec3 scale, Mesh* mesh);
         ~Prop();
 
-        void draw(Shader* appOrStageShader);
+        void draw(Shader* appOrStageShader, Camera* camera);
 
     };
 }
