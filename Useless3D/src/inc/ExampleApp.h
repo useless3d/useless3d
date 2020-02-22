@@ -3,12 +3,11 @@
 #include "usls/inc/Config.h"
 #include "usls/inc/App.h"
 
-class MainApp : public usls::App
+class ExampleApp : public usls::App
 {
 
 public:
-    MainApp(bool headless) : usls::App(headless) {};
-    ~MainApp() {};
+    ExampleApp(bool headless) : usls::App(headless) {};
     void    perFrameLogic();
     void    init();
 

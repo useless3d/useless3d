@@ -40,6 +40,9 @@ namespace usls
         void                addProp(std::string filePath);
         void                setShader(Shader shader);
         void                draw(Shader* appShader);
+
+        const int           getMeshCount() const;
+        const int           getPropCount() const;
   
 
     };

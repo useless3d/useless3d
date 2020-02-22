@@ -228,6 +228,15 @@ namespace usls
         return meshPtr;
     }
 
+    const int Stage::getMeshCount() const
+    {
+        return this->meshes.size();
+    }
+    const int Stage::getPropCount() const
+    {
+        return this->props.size();
+    }
+
     void Stage::setShader(Shader shader)
     {
         this->shader = shader;

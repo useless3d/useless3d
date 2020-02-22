@@ -16,12 +16,12 @@ namespace usls
     class App
     {
     protected:
-        bool                headless;
-        Config              config;
+        const bool          headless;
+        const Config        config;
         Window              window;
         Shader              shader;
-        double              maxFps;
-        double              logicTick = 120.0;
+        const double        maxFps;
+        const double        logicTick = 120.0;
         double			    deltaTime = 0.0;
         double			    currentTime = 0.0;
         double			    newTime = 0.0;

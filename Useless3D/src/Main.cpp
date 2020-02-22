@@ -1,12 +1,12 @@
 #include <iostream>
 #include <memory>
 
-#include "inc/MainApp.h"
+#include "inc/ExampleApp.h"
 
 int main()
 {
-    // Bootstrap MainApp
-    MainApp app(false); // false means we are not running headless
+    // Bootstrap an App
+    ExampleApp app(false); // false means we are not running headless
     app.execute();
     return 0;
 }
