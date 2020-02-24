@@ -9,7 +9,9 @@ namespace usls
     private:
         void updateProjectionMatrix();
 
+        const float pixelsPerUnit;
+
     public:
-        OrthographicCamera(const glm::vec2* screenSize, bool fixed, float nearPlane, float farPlane);
+        OrthographicCamera(const glm::vec2* screenSize, bool fixed, float nearPlane, float farPlane, float pixelsPerUnit);
     };
 }
