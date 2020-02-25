@@ -35,7 +35,7 @@ namespace usls
         const aiScene* scene;
         this->getAssimpScene(filePath, importer, scene);
 
-        this->processNode(scene->mRootNode, scene, [this](aiNode* node, Mesh* mesh) {
+        this->processNode(scene->mRootNode, scene, [this](aiNode* node, Mesh* mesh) { // reason for lambda will be clear once we import Actors
 
             aiVector3D aiScale;
             aiVector3D aiPosition;
@@ -50,17 +50,20 @@ namespace usls
             //std::cout << rotationAngle << "\n";
             //std::cout << "-------------\n";
 
-            //glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
-            glm::vec3 scale = glm::vec3(aiScale.x, aiScale.z, aiScale.y); // swap z/y to compensate for blender .fbx export issue
+            glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
+            //glm::vec3 scale = glm::vec3(aiScale.x, aiScale.z, aiScale.y); // swap z/y to compensate for blender .fbx export issue NEVERMIND...This doesn't seem to be required anymore...must have been something weird I was doing, but going to leave it here for awhile just in case
+            //std::cout << scale.x << "," << scale.y << "," << scale.z << "\n";
             glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);
             glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
 
             Rotation rotation;
-            rotation.angle = rotationAngle * (180 / 3.124);
+            rotation.angle = rotationAngle * (180 / 3.124); // convert radian to degree
             rotation.axis = rotationAxis;
 
             auto newProp = std::make_unique<Prop>(node->mName.C_Str(), translation, rotation, scale, mesh);
             this->props.push_back(std::move(newProp));
+
+            //std::cout << "-------------\n";
 
         });
 
