@@ -39,7 +39,7 @@ namespace usls
         bool			shouldClose();
         void			setToClose();
         void			update();
-        double			time();
+        const double	time() const;
 
         const InputState& getInputState() const;
         const glm::vec2& getScreenSize() const;

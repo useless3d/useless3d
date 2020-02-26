@@ -109,11 +109,7 @@ namespace usls
 
     void Window::update() 
     {
-        // this method is invoked every tick
-
-        // check if any events are triggered
         glfwPollEvents();
-
         setKeys();
         setMouse();
         setScroll();
@@ -127,7 +123,7 @@ namespace usls
         glfwSwapBuffers(this->glfwWindow);
     }
 
-    double Window::time() 
+    const double Window::time() const
     {
         return glfwGetTime();
     }

@@ -66,10 +66,13 @@
     <ClCompile Include="src\usls\PerspectiveCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ExampleApp.cpp">
+    <ClCompile Include="src\usls\OrthographicCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\OrthographicCamera.cpp">
+    <ClCompile Include="src\usls\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ExampleScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,10 +128,13 @@
     <ClInclude Include="src\usls\inc\PerspectiveCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\inc\ExampleApp.h">
+    <ClInclude Include="src\usls\inc\OrthographicCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\usls\inc\OrthographicCamera.h">
+    <ClInclude Include="src\usls\inc\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\ExampleScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -26,28 +26,21 @@ namespace usls
             exit(EXIT_FAILURE);
         }
 
-        this->shader = Shader(config.SHADER_FILE_PATH, config.DEFAULT_VERTEX_SHADER, config.DEFAULT_FRAGMENT_SHADER);
+        //std::cout << this->window.time() << "\n";
         
     }
-    App::~App() {}
 
-    /*
-    * Add a headless stage
-    */
-    void App::addStage(std::string stageName)
+    void App::close()
     {
-        auto newStage = std::make_unique<Stage>(stageName);
-        this->stages.push_back(std::move(newStage));
+        this->shouldClose = true;
+        if (!this->headless) {
+            this->window.setToClose();
+        }
     }
 
-    /*
-    * Add a NON-headless stage. Since camera is passed we know the user intends for this to be a renderable stage. 
-    * However this will be overwritten if the state of the app is set to headless.
-    */
-    void App::addStage(std::string stageName, std::unique_ptr<Camera> camera)
+    const double App::time() const
     {
-        auto newStage = std::make_unique<Stage>(stageName, std::move(camera));
-        this->stages.push_back(std::move(newStage));
+        return this->window.time(); // use something other than window to obtain this since we will not have a window when running headless
     }
 
     const InputState& App::getInputState() const
@@ -55,16 +48,30 @@ namespace usls
         return this->window.getInputState();
     }
 
+    void App::setScene(std::unique_ptr<Scene> scene)
+    {
+        this->scene = std::move(scene);
+    }
+
+    void App::clearScene()
+    {
+        this->scene.reset();
+    }
+
     void App::execute()
     {
-        this->init();
-
         this->deltaTime = 1 / this->logicTick;
-        this->currentTime = this->window.time();
+        this->currentTime = this->time();
 
-        while (!this->window.shouldClose())
+        while (!this->shouldClose)
         {
-            this->newTime = this->window.time();
+            if (this->scene && !this->scene.value()->loaded)
+            {
+                this->scene.value()->load();
+                this->scene.value()->loaded = true;
+            }
+
+            this->newTime = this->time();
             this->frameTime = this->newTime - this->currentTime;
 
             if (this->frameTime >= (1 / this->maxFps)) // cap max fps
@@ -83,19 +90,25 @@ namespace usls
                 // exit if keyEsc pressed (remove this and let user determine this behaviour in their loop)
                 if (this->getInputState().keyEsc)
                 {
-                    this->window.setToClose();
+                    this->close();
                     continue;
                 }
 
                 // process update logic
                 while (this->accumulator >= this->deltaTime)
                 {
-                    // update window, which includes capturing input state
-                    this->window.update();
-
-                    // call user defined perFrameLogic method
-                    this->perFrameLogic();
-
+                    if (!this->headless) 
+                    {
+                        // update window, which includes capturing input state
+                        this->window.update();
+                    }
+                    
+                    if (this->scene) 
+                    {
+                        // call user defined loop method (where logic is performed (ie movement and such))
+                        this->scene.value()->loop();
+                    }
+                    
                     // decrement accumulator
                     this->accumulator -= this->deltaTime;
                 }
@@ -103,35 +116,25 @@ namespace usls
                 // perform draw (render) logic with (eventually) automatic interpolation of stage actors
                 if (!this->headless)
                 {
-                    this->draw();
+                    glEnable(GL_DEPTH_TEST);
+                    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw only lines for debugging
+
+                    // Select a color to clear the screen with and clear screen
+                    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+                    if (this->scene)
+                    {
+                        this->scene.value()->draw();
+                    }
+
+                    this->window.swapBuffers();
                 }
                 
 
             }
 
         }
-    }
-
-    void App::draw()
-    {
-        // TODO: Interpolation of all Stage Actors (this will require a fair amout of restructuring of how
-        // we are currently drawing renderables)
-
-
-        glEnable(GL_DEPTH_TEST);
-        //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw only lines for debugging
-
-        // Select a color to clear the screen with and clear screen
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Draw all stages in order they were created (layered)
-        for (auto& s : this->stages)
-        {
-            s->draw(&this->shader);
-        }
-
-        this->window.swapBuffers();
     }
 
 }
