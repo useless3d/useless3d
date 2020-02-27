@@ -31,6 +31,7 @@ namespace usls
 
         virtual void        load() = 0;
         virtual void        loop() = 0;
+        virtual void        end() = 0;
         
 
     };

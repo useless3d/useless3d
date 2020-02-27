@@ -21,6 +21,7 @@ namespace usls
 
     Renderable::~Renderable() 
     {
+        std::cout << "Destructor Called\n";
         glDeleteVertexArrays(1, &this->VAO);
         glDeleteBuffers(1, &this->VBO);
         glDeleteBuffers(1, &this->EBO);

@@ -1,12 +1,11 @@
-#include "inc/ExampleScene.h"
+#include "inc/ExampleScene2.h"
 #include "usls/inc/PerspectiveCamera.h"
 #include "usls/inc/OrthographicCamera.h"
 
 #include "usls/inc/App.h"
+#include "inc/ExampleScene.h"
 
-#include "inc/ExampleScene2.h"
-
-void ExampleScene::load()
+void ExampleScene2::load()
 {
     // Create camera and set initial position and lookat vectors
     std::unique_ptr<usls::Camera> camera1 =
@@ -19,14 +18,14 @@ void ExampleScene::load()
     camera1->setLookAt(glm::vec3(0.0f, 0.0f, 0.0f));
 
     this->addStage("stage1", std::move(camera1));
-    this->stages.back()->addProp("data/models/bin/stages/004/004.fbx");
+    this->stages.back()->addProp("data/models/bin/stages/006/006.fbx");
 
 
     std::unique_ptr<usls::Camera> camera2 = std::make_unique<usls::OrthographicCamera>(
-            true, // fixed (transformations relative to camera viewspace, not worldspace when true)
-            -0.1f, // near plane
-            250.0f, // far plane
-            0.665f); // scale
+        true, // fixed (transformations relative to camera viewspace, not worldspace when true)
+        -0.1f, // near plane
+        250.0f, // far plane
+        0.665f); // scale
 
     this->addStage("stage2", std::move(camera2));
     this->stages.back()->addProp("data/models/bin/stages/005/005.fbx");
@@ -34,19 +33,17 @@ void ExampleScene::load()
 }
 
 
-void ExampleScene::loop()
+void ExampleScene2::loop()
 {
-    // Application logic, move things around, swap scenes, etc
-
+    // Application logic, move things around, etc
     if (usls::App::get()->getInputState().keySpace) {
         this->end();
     }
-
 }
 
-void ExampleScene::end()
+void ExampleScene2::end()
 {
     // What to do when this scene is over
 
-    usls::App::get()->setScene(std::move(std::make_unique<ExampleScene2>()));
+    usls::App::get()->setScene(std::move(std::make_unique<ExampleScene>()));
 }

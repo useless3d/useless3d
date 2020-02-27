@@ -6,6 +6,16 @@
 
 namespace usls
 {
+
+    /*
+        Since there can only ever be a single instance of App (vital for windowing and user input),
+        App is implemented as a singleton and initialized as the first step in Main.cpp. This also
+        allows for access to App's members from any class which might require them without App needing
+        to be explicitly passed as a parameter (keeping api clean for users).
+
+        I'm still not entirely sold on this however since it's introducing a global state object into
+        the codebase. If anyone sees this and has a more elegant solution, I'm all ears!
+    */
     App* App::instance = 0;
     
     void App::init(bool headless)
@@ -20,6 +30,7 @@ namespace usls
         }
         return App::instance;
     }
+
 
     App::App(bool headless) : 
         headless(headless),
@@ -86,8 +97,13 @@ namespace usls
         this->deltaTime = 1 / this->logicTick;
         this->currentTime = this->time();
 
-        while (!this->shouldClose)
+        while (true)
         {
+            if (this->shouldClose || (!this->headless && this->window.shouldClose())) {
+                break;
+            }
+
+
             if (this->scene && !this->scene.value()->loaded)
             {
                 this->scene.value()->load();
