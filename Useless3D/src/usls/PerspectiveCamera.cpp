@@ -3,11 +3,13 @@
 #include <iostream>
 #include <glm/gtx/string_cast.hpp>
 
+#include "inc/App.h"
+
 namespace usls
 {
-    PerspectiveCamera::PerspectiveCamera(const glm::vec2* screenSize, bool fixed, float nearPlane, float farPlane, float fov) :
+    PerspectiveCamera::PerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov) :
         fov(fov),
-        Camera(screenSize, fixed, nearPlane, farPlane)
+        Camera(fixed, nearPlane, farPlane)
     {
 
     }

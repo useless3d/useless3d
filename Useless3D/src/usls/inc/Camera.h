@@ -9,7 +9,7 @@ namespace usls
     class Camera
     {
     public:
-        Camera(const glm::vec2* screenSize, bool fixed, float nearPlane, float farPlane);
+        Camera(bool fixed, float nearPlane, float farPlane);
 
         const bool          fixed;
         void                update();

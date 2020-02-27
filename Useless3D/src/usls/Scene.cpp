@@ -1,10 +1,11 @@
 #include "inc/Scene.h"
 
+#include "inc/App.h"
+
 namespace usls
 {
-    Scene::Scene(App* const app) :
-        app(app),
-        shader(Shader(app->config.SHADER_FILE_PATH, app->config.DEFAULT_VERTEX_SHADER, app->config.DEFAULT_FRAGMENT_SHADER)) // initialize as the default shader
+    Scene::Scene() :
+        shader(Shader(App::get()->config.SHADER_FILE_PATH, App::get()->config.DEFAULT_VERTEX_SHADER, App::get()->config.DEFAULT_FRAGMENT_SHADER)) // initialize as the default shader
     {
 
     }

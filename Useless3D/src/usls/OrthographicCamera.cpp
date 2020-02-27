@@ -5,9 +5,9 @@
 
 namespace usls
 {
-    OrthographicCamera::OrthographicCamera(const glm::vec2* screenSize, bool fixed, float nearPlane, float farPlane, float scale = 1.0f) :
+    OrthographicCamera::OrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale = 1.0f) :
         scale(scale),
-        Camera(screenSize, fixed, nearPlane, farPlane)
+        Camera(fixed, nearPlane, farPlane)
     {
 
     }

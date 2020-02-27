@@ -13,7 +13,14 @@ namespace usls
 {
     class App
     {
+    public:
+        const bool          headless;
+        const Config        config;
+
     private:
+                            App(bool headless);
+        static App*         instance;
+
         bool                shouldClose = false;
         Window              window;
         std::optional<std::unique_ptr<Scene>> scene;
@@ -26,15 +33,14 @@ namespace usls
         double			    accumulator = 0.0;        
 
     public:
-        App(bool headless);
-
-        const bool          headless;
-        const Config        config;
+        static void         init(bool headless = false);
+        static App*         get();
         
         void                setScene(std::unique_ptr<Scene> scene);
         void                clearScene();
         const double        time() const;
         const InputState&   getInputState() const;
+        const glm::vec2&    getScreenSize() const;
         void                execute();
         void                close();
 

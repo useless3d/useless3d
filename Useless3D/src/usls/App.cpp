@@ -2,8 +2,25 @@
 #include "inc/App.h"
 #include "inc/Logger.h"
 
+#include <iostream>
+
 namespace usls
 {
+    App* App::instance = 0;
+    
+    void App::init(bool headless)
+    {
+        App::instance = new App(headless); // This feels dirty
+    }
+
+    App* App::get()
+    {
+        if (App::instance == 0) {
+            App::init(false);
+        }
+        return App::instance;
+    }
+
     App::App(bool headless) : 
         headless(headless),
         config(Config("data/config.ini")),
@@ -29,6 +46,7 @@ namespace usls
         //std::cout << this->window.time() << "\n";
         
     }
+    
 
     void App::close()
     {
@@ -41,6 +59,11 @@ namespace usls
     const double App::time() const
     {
         return this->window.time(); // use something other than window to obtain this since we will not have a window when running headless
+    }
+
+    const glm::vec2& App::getScreenSize() const
+    {
+        return this->window.getScreenSize();
     }
 
     const InputState& App::getInputState() const

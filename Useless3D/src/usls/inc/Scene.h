@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 
-#include "App.h"
 #include "Stage.h"
 #include "Shader.h"
 #include "Camera.h"
@@ -16,7 +15,6 @@ namespace usls
     class Scene
     {
     protected:
-        App* const          app;
         Shader              shader;
         std::vector<std::unique_ptr<Stage>>  stages;
 
@@ -28,7 +26,7 @@ namespace usls
     public:
         bool                loaded = false;
 
-                            Scene(App* const app);
+                            Scene();
         void                draw();         
 
         virtual void        load() = 0;

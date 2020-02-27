@@ -12,6 +12,6 @@ namespace usls
         void                updateProjectionMatrix();
 
     public:
-        PerspectiveCamera(const glm::vec2* screenSize, bool fixed, float nearPlane, float farPlane, float fov);
+        PerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov);
     };
 }

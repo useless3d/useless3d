@@ -1,9 +1,11 @@
 #include "inc/Camera.h"
 
+#include "inc/App.h"
+
 namespace usls
 {
-    Camera::Camera(const glm::vec2* screenSize, bool fixed, float nearPlane, float farPlane) :
-        screenSize(screenSize),
+    Camera::Camera(bool fixed, float nearPlane, float farPlane) :
+        screenSize(&App::get()->getScreenSize()),
         fixed(fixed),
         nearPlane(nearPlane),
         farPlane(farPlane)
