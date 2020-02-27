@@ -198,8 +198,16 @@ namespace usls
 
         Texture texture;
         texture.type = "diffuse";
-        texture.path = this->currentAssetDirectory + "/";
-        texture.path += str.C_Str();
+        if(str.length == 0)
+        {
+            texture.path = "";
+        }
+        else
+        {
+            texture.path = this->currentAssetDirectory + "/";
+            texture.path += str.C_Str();
+        }
+        
 
         // Does the exact same mesh exist? If so return the pointer to that mesh.
 

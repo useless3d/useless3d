@@ -30,6 +30,11 @@ namespace usls
 
     void Renderable::loadTexture()
     {
+        if (this->texture.path == "")
+        {
+            return;
+        }
+
         glGenTextures(1, &this->texture.id);
 
         int width, height, nrComponents;
