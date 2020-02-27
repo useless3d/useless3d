@@ -20,16 +20,6 @@ void ExampleScene2::load()
     this->addStage("stage1", std::move(camera1));
     this->stages.back()->addProp("data/models/bin/stages/006/006.fbx");
 
-
-    std::unique_ptr<usls::Camera> camera2 = std::make_unique<usls::OrthographicCamera>(
-        true, // fixed (transformations relative to camera viewspace, not worldspace when true)
-        -0.1f, // near plane
-        250.0f, // far plane
-        0.665f); // scale
-
-    this->addStage("stage2", std::move(camera2));
-    this->stages.back()->addProp("data/models/bin/stages/005/005.fbx");
-
 }
 
 
