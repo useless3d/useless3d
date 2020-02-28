@@ -17,6 +17,7 @@ namespace usls
         Config(std::string userConfigPath);
 
         // Application defined
+        const bool          headless = false;
         const bool          LOG_ENABLED = true;
         const std::string   LOG_PATH = "data/log.txt";
         const std::string   SHADER_FILE_PATH = "Useless3D/src/usls/shaders";
