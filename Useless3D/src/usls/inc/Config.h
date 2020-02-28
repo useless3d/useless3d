@@ -1,35 +1,35 @@
 #pragma once
 
 #include <string>
-#include <vector>
+
+#include <map>
+
 
 namespace usls
 {
     class Config
     {
     private:
-        std::vector<std::string> explode(std::string const & s, char delim);
-
-        bool                logEnabled;
-        std::string         logPath;
-        int                 screenWidth;
-        int                 screenHeight;
-        bool                fullScreen;
-        int                 maxFps;
+        std::map<std::string, std::string> loadFromFile(std::string path);
+        std::map<std::string, std::string> userConfigParams;        
 
     public:
-        Config(std::string configPath);
-        
+        Config(std::string userConfigPath);
+
+        // Application defined
+        const bool          LOG_ENABLED = true;
+        const std::string   LOG_PATH = "data/log.txt";
         const std::string   SHADER_FILE_PATH = "Useless3D/src/usls/shaders";
         const std::string   DEFAULT_VERTEX_SHADER = "default.vert";
         const std::string   DEFAULT_FRAGMENT_SHADER = "default.frag";
+        const double        LOGIC_TICK = 120.0;
 
-        const bool& getLogEnabled() const;
-        const std::string& getLogPath() const;
-        const int& getScreenWidth() const;
-        const int& getScreenHeight() const;
-        const bool& getFullScreen() const;
-        const int& getMaxFps() const;
+        // User defined via config.ini
+        const int           SCREEN_WIDTH;
+        const int           SCREEN_HEIGHT;
+        const bool          FULLSCREEN;
+        const int           MAX_RENDER_FPS;
+        
 
 
     };

@@ -25,7 +25,6 @@ namespace usls
         Window              window;
         std::optional<std::unique_ptr<Scene>> scene;
         const double        maxFps;
-        const double        logicTick = 120.0;
         double			    deltaTime = 0.0;
         double			    currentTime = 0.0;
         double			    newTime = 0.0;

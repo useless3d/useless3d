@@ -158,6 +158,7 @@
     <ClCompile Include="src\usls\Config.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
     <ClCompile Include="src\usls\dep\stb_image.cpp" />
+    <ClCompile Include="src\usls\helpers.cpp" />
     <ClCompile Include="src\usls\inc\Actor.h" />
     <ClCompile Include="src\usls\Logger.cpp" />
     <ClCompile Include="src\usls\Mesh.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="src\usls\inc\App.h" />
     <ClInclude Include="src\usls\inc\Camera.h" />
     <ClInclude Include="src\usls\inc\Config.h" />
+    <ClInclude Include="src\usls\inc\helpers.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
     <ClInclude Include="src\usls\inc\InputState.h" />
     <ClInclude Include="src\usls\inc\Logger.h" />

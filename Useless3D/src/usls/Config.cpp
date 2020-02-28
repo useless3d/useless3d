@@ -1,6 +1,8 @@
 #include "inc/Config.h"
 #include "inc/Logger.h"
 
+#include "inc/helpers.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -8,36 +10,46 @@
 
 namespace usls
 {
-    Config::Config(std::string configPath) 
+    Config::Config(std::string userConfigPath) :
+        userConfigParams(this->loadFromFile(userConfigPath)),
+        /*SCREEN_WIDTH(userConfigParams.contains("screenWidth") ? std::stoi(this->userConfigParams["screenWidth"]) : 1280),
+        SCREEN_HEIGHT(userConfigParams.contains("screenHeight") ? std::stoi(this->userConfigParams["screenHeight"]) : 720),
+        FULLSCREEN(userConfigParams.contains("fullScreen") ? (this->userConfigParams["fullScreen"] == "0" ? false : true) : false),
+        MAX_RENDER_FPS(userConfigParams.contains("maxFps") ? std::stoi(this->userConfigParams["maxFps"]) : 240)*/
+        SCREEN_WIDTH(userConfigParams.count("screenWidth") != 0 ? std::stoi(this->userConfigParams["screenWidth"]) : 1280),
+        SCREEN_HEIGHT(userConfigParams.count("screenHeight") != 0 ? std::stoi(this->userConfigParams["screenHeight"]) : 720),
+        FULLSCREEN(userConfigParams.count("fullScreen") != 0 ? (this->userConfigParams["fullScreen"] == "0" ? false : true) : false),
+        MAX_RENDER_FPS(userConfigParams.count("maxFps") != 0 ? std::stoi(this->userConfigParams["maxFps"]) : 240)
+    {
+        
+    };
+
+    std::map<std::string, std::string> Config::loadFromFile(std::string path)
     {
         std::ifstream conf;
-
         try
         {
-            conf.open(configPath); // not throwing error when file path incorrect
+            conf.open(path); // not throwing error when file path incorrect
+
+            if (!conf.is_open()) 
+            {
+                if (Logger::isEnabled()) {
+                    Logger::log("Failed to load config.ini file at path: " + path);
+                }
+                exit(EXIT_FAILURE);
+            }
+
+            std::map<std::string, std::string> returnMap;
 
             std::string line;
             while (std::getline(conf, line))
             {
-
                 std::istringstream iss(line);
-                std::vector<std::string> e = this->explode(iss.str(), '=');
-
-                // Disgusting but works for now. Elegance can come later.
-                if (e[0] == "logEnabled")
-                    this->logEnabled = e[1] == "1" ? true : false;
-                else if (e[0] == "logPath")
-                    this->logPath = e[1];
-                else if (e[0] == "screenWidth")
-                    this->screenWidth = std::stoi(e[1]);
-                else if (e[0] == "screenHeight")
-                    this->screenHeight = std::stoi(e[1]);
-                else if (e[0] == "fullScreen")
-                    this->fullScreen = e[1] == "1" ? true : false;
-                else if (e[0] == "maxFps")
-                    this->maxFps = std::stoi(e[1]);
-
+                std::vector<std::string> e = explode_string(iss.str(), '=');
+                returnMap[e[0]] = e[1];
             }
+
+            return returnMap;
 
         }
         catch (std::ifstream::failure e)
@@ -45,53 +57,8 @@ namespace usls
             if (Logger::isEnabled()) {
                 Logger::log("Failed to load config.ini file");
             }
-            
             exit(EXIT_FAILURE);
         }
-
-    };
-
-    std::vector<std::string> Config::explode(std::string const & s, char delim)
-    {
-        std::vector<std::string> result;
-        std::istringstream iss(s);
-
-        for (std::string token; std::getline(iss, token, delim); )
-        {
-            result.push_back(std::move(token));
-        }
-
-        return result;
-    }
-    
-    const bool& Config::getLogEnabled() const
-    {
-        return this->logEnabled;
-    }
-
-    const std::string& Config::getLogPath() const
-    {
-        return this->logPath;
-    }
-
-    const int& Config::getScreenWidth() const
-    {
-        return this->screenWidth;
-    }
-
-    const int& Config::getScreenHeight() const
-    {
-        return this->screenHeight;
-    }
-
-    const bool& Config::getFullScreen() const
-    {
-        return this->fullScreen;
-    }
-
-    const int& Config::getMaxFps() const
-    {
-        return this->maxFps;
     }
 
 }

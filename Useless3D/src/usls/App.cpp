@@ -35,13 +35,13 @@ namespace usls
     App::App(bool headless) : 
         headless(headless),
         config(Config("data/config.ini")),
-        window(Window(this->config.getScreenWidth(), this->config.getScreenHeight(), this->config.getFullScreen())),
-        maxFps((double)this->config.getMaxFps())
+        window(Window(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN)),
+        maxFps((double)this->config.MAX_RENDER_FPS)
     {
         // Enable logging
-        if (this->config.getLogEnabled()) 
+        if (this->config.LOG_ENABLED)
         {
-            Logger::enable(this->config.getLogPath());
+            Logger::enable(this->config.LOG_PATH);
         }
 
         // If window is not successfully created, log message and exit
@@ -94,7 +94,7 @@ namespace usls
 
     void App::execute()
     {
-        this->deltaTime = 1 / this->logicTick;
+        this->deltaTime = 1 / this->config.LOGIC_TICK;
         this->currentTime = this->time();
 
         while (true)
