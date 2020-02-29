@@ -32,27 +32,28 @@ namespace usls
             this->glfwWindow = glfwCreateWindow(this->screenSize.x, this->screenSize.y, "Useless3D", glfwGetPrimaryMonitor(), NULL);
         }
 
-        if (this->glfwWindow == NULL) {
-
-            this->initFailed = true;
-            this->initMessage = "Failed to create GLFW window";
+        if (this->glfwWindow == NULL) 
+        {
             glfwTerminate();
-
+            std::cout << "Failed to create GLFW window\n";
+            std::cin.get();
+            exit(EXIT_FAILURE);
         }
-        else {
+        else 
+        {
 
             glfwMakeContextCurrent(this->glfwWindow);
 
             // Initialize glad. Glad is a .c file which is included in our project.
             // GLAD manages function pointers for OpenGL so we want to initialize GLAD before we call any OpenGL function
-            if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-
-                this->initFailed = true;
-                this->initMessage = "Failed to initialize GLAD";
-
+            if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
+            {
+                std::cout << "Failed to initialize GLAD\n";
+                std::cin.get();
+                exit(EXIT_FAILURE);
             }
-            else {
-
+            else 
+            {
                 // Associate this object with the window
                 glfwSetWindowUserPointer(this->glfwWindow, this);
 
@@ -65,7 +66,6 @@ namespace usls
 
                 // Set opengl viewport size
                 glViewport(0, 0, this->screenSize.x, this->screenSize.y);
-
             }
 
         }
@@ -126,16 +126,6 @@ namespace usls
     const double Window::time() const
     {
         return glfwGetTime();
-    }
-
-    bool Window::getInitFailed() 
-    {
-        return initFailed;
-    }
-
-    std::string Window::getInitMessage() 
-    {
-        return initMessage;
     }
 
     bool Window::shouldClose() 

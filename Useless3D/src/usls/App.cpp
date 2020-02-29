@@ -1,60 +1,25 @@
 #include <iostream>
 #include "inc/App.h"
-#include "inc/Logger.h"
-
-#include <iostream>
 
 namespace usls
 {
 
-    /*
-        Since there can only ever be a single instance of App (vital for windowing and user input),
-        App is implemented as a singleton and initialized as the first step in Main.cpp. This also
-        allows for access to App's members from any class which might require them without App needing
-        to be explicitly passed as a parameter (keeping api clean for users).
-
-        I'm still not entirely sold on this however since it's introducing a global state object into
-        the codebase. If anyone sees this and has a more elegant solution, I'm all ears!
-    */
-    App* App::instance = 0;
+    void App::init()
+    {
+        App::get();
+    }
     
-    void App::init(bool headless)
+    App& App::get()
     {
-        App::instance = new App(headless); // This feels dirty
+        static App instance;
+        return instance;
     }
 
-    App* App::get()
-    {
-        if (App::instance == 0) {
-            App::init(false);
-        }
-        return App::instance;
-    }
-
-
-    App::App(bool headless) : 
-        headless(headless),
+    App::App() : 
         config(Config("data/config.ini")),
-        window(Window(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN)),
-        maxFps((double)this->config.MAX_RENDER_FPS)
+        logger(this->config.LOG_ENABLED, this->config.LOG_PATH),
+        window(Window(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN))
     {
-        // Enable logging
-        if (this->config.LOG_ENABLED)
-        {
-            Logger::enable(this->config.LOG_PATH);
-        }
-
-        // If window is not successfully created, log message and exit
-        if (this->window.getInitFailed()) 
-        {
-            if (Logger::isEnabled()) 
-            {
-                Logger::log(this->window.getInitMessage());
-            }
-            exit(EXIT_FAILURE);
-        }
-
-        //std::cout << this->window.time() << "\n";
         
     }
     
@@ -62,7 +27,7 @@ namespace usls
     void App::close()
     {
         this->shouldClose = true;
-        if (!this->headless) {
+        if (!this->config.HEADLESS) {
             this->window.setToClose();
         }
     }
@@ -99,7 +64,7 @@ namespace usls
 
         while (true)
         {
-            if (this->shouldClose || (!this->headless && this->window.shouldClose())) {
+            if (this->shouldClose || (!this->config.HEADLESS && this->window.shouldClose())) {
                 break;
             }
 
@@ -113,7 +78,7 @@ namespace usls
             this->newTime = this->time();
             this->frameTime = this->newTime - this->currentTime;
 
-            if (this->frameTime >= (1 / this->maxFps)) // cap max fps
+            if (this->frameTime >= (1 / this->config.MAX_RENDER_FPS)) // cap max fps
             {
 
                 this->currentTime = this->newTime;
@@ -136,7 +101,7 @@ namespace usls
                 // process update logic
                 while (this->accumulator >= this->deltaTime)
                 {
-                    if (!this->headless) 
+                    if (!this->config.HEADLESS)
                     {
                         // update window, which includes capturing input state
                         this->window.update();
@@ -153,7 +118,7 @@ namespace usls
                 }
 
                 // perform draw (render) logic with (eventually) automatic interpolation of stage actors
-                if (!this->headless)
+                if (!this->config.HEADLESS)
                 {
                     glEnable(GL_DEPTH_TEST);
                     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw only lines for debugging

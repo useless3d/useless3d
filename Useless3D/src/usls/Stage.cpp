@@ -1,7 +1,6 @@
 #include "inc/Stage.h"
 #include "inc/Rotation.h"
 
-#include "inc/Logger.h"
 #include <iostream>
 
 namespace usls
@@ -75,11 +74,9 @@ namespace usls
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
-            if (Logger::isEnabled())
-            {
-                std::string errorMessage = importer.GetErrorString();
-                Logger::log("ERROR::ASSIMP::" + errorMessage);
-            }
+            std::string errorMessage = importer.GetErrorString();
+            std::cout << "ERROR::ASSIMP::" << errorMessage << "\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         }
     }
@@ -105,11 +102,9 @@ namespace usls
         // not implementing support for multiple meshes per node until a reason is brought to light
         if (node->mNumMeshes > 1)
         {
-            if (Logger::isEnabled())
-            {
-                std::string nodeName = node->mName.C_Str();
-                Logger::log("AssetLoader ERROR: The following node contains more than one mesh: " + nodeName);
-            }
+            std::string nodeName = node->mName.C_Str();
+            std::cout << "AssetLoader ERROR: The following node contains more than one mesh: " << nodeName << "\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         }
 

@@ -19,8 +19,6 @@ namespace usls
         bool            fullScreen = false;
         InputState		inputState;
         GLFWwindow*     glfwWindow;
-        bool            initFailed = false;
-        std::string		initMessage = "ok";
         double			scrollX = 0.0;
         double			scrollY = 0.0;
         
@@ -34,8 +32,6 @@ namespace usls
     public:
         Window(int screenWidth, int screenHeight, bool fullScreen);
         ~Window();
-        bool			getInitFailed();
-        std::string		getInitMessage();
         bool			shouldClose();
         void			setToClose();
         void			update();

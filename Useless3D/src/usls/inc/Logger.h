@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <fstream>
+
 
 namespace usls
 {
@@ -9,16 +9,12 @@ namespace usls
     class Logger
     {
     private:
-        Logger();
-        ~Logger();
-        static bool             enabled;
-        static std::string      path;
-        static std::ofstream    fs;
+        bool                enabled;
+        std::string         path;
+
     public:
-        static void             enable(std::string path);
-        static bool             isEnabled();
-        static void             log(std::string entry);
-        static std::string      charToString(char* a);
+                            Logger(bool enabled, std::string path);
+        void                log(std::string entry);
     };
 
 }

@@ -17,7 +17,7 @@ namespace usls
         Config(std::string userConfigPath);
 
         // Application defined
-        const bool          headless = false;
+        const bool          HEADLESS = false;
         const bool          LOG_ENABLED = true;
         const std::string   LOG_PATH = "data/log.txt";
         const std::string   SHADER_FILE_PATH = "Useless3D/src/usls/shaders";
@@ -29,7 +29,7 @@ namespace usls
         const int           SCREEN_WIDTH;
         const int           SCREEN_HEIGHT;
         const bool          FULLSCREEN;
-        const int           MAX_RENDER_FPS;
+        const double        MAX_RENDER_FPS;
         
 
 

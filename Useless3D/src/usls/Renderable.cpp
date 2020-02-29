@@ -64,10 +64,9 @@ namespace usls
         }
         else
         {
-            if (Logger::isEnabled()) {
-                Logger::log("Texture failed to load at path: " + this->texture.path);
-            }
             stbi_image_free(data);
+            std::cout << "Texture failed to load at path: " << this->texture.path << "\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         }
     }

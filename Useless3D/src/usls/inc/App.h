@@ -5,36 +5,40 @@
 #include <optional>
 
 #include "Config.h"
+#include "Logger.h"
 #include "Window.h"
 #include "Scene.h"
 
 
 namespace usls 
 {
+    // https://stackoverflow.com/a/1008289/1609485
     class App
     {
     public:
-        const bool          headless;
         const Config        config;
+        Logger              logger;
 
     private:
-                            App(bool headless);
-        static App*         instance;
+                            App();
+        Window              window;
 
         bool                shouldClose = false;
-        Window              window;
-        std::optional<std::unique_ptr<Scene>> scene;
-        const double        maxFps;
         double			    deltaTime = 0.0;
         double			    currentTime = 0.0;
         double			    newTime = 0.0;
         double			    frameTime = 0.0;
         double			    accumulator = 0.0;        
 
+        std::optional<std::unique_ptr<Scene>> scene;
+    
     public:
-        static void         init(bool headless = false);
-        static App*         get();
-        
+        static App&         get();
+        static void         init();
+
+                            App(App const&) = delete;
+        void                operator=(App const&) = delete;
+
         void                setScene(std::unique_ptr<Scene> scene);
         void                clearScene();
         const double        time() const;

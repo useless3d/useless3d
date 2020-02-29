@@ -17,4 +17,14 @@ namespace usls
 
         return result;
     }
+
+    std::string char_to_string(char* a)
+    {
+        std::string s = "";
+        for (int i = 0; i < (sizeof(a) / sizeof(char)); i++) {
+            s = s + a[i];
+        }
+        return s;
+    }
+
 }

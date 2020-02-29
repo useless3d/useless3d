@@ -5,7 +5,7 @@
 namespace usls
 {
     Scene::Scene() :
-        shader(Shader(App::get()->config.SHADER_FILE_PATH, App::get()->config.DEFAULT_VERTEX_SHADER, App::get()->config.DEFAULT_FRAGMENT_SHADER)) // initialize as the default shader
+        shader(Shader(App::get().config.SHADER_FILE_PATH, App::get().config.DEFAULT_VERTEX_SHADER, App::get().config.DEFAULT_FRAGMENT_SHADER)) // initialize as the default shader
     {
 
     }

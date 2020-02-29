@@ -49,9 +49,8 @@ namespace usls
         }
         catch (std::ifstream::failure e)
         {
-            if (Logger::isEnabled()) {
-                Logger::log("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
-            }
+            std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         }
 
@@ -73,9 +72,8 @@ namespace usls
         glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
         if (!success) {
             glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-            if (Logger::isEnabled()) {
-                Logger::log("ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" + Logger::charToString(infoLog));
-            }
+            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << "\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         };
 
@@ -91,9 +89,8 @@ namespace usls
         if (!success)
         {
             glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-            if (Logger::isEnabled()) {
-                Logger::log("ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" + Logger::charToString(infoLog));
-            }
+            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << "\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         };
 
@@ -109,9 +106,8 @@ namespace usls
         if (!success)
         {
             glGetProgramInfoLog(this->ID, 512, NULL, infoLog);
-            if (Logger::isEnabled()) {
-                Logger::log("ERROR::SHADER::PROGRAM::LINKING_FAILED\n" + Logger::charToString(infoLog));
-            }
+            std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << "\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         }
 

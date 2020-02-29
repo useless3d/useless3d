@@ -5,7 +5,7 @@
 namespace usls
 {
     Camera::Camera(bool fixed, float nearPlane, float farPlane) :
-        screenSize(&App::get()->getScreenSize()),
+        screenSize(&App::get().getScreenSize()),
         fixed(fixed),
         nearPlane(nearPlane),
         farPlane(farPlane)

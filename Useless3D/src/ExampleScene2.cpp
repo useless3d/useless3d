@@ -26,7 +26,7 @@ void ExampleScene2::load()
 void ExampleScene2::loop()
 {
     // Application logic, move things around, etc
-    if (usls::App::get()->getInputState().keySpace) {
+    if (usls::App::get().getInputState().keySpace) {
         this->end();
     }
 }
@@ -35,5 +35,5 @@ void ExampleScene2::end()
 {
     // What to do when this scene is over
 
-    usls::App::get()->setScene(std::move(std::make_unique<ExampleScene>()));
+    usls::App::get().setScene(std::move(std::make_unique<ExampleScene>()));
 }

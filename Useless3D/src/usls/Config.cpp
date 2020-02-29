@@ -19,7 +19,7 @@ namespace usls
         SCREEN_WIDTH(userConfigParams.count("screenWidth") != 0 ? std::stoi(this->userConfigParams["screenWidth"]) : 1280),
         SCREEN_HEIGHT(userConfigParams.count("screenHeight") != 0 ? std::stoi(this->userConfigParams["screenHeight"]) : 720),
         FULLSCREEN(userConfigParams.count("fullScreen") != 0 ? (this->userConfigParams["fullScreen"] == "0" ? false : true) : false),
-        MAX_RENDER_FPS(userConfigParams.count("maxFps") != 0 ? std::stoi(this->userConfigParams["maxFps"]) : 240)
+        MAX_RENDER_FPS(userConfigParams.count("maxFps") != 0 ? std::stod(this->userConfigParams["maxFps"]) : 240)
     {
         
     };
@@ -33,9 +33,8 @@ namespace usls
 
             if (!conf.is_open()) 
             {
-                if (Logger::isEnabled()) {
-                    Logger::log("Failed to load config.ini file at path: " + path);
-                }
+                std::cout << "Failed to load config.ini file at path: " << path << "\n";
+                std::cin.get();
                 exit(EXIT_FAILURE);
             }
 
@@ -54,9 +53,8 @@ namespace usls
         }
         catch (std::ifstream::failure e)
         {
-            if (Logger::isEnabled()) {
-                Logger::log("Failed to load config.ini file");
-            }
+            std::cout << "Failed to load config.ini file at path: " << e.what() << "\n";
+            std::cin.get();
             exit(EXIT_FAILURE);
         }
     }
