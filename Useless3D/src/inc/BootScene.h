@@ -3,15 +3,14 @@
 #include "usls/inc/Scene.h"
 
 
-class ExampleScene : public usls::Scene
+class BootScene : public usls::Scene
 {
 
 public:
-    ExampleScene() : usls::Scene() {};
+    BootScene() : usls::Scene() {};
 
     void    load();
     void    loop();
     void    end();
-    
 
 };

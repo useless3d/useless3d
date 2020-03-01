@@ -1,12 +1,12 @@
-#include "inc/ExampleScene.h"
+#include "inc/ExampleScene1.h"
 #include "usls/inc/PerspectiveCamera.h"
 #include "usls/inc/OrthographicCamera.h"
 
 #include "usls/inc/App.h"
 
-#include "inc/ExampleScene2.h"
+#include "inc/BootScene.h"
 
-void ExampleScene::load()
+void ExampleScene1::load()
 {
     // Create camera and set initial position and lookat vectors
     std::unique_ptr<usls::Camera> camera1 =
@@ -34,7 +34,7 @@ void ExampleScene::load()
 }
 
 
-void ExampleScene::loop()
+void ExampleScene1::loop()
 {
     // Application logic, move things around, swap scenes, etc
 
@@ -44,9 +44,9 @@ void ExampleScene::loop()
 
 }
 
-void ExampleScene::end()
+void ExampleScene1::end()
 {
     // What to do when this scene is over
 
-    usls::App::get().setScene(std::move(std::make_unique<ExampleScene2>()));
+    usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
 }

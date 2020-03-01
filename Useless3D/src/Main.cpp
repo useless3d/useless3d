@@ -1,8 +1,9 @@
 #include <iostream>
 #include <memory>
 
-#include "inc/ExampleScene.h"
 #include "usls/inc/App.h"
+#include "inc/BootScene.h"
+
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
     usls::App::init();
 
     // Load the initial Scene
-    std::unique_ptr<usls::Scene> scene = std::make_unique<ExampleScene>();
+    std::unique_ptr<usls::Scene> scene = std::make_unique<BootScene>();
     usls::App::get().setScene(std::move(scene));
 
     // Execute the program, passing control to the App execute loop

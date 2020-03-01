@@ -150,9 +150,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ExampleScene2.cpp" />
+    <ClCompile Include="src\BootScene.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\ExampleScene.cpp" />
+    <ClCompile Include="src\ExampleScene1.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
     <ClCompile Include="src\usls\Camera.cpp" />
     <ClCompile Include="src\usls\Config.cpp" />
@@ -174,8 +174,8 @@
     <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\inc\ExampleScene.h" />
-    <ClInclude Include="src\inc\ExampleScene2.h" />
+    <ClInclude Include="src\inc\ExampleScene1.h" />
+    <ClInclude Include="src\inc\BootScene.h" />
     <ClInclude Include="src\usls\inc\App.h" />
     <ClInclude Include="src\usls\inc\Camera.h" />
     <ClInclude Include="src\usls\inc\Config.h" />
