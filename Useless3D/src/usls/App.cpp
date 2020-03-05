@@ -101,11 +101,11 @@ namespace usls
                 this->accumulator += this->frameTime;
 
                 // exit if keyEsc pressed (remove this and let user determine this behaviour in their loop)
-                //if (this->getInputState().keyEsc)
-                //{
-                //    this->close();
-                //    continue;
-                //}
+                if (this->getInputState().keyEsc)
+                {
+                    this->close();
+                    continue;
+                }
 
                 // process update logic
                 while (this->accumulator >= this->deltaTime)
