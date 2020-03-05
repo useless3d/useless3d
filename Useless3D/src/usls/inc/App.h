@@ -22,7 +22,7 @@ namespace usls
 
     private:
                             App();
-        Window              window;
+        std::optional<std::unique_ptr<Window>> window;
         std::chrono::high_resolution_clock::time_point startTime;
 
         bool                shouldClose = false;

@@ -59,7 +59,7 @@ namespace usls
 
                 // Set callback functions used by glfw (for when polling is unavailable or it makes better sense
                 // to use a callback)
-                setCallbacks();
+                this->setCallbacks();
 
                 // Set window input mode
                 //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -67,6 +67,8 @@ namespace usls
                 // Set opengl viewport size
                 glViewport(0, 0, this->screenSize.x, this->screenSize.y);
             }
+
+            this->printAddress();
 
         }
 
@@ -78,6 +80,13 @@ namespace usls
 
         // Terminate GLFW application process
         glfwTerminate();
+    }
+
+    void Window::printAddress() {
+        //std::cout << &this->glfwWindow << "\n"; // address of pointer itself
+        //std::cout << this->glfwWindow << "\n"; // address pointed to
+        //std::cout << (this->glfwWindow == NULL) << "\n";
+        //std::cout << (GLADloadproc)glfwGetProcAddress << "\n";
     }
 
     void Window::setCallbacks() 

@@ -6,6 +6,8 @@
 
 #include "inc/BootScene.h"
 
+#include <iostream>
+
 void ExampleScene1::load()
 {
     // Create camera and set initial position and lookat vectors

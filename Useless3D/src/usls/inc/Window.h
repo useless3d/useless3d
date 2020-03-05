@@ -30,6 +30,7 @@ namespace usls
         void			setCallbacks();
 
     public:
+        Window(Window&&) = default;
         Window(int screenWidth, int screenHeight, bool fullScreen);
         ~Window();
         bool			shouldClose();
@@ -41,6 +42,9 @@ namespace usls
 
         void			swapBuffers();
         //void			vsync();
+
+        void printAddress();
+
     };
     
     

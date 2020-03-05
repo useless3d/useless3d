@@ -81,6 +81,9 @@
     <ClCompile Include="src\ExampleScene1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\BootSceneHeadless.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\usls\inc\App.h">
@@ -147,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\BootScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\BootSceneHeadless.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

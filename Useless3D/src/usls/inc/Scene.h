@@ -15,8 +15,8 @@ namespace usls
     class Scene
     {
     protected:
-        Shader              shader;
-        std::vector<std::unique_ptr<Stage>>  stages;
+        std::optional<Shader>                   shader;
+        std::vector<std::unique_ptr<Stage>>     stages;
 
         void                addStage(std::string stageName, std::unique_ptr<Camera> camera);
         void                addStage(std::string stageName);

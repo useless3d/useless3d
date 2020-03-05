@@ -4,10 +4,13 @@
 
 namespace usls
 {
-    Scene::Scene() :
-        shader(Shader(App::get().config.SHADER_FILE_PATH, App::get().config.DEFAULT_VERTEX_SHADER, App::get().config.DEFAULT_FRAGMENT_SHADER)) // initialize as the default shader
+    Scene::Scene()
     {
-
+        if (!App::get().config.HEADLESS)
+        {
+            // initialize as the default shader
+            this->shader = Shader(App::get().config.SHADER_FILE_PATH, App::get().config.DEFAULT_VERTEX_SHADER, App::get().config.DEFAULT_FRAGMENT_SHADER);
+        }
     }
 
     /*
@@ -37,7 +40,7 @@ namespace usls
         // Draw all stages in order they were created (layered)
         for (auto& s : this->stages)
         {
-            s->draw(&this->shader);
+            s->draw(&this->shader.value());
         }
 
         

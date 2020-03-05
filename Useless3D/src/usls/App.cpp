@@ -19,10 +19,13 @@ namespace usls
     App::App() : 
         config(Config("data/config.ini")),
         logger(this->config.LOG_ENABLED, this->config.LOG_PATH),
-        window(Window(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN)),
         startTime(std::chrono::high_resolution_clock::now())
     {
-        
+        if (!this->config.HEADLESS)
+        {
+            auto w = std::make_unique<Window>(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN);
+            this->window = std::move(w);
+        }
     }
     
 
@@ -30,7 +33,7 @@ namespace usls
     {
         this->shouldClose = true;
         if (!this->config.HEADLESS) {
-            this->window.setToClose();
+            this->window.value()->setToClose();
         }
     }
 
@@ -42,12 +45,12 @@ namespace usls
 
     const glm::vec2& App::getScreenSize() const
     {
-        return this->window.getScreenSize();
+        return this->window.value()->getScreenSize();
     }
 
     const InputState& App::getInputState() const
     {
-        return this->window.getInputState();
+        return this->window.value()->getInputState();
     }
 
     void App::setScene(std::unique_ptr<Scene> scene)
@@ -65,10 +68,12 @@ namespace usls
         this->deltaTime = 1 / this->config.LOGIC_TICK;
         this->currentTime = this->time();
 
+        //this->window.value()->printAddress();
+
         while (true)
         {
 
-            if (this->shouldClose || (!this->config.HEADLESS && this->window.shouldClose())) {
+            if (this->shouldClose || (!this->config.HEADLESS && this->window.value()->shouldClose())) {
                 break;
             }
 
@@ -96,11 +101,11 @@ namespace usls
                 this->accumulator += this->frameTime;
 
                 // exit if keyEsc pressed (remove this and let user determine this behaviour in their loop)
-                if (this->getInputState().keyEsc)
-                {
-                    this->close();
-                    continue;
-                }
+                //if (this->getInputState().keyEsc)
+                //{
+                //    this->close();
+                //    continue;
+                //}
 
                 // process update logic
                 while (this->accumulator >= this->deltaTime)
@@ -108,7 +113,7 @@ namespace usls
                     if (!this->config.HEADLESS)
                     {
                         // update window, which includes capturing input state
-                        this->window.update();
+                        this->window.value()->update();
                     }
                     
                     if (this->scene) 
@@ -136,7 +141,7 @@ namespace usls
                         this->scene.value()->draw();
                     }
 
-                    this->window.swapBuffers();
+                    this->window.value()->swapBuffers();
                 }
                 
 
