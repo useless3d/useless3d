@@ -123,11 +123,6 @@ namespace usls
         glfwSwapBuffers(this->glfwWindow);
     }
 
-    const double Window::time() const
-    {
-        return glfwGetTime();
-    }
-
     bool Window::shouldClose() 
     {
         return glfwWindowShouldClose(this->glfwWindow);

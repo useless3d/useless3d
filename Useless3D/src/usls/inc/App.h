@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <optional>
+#include <chrono>
 
 #include "Config.h"
 #include "Logger.h"
@@ -22,6 +23,7 @@ namespace usls
     private:
                             App();
         Window              window;
+        std::chrono::high_resolution_clock::time_point startTime;
 
         bool                shouldClose = false;
         double			    deltaTime = 0.0;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "inc/App.h"
 
+
 namespace usls
 {
 
@@ -18,7 +19,8 @@ namespace usls
     App::App() : 
         config(Config("data/config.ini")),
         logger(this->config.LOG_ENABLED, this->config.LOG_PATH),
-        window(Window(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN))
+        window(Window(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN)),
+        startTime(std::chrono::high_resolution_clock::now())
     {
         
     }
@@ -34,7 +36,8 @@ namespace usls
 
     const double App::time() const
     {
-        return this->window.time(); // use something other than window to obtain this since we will not have a window when running headless
+        std::chrono::duration<double> t = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - this->startTime);
+        return t.count();
     }
 
     const glm::vec2& App::getScreenSize() const
@@ -64,6 +67,7 @@ namespace usls
 
         while (true)
         {
+
             if (this->shouldClose || (!this->config.HEADLESS && this->window.shouldClose())) {
                 break;
             }
