@@ -1,9 +1,12 @@
-#include "inc/BootScene.h"
-#include "usls/inc/PerspectiveCamera.h"
-#include "usls/inc/OrthographicCamera.h"
 
-#include "usls/inc/App.h"
-#include "inc/ExampleScene1.h"
+
+#include "usls/App.h"
+#include "usls/scene/stage/camera/PerspectiveCamera.h"
+#include "usls/scene/stage/camera/OrthographicCamera.h"
+
+#include "ExampleScene1.h"
+#include "BootScene.h"
+
 
 void BootScene::load()
 {

@@ -1,4 +1,4 @@
-#include "inc/Vertex.h"
+#include "usls/scene/stage/mesh/Vertex.h"
 
 namespace usls
 {

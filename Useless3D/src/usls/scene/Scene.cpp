@@ -1,6 +1,6 @@
-#include "inc/Scene.h"
+#include "usls/App.h"
+#include "usls/scene/Scene.h"
 
-#include "inc/App.h"
 
 namespace usls
 {

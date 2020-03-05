@@ -1,15 +1,14 @@
-#include "inc/Shader.h"
-#include "inc/Logger.h"
-
-#include <glad/glad.h>
 #include <fstream>
 #include <sstream>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include <iostream>
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glad/glad.h"
+
+#include "usls/scene/Shader.h"
+
 
 namespace usls
 {

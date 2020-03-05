@@ -1,12 +1,14 @@
 #pragma once
 
+#include <string>
 #include <chrono>
 
-#include <glm/glm.hpp>
-#include "InputState.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <string>
+#include "glm/glm.hpp"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
+#include "usls/InputState.h"
+
 
 namespace usls
 {

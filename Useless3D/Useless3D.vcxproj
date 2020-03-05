@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc;$(ProjectDir)src\inc</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -105,7 +105,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc;$(ProjectDir)src\inc</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -121,7 +121,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc;$(ProjectDir)src\inc</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dep\inc;$(ProjectDir)src\inc</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -155,54 +155,54 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ExampleScene1.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
-    <ClCompile Include="src\usls\Camera.cpp" />
+    <ClCompile Include="src\usls\scene\stage\camera\Camera.cpp" />
     <ClCompile Include="src\usls\Config.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
     <ClCompile Include="src\usls\dep\stb_image.cpp" />
     <ClCompile Include="src\usls\helpers.cpp" />
-    <ClCompile Include="src\usls\inc\Actor.h" />
+    <ClCompile Include="src\inc\usls\scene\stage\Actor.h" />
     <ClCompile Include="src\usls\Logger.cpp" />
-    <ClCompile Include="src\usls\Mesh.cpp" />
-    <ClCompile Include="src\usls\OrthographicCamera.cpp" />
-    <ClCompile Include="src\usls\PerspectiveCamera.cpp" />
-    <ClCompile Include="src\usls\Prop.cpp" />
-    <ClCompile Include="src\usls\Renderable.cpp" />
-    <ClCompile Include="src\usls\Scene.cpp" />
-    <ClCompile Include="src\usls\Shader.cpp" />
-    <ClCompile Include="src\usls\Stage.cpp" />
-    <ClCompile Include="src\usls\Transformable.cpp" />
-    <ClCompile Include="src\usls\Vertex.cpp" />
+    <ClCompile Include="src\usls\scene\stage\mesh\Mesh.cpp" />
+    <ClCompile Include="src\usls\scene\stage\camera\OrthographicCamera.cpp" />
+    <ClCompile Include="src\usls\scene\stage\camera\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Prop.cpp" />
+    <ClCompile Include="src\usls\scene\stage\mesh\Renderable.cpp" />
+    <ClCompile Include="src\usls\scene\Scene.cpp" />
+    <ClCompile Include="src\usls\scene\Shader.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Stage.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Transformable.cpp" />
+    <ClCompile Include="src\usls\scene\stage\mesh\Vertex.cpp" />
     <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\inc\BootSceneHeadless.h" />
     <ClInclude Include="src\inc\ExampleScene1.h" />
     <ClInclude Include="src\inc\BootScene.h" />
-    <ClInclude Include="src\usls\inc\App.h" />
-    <ClInclude Include="src\usls\inc\Camera.h" />
-    <ClInclude Include="src\usls\inc\Config.h" />
-    <ClInclude Include="src\usls\inc\helpers.h" />
+    <ClInclude Include="src\inc\usls\App.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\camera\Camera.h" />
+    <ClInclude Include="src\inc\usls\Config.h" />
+    <ClInclude Include="src\inc\usls\helpers.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
-    <ClInclude Include="src\usls\inc\InputState.h" />
-    <ClInclude Include="src\usls\inc\Logger.h" />
-    <ClInclude Include="src\usls\inc\Mesh.h" />
-    <ClInclude Include="src\usls\inc\OrthographicCamera.h" />
-    <ClInclude Include="src\usls\inc\PerspectiveCamera.h" />
-    <ClInclude Include="src\usls\inc\Prop.h" />
-    <ClInclude Include="src\usls\inc\Renderable.h" />
-    <ClInclude Include="src\usls\inc\Rotation.h" />
-    <ClInclude Include="src\usls\inc\Scene.h" />
-    <ClInclude Include="src\usls\inc\Shader.h" />
-    <ClInclude Include="src\usls\inc\Texture.h" />
-    <ClInclude Include="src\usls\inc\Transformable.h" />
-    <ClInclude Include="src\usls\inc\Vertex.h" />
-    <ClInclude Include="src\usls\inc\Window.h" />
-    <ClInclude Include="src\usls\inc\Stage.h" />
+    <ClInclude Include="src\inc\usls\InputState.h" />
+    <ClInclude Include="src\inc\usls\Logger.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\mesh\Mesh.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\camera\OrthographicCamera.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\camera\PerspectiveCamera.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\Prop.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\mesh\Renderable.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\transformable\Rotation.h" />
+    <ClInclude Include="src\inc\usls\scene\Scene.h" />
+    <ClInclude Include="src\inc\usls\scene\Shader.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\mesh\Texture.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\transformable\Transformable.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\mesh\Vertex.h" />
+    <ClInclude Include="src\inc\usls\Window.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\Stage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\config.ini" />
-    <None Include="src\usls\shaders\default.frag" />
-    <None Include="src\usls\shaders\default.vert" />
+    <None Include="src\usls\scene\shaders\default.frag" />
+    <None Include="src\usls\scene\shaders\default.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

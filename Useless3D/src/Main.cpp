@@ -1,8 +1,8 @@
-#include <iostream>
 #include <memory>
 
-#include "usls/inc/App.h"
-#include "inc/BootScene.h"
+#include "usls/App.h"
+
+#include "BootScene.h"
 
 
 int main()

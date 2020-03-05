@@ -1,12 +1,10 @@
-#include <glad/glad.h>
-#include <STB_IMAGE/stb_image.h>
-
-#include "inc/Renderable.h"
-#include "inc/Logger.h"
-
 #include <iostream>
 
-#include <glm/gtx/string_cast.hpp>
+#include "glad/glad.h"
+#include "STB_IMAGE/stb_image.h"
+#include "glm/gtx/string_cast.hpp"
+
+#include "usls/scene/stage/mesh/Renderable.h"
 
 
 

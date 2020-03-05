@@ -1,6 +1,6 @@
 #pragma once
 
-#include "usls/inc/Scene.h"
+#include "usls/scene/Scene.h"
 
 
 class BootSceneHeadless : public usls::Scene

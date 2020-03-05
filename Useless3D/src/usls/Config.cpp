@@ -1,12 +1,11 @@
-#include "inc/Config.h"
-#include "inc/Logger.h"
-
-#include "inc/helpers.h"
-
 #include <fstream>
 #include <sstream>
-
 #include <iostream>
+
+#include "usls/Config.h"
+#include "usls/Logger.h"
+#include "usls/helpers.h"
+
 
 namespace usls
 {

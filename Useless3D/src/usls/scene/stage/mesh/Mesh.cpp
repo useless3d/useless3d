@@ -1,10 +1,8 @@
-#include <glad/glad.h>
-#include <STB_IMAGE/stb_image.h>
+#include "glad/glad.h"
+#include "STB_IMAGE/stb_image.h"
 
-#include <iostream>
+#include "usls/scene/stage/mesh/Mesh.h"
 
-#include "inc/Mesh.h"
-#include "inc/Logger.h"
 
 namespace usls
 {

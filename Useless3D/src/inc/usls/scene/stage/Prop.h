@@ -3,12 +3,12 @@
 #include <optional>
 #include <string>
 
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
-#include "Transformable.h"
-#include "Mesh.h"
-#include "Shader.h"
-#include "Camera.h"
+#include "usls/scene/stage/mesh/Mesh.h"
+#include "usls/scene/Shader.h"
+#include "usls/scene/stage/camera/camera.h"
+#include "usls/scene/stage/transformable/Transformable.h"
 
 namespace usls
 {

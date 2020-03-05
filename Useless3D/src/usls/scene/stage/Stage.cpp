@@ -1,7 +1,9 @@
-#include "inc/Stage.h"
-#include "inc/Rotation.h"
-
 #include <iostream>
+
+#include "usls/scene/stage/Stage.h"
+#include "usls/scene/stage/transformable/Rotation.h"
+
+
 
 namespace usls
 {

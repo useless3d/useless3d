@@ -1,6 +1,6 @@
-#include "inc/Logger.h"
-
 #include <fstream>
+
+#include "usls/Logger.h"
 
 namespace usls
 {

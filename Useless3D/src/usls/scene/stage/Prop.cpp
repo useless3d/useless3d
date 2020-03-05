@@ -1,4 +1,4 @@
-#include "inc/Prop.h"
+#include "usls/scene/stage/Prop.h"
 
 namespace usls
 {

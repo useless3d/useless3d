@@ -6,14 +6,14 @@
 #include <memory>
 #include <functional>
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 
-#include "Mesh.h"
-#include "Prop.h"
-#include "Camera.h"
-#include "Shader.h"
+#include "usls/scene/stage/mesh/Mesh.h"
+#include "usls/scene/stage/camera/Camera.h"
+#include "usls/scene/Shader.h"
+#include "usls/scene/stage/Prop.h"
 
 namespace usls
 {

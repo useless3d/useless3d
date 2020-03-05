@@ -1,16 +1,15 @@
-#include "inc/OrthographicCamera.h"
-#include <glm/gtx/string_cast.hpp>
 
-#include <iostream>
+
+#include "glm/gtx/string_cast.hpp"
+
+#include "usls/scene/stage/camera/OrthographicCamera.h"
+
 
 namespace usls
 {
     OrthographicCamera::OrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale = 1.0f) :
         scale(scale),
-        Camera(fixed, nearPlane, farPlane)
-    {
-
-    }
+        Camera(fixed, nearPlane, farPlane){}
 
     void OrthographicCamera::updateProjectionMatrix()
     {

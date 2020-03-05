@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 
-#include "Stage.h"
-#include "Shader.h"
-#include "Camera.h"
+#include "usls/scene/stage/Stage.h"
+#include "usls/scene/Shader.h"
+#include "usls/scene/stage/camera/Camera.h"
 
 
 namespace usls 

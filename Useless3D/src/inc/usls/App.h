@@ -5,10 +5,10 @@
 #include <optional>
 #include <chrono>
 
-#include "Config.h"
-#include "Logger.h"
-#include "Window.h"
-#include "Scene.h"
+#include "usls/Config.h"
+#include "usls/Logger.h"
+#include "usls/Window.h"
+#include "usls/scene/Scene.h"
 
 
 namespace usls 

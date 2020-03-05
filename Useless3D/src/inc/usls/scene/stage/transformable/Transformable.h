@@ -1,7 +1,8 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include "Rotation.h"
+#include "glm/glm.hpp"
+
+#include "usls/scene/stage/transformable/Rotation.h"
 
 namespace usls
 {

@@ -1,6 +1,9 @@
-#include "inc/Camera.h"
 
-#include "inc/App.h"
+
+#include "usls/App.h"
+#include "usls/scene/stage/camera/Camera.h"
+
+
 
 namespace usls
 {

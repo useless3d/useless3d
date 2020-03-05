@@ -1,7 +1,6 @@
-#include "inc/Window.h"
-
 #include <iostream>
 
+#include "usls/Window.h"
 
 namespace usls
 {
