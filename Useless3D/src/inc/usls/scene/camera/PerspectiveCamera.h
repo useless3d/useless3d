@@ -1,6 +1,6 @@
 #pragma once
 
-#include "usls/scene/stage/camera/Camera.h"
+#include "usls/scene/camera/Camera.h"
 
 namespace usls
 {

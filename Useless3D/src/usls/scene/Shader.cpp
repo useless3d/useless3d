@@ -8,6 +8,7 @@
 #include "glad/glad.h"
 
 #include "usls/scene/Shader.h"
+#include "usls/scene/Actor.h"
 
 
 namespace usls
@@ -114,6 +115,20 @@ namespace usls
         glDeleteShader(vertex);
         glDeleteShader(fragment);
 
+    }
+
+    void Shader::addActor(Actor* a)
+    {
+        this->actors.push_back(a);
+    }
+
+    void Shader::draw()
+    {
+        this->use();
+        for (auto& a : this->actors)
+        {
+            a->draw(this);
+        }
     }
 
     void Shader::use() 

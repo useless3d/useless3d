@@ -16,6 +16,8 @@ namespace usls
         glm::mat4           getViewMatrix();
         glm::mat4           getProjectionMatrix();
 
+        glm::vec3           getPosition();
+
         void                setPosition(glm::vec3 p);
         void                setLookAt(glm::vec3 la);
         

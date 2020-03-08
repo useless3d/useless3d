@@ -2,7 +2,7 @@
 
 #include "glm/gtx/string_cast.hpp"
 
-#include "usls/scene/stage/camera/OrthographicCamera.h"
+#include "usls/scene/camera/OrthographicCamera.h"
 
 
 namespace usls

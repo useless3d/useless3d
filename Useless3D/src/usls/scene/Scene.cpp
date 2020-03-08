@@ -4,6 +4,8 @@
 #include "usls/scene/Scene.h"
 #include "usls/scene/camera/PerspectiveCamera.h"
 #include "usls/scene/camera/OrthographicCamera.h"
+#include "usls/scene/mesh/Vertex.h"
+#include "usls/scene/mesh/Texture.h"
 
 
 namespace usls
@@ -49,7 +51,7 @@ namespace usls
 
     void Scene::addStage(std::string name, std::string cameraName)
     {
-        this->stages[name] = std::move(std::make_unique<Stage>(this->cameras[cameraName].get()));
+        this->stages[name] = std::move(std::make_unique<Stage>(cameraName));
     }
 
     void Scene::addStage(std::string name)
@@ -57,12 +59,22 @@ namespace usls
         this->stages[name] = std::move(std::make_unique<Stage>());
     }
 
-    void Scene::addActor(std::string stageName, std::string actorFile)
+    void Scene::addActor(std::string stageName, std::string actorFile, std::string shader)
     {
         this->currentAssetDirectory = actorFile.substr(0, actorFile.find_last_of('/'));
+        this->currentStageName = stageName;
 
         Assimp::Importer importer;
         const aiScene* aiScene;
+        this->getAssimpScene(actorFile, importer, aiScene);
+
+        // this is the method used when all objects of this file are associated with the default
+        // shader, or a single shader
+        this->sendToShader = [&](Actor* a) {
+
+            this->shaders[shader]->addActor(a);
+
+        };
 
         this->processNode(aiScene->mRootNode, aiScene);
 
@@ -84,40 +96,221 @@ namespace usls
 
     void Scene::processNode(aiNode* node, const aiScene* scene)
     {
+        // For debugging
+        //std::cout << "node:";
+        //std::cout << node->mName.C_Str();
+        //std::cout << " parent:";
+        //if (node->mParent != NULL) {
+        //    std::cout << node->mParent->mName.C_Str();
+        //    std::cout << "\n";
+        //}
+        //else {
+        //    std::cout << "ROOT\n";
+        //}
 
+        // If node has more than one mesh, log an error and exit (as I cannot think of a reason
+        // why a node would have more than one mesh at this time, therefore if we ever receive
+        // an error here we can re-examine our thought process)
+        // Well this answers my question: https://github.com/assimp/assimp/issues/314 however i'm
+        // not implementing support for multiple meshes per node until a reason is brought to light
+        if (node->mNumMeshes > 1)
+        {
+            std::string nodeName = node->mName.C_Str();
+            std::cout << "AssetLoader ERROR: The following node contains more than one mesh: " << nodeName << "\n";
+            std::cin.get();
+            exit(EXIT_FAILURE);
+        }
+
+
+        this->processTransformable(node);
+
+        this->currentMeshPtr = nullptr;
+
+        if (node->mNumMeshes == 1)
+        {
+            this->processMesh(node, scene);
+
+            if (App::get().config.HEADLESS)
+            {
+                
+                this->actors[node->mName.C_Str()] = std::move(std::make_unique<Actor>(this->currentTransformable, this->currentMeshPtr));
+            }
+            else
+            {
+                this->actors[node->mName.C_Str()] = std::move(std::make_unique<Actor>(this->currentTransformable, 
+                    this->currentMeshPtr, this->cameras[this->stages[this->currentStageName]->getCameraName()].get()));
+            }
+
+        }
+        else
+        {
+            // no mesh so this is an empty and does not require a mesh or camera pointer
+            this->actors[node->mName.C_Str()] = std::move(std::make_unique<Actor>(this->currentTransformable));
+        }
+
+
+        // send Actor pointer to stage
+        this->stages[this->currentStageName]->addActor(this->actors[node->mName.C_Str()].get());
+
+
+        // invoke callback which contains logic for processing the various ways that actors can be associated with
+        // shaders
+        this->sendToShader(this->actors[node->mName.C_Str()].get());
+
+        //this->actors[node->mName.C_Str()]->printTransformable();
+
+        // Do the same for each of its children
+        for (unsigned int i = 0; i < node->mNumChildren; i++)
+        {
+            this->processNode(node->mChildren[i], scene);
+        }
+    }
+
+    void Scene::processTransformable(aiNode* node)
+    {
+        aiVector3D aiScale;
+        aiVector3D aiPosition;
+        aiVector3D aiRotationAxis;
+        float rotationAngle;
+        node->mTransformation.Decompose(aiScale, aiRotationAxis, rotationAngle, aiPosition);
+
+        glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
+        glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);
+        glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
+
+        Rotation rotation;
+        rotation.angle = rotationAngle * (180 / 3.124); // convert radian to degree
+        rotation.axis = rotationAxis;
+
+        this->currentTransformable = Transformable(translation, rotation, scale);
+    }
+
+    void Scene::processMesh(aiNode* node, const aiScene* scene)
+    {
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[0]];
+        //std::cout << mesh->mName.C_Str();
+        //std::cout << "\n";
+
+        // process mesh
+        std::vector<Vertex> vertices;
+        std::vector<unsigned int> indices;
+
+        // Walk through each of the mesh's vertices
+        for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+        {
+            Vertex vertex;
+            glm::vec3 vector;
+
+            // position
+            vector.x = mesh->mVertices[i].x;
+            vector.y = mesh->mVertices[i].y;
+            vector.z = mesh->mVertices[i].z;
+            vertex.position = vector;
+
+            // normal
+            vector.x = mesh->mNormals[i].x;
+            vector.y = mesh->mNormals[i].y;
+            vector.z = mesh->mNormals[i].z;
+            vertex.normal = vector;
+
+            // texture coordinates
+            if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
+            {
+                glm::vec2 vec;
+                // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+                // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+                vec.x = mesh->mTextureCoords[0][i].x;
+                vec.y = mesh->mTextureCoords[0][i].y;
+                vertex.textureCoordinates = vec;
+            }
+            else
+            {
+                vertex.textureCoordinates = glm::vec2(0.0f, 0.0f);
+            }
+
+            vertices.push_back(vertex);
+
+        }
+
+        // now walk through each of the mesh's faces (a face is a mesh's triangle) and retrieve the corresponding vertex indices.
+        for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+        {
+            aiFace face = mesh->mFaces[i];
+
+            // retrieve all indices of the face and store them in the indices vector
+            for (unsigned int j = 0; j < face.mNumIndices; j++)
+            {
+                indices.push_back(face.mIndices[j]);
+            }
+        }
+
+        // process materials
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        aiString str;
+        material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
+
+        Texture texture;
+        texture.type = "diffuse";
+        if (str.length == 0)
+        {
+            texture.path = "";
+        }
+        else
+        {
+            texture.path = this->currentAssetDirectory + "/";
+            texture.path += str.C_Str();
+        }
+
+
+        // Does the exact same mesh exist? If so return the pointer to that mesh.
+
+        // Loop through each existing meshes and determine if the verticies and texture(textures in the future) are the same.
+        // (I can't imagine this will scale well, and a more clever solution should be implemented in the future, BUT premature optimization never helped anyone)
+        // (ALSO NOTE that right now we are only using the vertices (and texture path if not headless) data to determine uniqueness of the mesh (I cannot
+        // think of a reason to also compare indices))
+        for (auto& m : this->meshes)
+        {
+            // If not running headless mode, determine if the vertices AND texture are already loaded. If so, return a pointer
+            // to the already loaded mesh object, otherwise create a new mesh object save it within meshes and return a pointer to it
+            if (!App::get().config.HEADLESS && (vertices == m->getVertices() && texture.path == m->getTexturePath()))
+            {
+                this->currentMeshPtr = m.get();
+                return;
+            }
+            if (App::get().config.HEADLESS && vertices == m->getVertices())
+            {
+                this->currentMeshPtr = m.get();
+                return;
+            }
+        }
+
+        auto newMesh = std::make_unique<Mesh>(mesh->mName.C_Str(), vertices, indices);
+        if (!App::get().config.HEADLESS)
+        {
+            newMesh->makeRenderable(texture);
+        }
+        auto meshPtr = newMesh.get();
+        this->meshes.push_back(std::move(newMesh));
+        this->currentMeshPtr = meshPtr;
     }
 
 
-    ///*
-    //* Add a headless stage
-    //*/
-    //void Scene::addStage(std::string stageName)
-    //{
-    //    auto newStage = std::make_unique<Stage>(stageName);
-    //    this->stages.push_back(std::move(newStage));
-    //}
 
-    ///*
-    //* Add a NON-headless stage. Since camera is passed we know the user intends for this to be a renderable stage.
-    //* However this will be overwritten if the state of the app is set to headless.
-    //*/
-    //void Scene::addStage(std::string stageName, std::unique_ptr<Camera> camera)
-    //{
-    //    auto newStage = std::make_unique<Stage>(stageName, std::move(camera));
-    //    this->stages.push_back(std::move(newStage));
-    //}
+    void Scene::draw()
+    {
+        // Update all cameras
+        for (auto& c : this->cameras)
+        {
+            c.second->update();
+        }
 
-    //void Scene::draw()
-    //{
-    //    // TODO: Interpolation of all Stage Actors (this will require a fair amout of restructuring of how
-    //    // we are currently drawing renderables)
+        // Draw all actors of all shaders. Actors are ordered, so they will be drawn in the order they
+        // were added to the scene (layering)
+        for (auto& s : this->shaders)
+        {
+            s.second->draw();
+        }
 
-    //    // Draw all stages in order they were created (layered)
-    //    for (auto& s : this->stages)
-    //    {
-    //        s->draw(&this->shader.value());
-    //    }
-
-    //}
+    }
 
 }

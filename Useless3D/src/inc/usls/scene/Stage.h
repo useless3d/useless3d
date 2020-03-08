@@ -18,5 +18,8 @@ namespace usls
         Stage();
         Stage(std::string cameraName);
 
+        void                addActor(Actor* a);
+        const std::string   getCameraName() const;
+
     };
 }

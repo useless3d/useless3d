@@ -5,10 +5,10 @@
 
 #include "glm/glm.hpp"
 
-#include "usls/scene/Actor.h"
-
 namespace usls 
 {
+    class Actor;
+
     class Shader 
     {
     private:
@@ -19,6 +19,10 @@ namespace usls
         unsigned int ID; //program ID
 
         Shader(const std::string shaderDir, const std::string vertFile, const std::string fragFile);
+
+        void addActor(Actor* a);
+        void draw();
+
         void use();
         void setBool(const std::string &name, bool value) const;
         void setInt(const std::string &name, int value) const;

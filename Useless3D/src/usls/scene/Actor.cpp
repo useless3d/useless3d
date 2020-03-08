@@ -2,24 +2,32 @@
 
 namespace usls
 {
-    Actor::Actor(glm::vec3 translation, Rotation rotation, glm::vec3 scale) :
-        Transformable(translation, rotation, scale)
+    Actor::Actor(Transformable& t) :
+        Transformable(t)
     {
 
     }
 
-    Actor::Actor(glm::vec3 translation, Rotation rotation, glm::vec3 scale, Mesh* mesh) :
+    Actor::Actor(Transformable& t, Mesh* mesh) :
         mesh(mesh),
-        Transformable(translation, rotation, scale)
+        Transformable(t)
     {
         
     }
 
+    Actor::Actor(Transformable& t, Mesh* mesh, Camera* camera) :
+        mesh(mesh),
+        camera(camera),
+        Transformable(t)
+    {
+
+    }
+
     void Actor::draw(Shader* shader)
     {
-        if (this->mesh) 
+        if (this->mesh && this->camera) 
         {
-            this->mesh.value()->draw(shader, this->camera.value(), this->getMatrix());
+            this->mesh.value()->draw(shader, this->camera.value(), this->getTransformMatrix());
         }
     }
 

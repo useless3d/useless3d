@@ -4,7 +4,7 @@
 #include "STB_IMAGE/stb_image.h"
 #include "glm/gtx/string_cast.hpp"
 
-#include "usls/scene/stage/mesh/Renderable.h"
+#include "usls/scene/mesh/Renderable.h"
 
 
 
@@ -110,8 +110,6 @@ namespace usls
 
     void Renderable::draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix)
     {
-
-        shader->use();
         shader->setMat4("mvp", camera->getProjectionMatrix() * camera->getViewMatrix() * modelMatrix);
 
         // activate proper texture unit before binding

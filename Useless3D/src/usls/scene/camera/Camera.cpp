@@ -1,7 +1,8 @@
+#include <iostream>
 
 
 #include "usls/App.h"
-#include "usls/scene/stage/camera/Camera.h"
+#include "usls/scene/camera/Camera.h"
 
 
 
@@ -47,6 +48,11 @@ namespace usls
     void Camera::setLookAt(glm::vec3 la)
     {
         this->lookAt = la;
+    }
+
+    glm::vec3 Camera::getPosition()
+    {
+        return this->position;
     }
 
 }

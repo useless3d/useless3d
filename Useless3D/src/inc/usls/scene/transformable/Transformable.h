@@ -2,7 +2,7 @@
 
 #include "glm/glm.hpp"
 
-#include "usls/scene/stage/transformable/Rotation.h"
+#include "usls/scene/transformable/Rotation.h"
 
 namespace usls
 {
@@ -14,14 +14,19 @@ namespace usls
         glm::vec3	            scale = glm::vec3(1.0f, 1.0f, 1.0f);
     public:
         Transformable();
+        Transformable(Transformable& t);
         Transformable(glm::vec3 t, Rotation r, glm::vec3 s);
-        ~Transformable();
+        
+
         void		setTranslation(glm::vec3 translation);
         void		setRotation(float angle, glm::vec3 axis);
         void		setScale(glm::vec3 scale);
         glm::vec3   getTranslation();
         Rotation    getRotation();
         glm::vec3   getScale();
-        glm::mat4   getMatrix();
+
+        glm::mat4   getTransformMatrix();
+
+        void        printTransformable();
     };
 }

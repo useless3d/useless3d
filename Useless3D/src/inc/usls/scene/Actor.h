@@ -19,8 +19,9 @@ namespace usls
         std::optional<Camera*>  camera;
 
     public:
-        Actor(glm::vec3 translation, Rotation rotation, glm::vec3 scale);
-        Actor(glm::vec3 translation, Rotation rotation, glm::vec3 scale, Mesh* mesh);
+        Actor(Transformable& t);
+        Actor(Transformable& t, Mesh* mesh);
+        Actor(Transformable& t, Mesh* mesh, Camera* camera);
 
         void draw(Shader* shader);
 

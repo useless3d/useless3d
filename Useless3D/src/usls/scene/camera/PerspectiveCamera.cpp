@@ -2,7 +2,7 @@
 
 #include "glm/gtx/string_cast.hpp"
 
-#include "usls/scene/stage/camera/PerspectiveCamera.h"
+#include "usls/scene/camera/PerspectiveCamera.h"
 
 
 namespace usls

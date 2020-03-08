@@ -54,34 +54,31 @@
     <ClCompile Include="src\usls\scene\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\Stage.cpp">
+    <ClCompile Include="src\usls\scene\camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\Prop.cpp">
+    <ClCompile Include="src\usls\scene\camera\OrthographicCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\Transformable.cpp">
+    <ClCompile Include="src\usls\scene\camera\PerspectiveCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\mesh\Mesh.cpp">
+    <ClCompile Include="src\usls\scene\mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\mesh\Renderable.cpp">
+    <ClCompile Include="src\usls\scene\mesh\Renderable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\mesh\Vertex.cpp">
+    <ClCompile Include="src\usls\scene\mesh\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\camera\Camera.cpp">
+    <ClCompile Include="src\usls\scene\Actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\camera\OrthographicCamera.cpp">
+    <ClCompile Include="src\usls\scene\Stage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\stage\camera\PerspectiveCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\inc\usls\scene\stage\Actor.h">
+    <ClCompile Include="src\usls\scene\Transformable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,39 +93,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\BootSceneHeadless.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\camera\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\camera\OrthographicCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\camera\PerspectiveCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\mesh\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\mesh\Renderable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\mesh\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\mesh\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\transformable\Rotation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\transformable\Transformable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\Prop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\stage\Stage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\usls\scene\Scene.h">
@@ -153,6 +117,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\usls\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\camera\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\camera\OrthographicCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\camera\PerspectiveCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\mesh\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\mesh\Renderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\mesh\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\mesh\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\transformable\Rotation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\transformable\Transformable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\Actor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\Stage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

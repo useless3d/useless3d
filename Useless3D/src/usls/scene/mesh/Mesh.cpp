@@ -1,7 +1,8 @@
+
 #include "glad/glad.h"
 #include "STB_IMAGE/stb_image.h"
 
-#include "usls/scene/stage/mesh/Mesh.h"
+#include "usls/scene/mesh/Mesh.h"
 
 
 namespace usls

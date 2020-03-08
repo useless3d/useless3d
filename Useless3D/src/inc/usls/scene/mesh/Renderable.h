@@ -4,9 +4,9 @@
 
 
 #include "usls/scene/Shader.h"
-#include "usls/scene/stage/camera/Camera.h"
-#include "usls/scene/stage/mesh/Vertex.h"
-#include "usls/scene/stage/mesh/Texture.h"
+#include "usls/scene/camera/Camera.h"
+#include "usls/scene/mesh/Vertex.h"
+#include "usls/scene/mesh/Texture.h"
 
 namespace usls
 {
