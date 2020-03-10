@@ -1,7 +1,8 @@
-
+#include <iostream>
 
 #include "usls/App.h"
 #include "usls/scene/camera/OrthographicCamera.h"
+
 
 #include "ExampleScene1.h"
 #include "BootScene.h"
@@ -29,6 +30,6 @@ void BootScene::loop()
 void BootScene::end()
 {
     // What to do when this scene is over
-
+    std::cout << "resetting scene\n";
     usls::App::get().setScene(std::move(std::make_unique<ExampleScene1>()));
 }

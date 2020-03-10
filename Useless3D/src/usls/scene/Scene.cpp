@@ -61,6 +61,7 @@ namespace usls
 
     void Scene::addActor(std::string stageName, std::string actorFile, std::string shader)
     {
+        this->currentActorFile = actorFile;
         this->currentAssetDirectory = actorFile.substr(0, actorFile.find_last_of('/'));
         this->currentStageName = stageName;
 
@@ -77,9 +78,7 @@ namespace usls
         };
 
         this->processNode(aiScene->mRootNode, aiScene);
-
     }
-
 
     void Scene::getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene) const
     {
@@ -122,7 +121,11 @@ namespace usls
         }
 
 
+        std::string actorName = this->generateUniqueActorName(node->mName.C_Str());
+
+
         this->processTransformable(node);
+
 
         this->currentMeshPtr = nullptr;
 
@@ -133,11 +136,11 @@ namespace usls
             if (App::get().config.HEADLESS)
             {
                 
-                this->actors[node->mName.C_Str()] = std::move(std::make_unique<Actor>(this->currentTransformable, this->currentMeshPtr));
+                this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable, this->currentMeshPtr));
             }
             else
             {
-                this->actors[node->mName.C_Str()] = std::move(std::make_unique<Actor>(this->currentTransformable, 
+                this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable,
                     this->currentMeshPtr, this->cameras[this->stages[this->currentStageName]->getCameraName()].get()));
             }
 
@@ -145,19 +148,17 @@ namespace usls
         else
         {
             // no mesh so this is an empty and does not require a mesh or camera pointer
-            this->actors[node->mName.C_Str()] = std::move(std::make_unique<Actor>(this->currentTransformable));
+            this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable));
         }
 
 
         // send Actor pointer to stage
-        this->stages[this->currentStageName]->addActor(this->actors[node->mName.C_Str()].get());
+        this->stages[this->currentStageName]->addActor(this->actors[actorName].get());
 
 
         // invoke callback which contains logic for processing the various ways that actors can be associated with
         // shaders
-        this->sendToShader(this->actors[node->mName.C_Str()].get());
-
-        //this->actors[node->mName.C_Str()]->printTransformable();
+        this->sendToShader(this->actors[actorName].get());
 
         // Do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -294,10 +295,34 @@ namespace usls
         this->currentMeshPtr = meshPtr;
     }
 
+    // verify actor name is unique, and if it is not, write to log to notify user that this is happening
+    // so that they can address the situation if need be
+    std::string Scene::generateUniqueActorName(std::string name)
+    {
+        if (this->actors.count(name) == 0)
+        {
+            return name;
+        }
 
+        std::string message = "While attempting to load object: " + name + " from file: " + this->currentActorFile
+            + " an existing actor contained this name. The following name has been used instead: ";
+
+        int uniqueNumber = 0;
+        std::string newName = (name + std::to_string(uniqueNumber));
+        while (this->actors.count(newName) != 0)
+        {
+            uniqueNumber++;
+            newName = (name + std::to_string(uniqueNumber));
+        }
+
+        App::get().logger.log(message + newName);
+
+        return newName;
+    }
 
     void Scene::draw()
     {
+        std::cout << "Attempting to Draw\n";
         // Update all cameras
         for (auto& c : this->cameras)
         {

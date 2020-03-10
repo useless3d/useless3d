@@ -1,3 +1,5 @@
+#include <iostream>
+
 
 #include "glad/glad.h"
 #include "STB_IMAGE/stb_image.h"
@@ -47,7 +49,7 @@ namespace usls
     }
 
     void Mesh::draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix)
-    {
+     {
         if (this->isRenderable())
         {
             this->renderable.value()->draw(shader, camera, modelMatrix);

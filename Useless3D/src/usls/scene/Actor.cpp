@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "usls/scene/Actor.h"
 
 namespace usls

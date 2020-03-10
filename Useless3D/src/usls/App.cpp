@@ -139,6 +139,7 @@ namespace usls
 
                     if (this->scene)
                     {
+                        std::cout << "scene draw\n";
                         this->scene.value()->draw();
                     }
 

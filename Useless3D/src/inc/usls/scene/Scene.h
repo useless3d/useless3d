@@ -24,15 +24,17 @@ namespace usls
     class Scene
     {
     private:
-        std::string         currentAssetDirectory;
+        std::string         currentActorFile = "";
+        std::string         currentAssetDirectory = "";
         Mesh*               currentMeshPtr;
         Transformable       currentTransformable;
-        std::string         currentStageName;
+        std::string         currentStageName = "";
 
         void                getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene) const;
         void                processNode(aiNode* node, const aiScene* scene);
         void                processTransformable(aiNode* node);
         void                processMesh(aiNode* node, const aiScene* scene);
+        std::string         generateUniqueActorName(std::string name);
         
         std::function<void(Actor* a)> sendToShader;
 

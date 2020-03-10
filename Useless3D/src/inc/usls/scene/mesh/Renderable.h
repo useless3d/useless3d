@@ -25,6 +25,7 @@ namespace usls
     public:
         Renderable(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, Texture texture);
         ~Renderable();
+        Renderable(Renderable&&) = default;
 
         const Texture&  getTexture() const;
 
