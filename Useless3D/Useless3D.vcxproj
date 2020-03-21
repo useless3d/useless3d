@@ -155,21 +155,19 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ExampleScene1.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
-    <ClCompile Include="src\usls\scene\camera\Camera.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Camera.cpp" />
     <ClCompile Include="src\usls\Config.cpp" />
     <ClCompile Include="src\usls\dep\glad.c" />
     <ClCompile Include="src\usls\dep\stb_image.cpp" />
     <ClCompile Include="src\usls\helpers.cpp" />
     <ClCompile Include="src\usls\Logger.cpp" />
     <ClCompile Include="src\usls\scene\mesh\Mesh.cpp" />
-    <ClCompile Include="src\usls\scene\camera\OrthographicCamera.cpp" />
-    <ClCompile Include="src\usls\scene\camera\PerspectiveCamera.cpp" />
-    <ClCompile Include="src\usls\scene\Actor.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Actor.cpp" />
     <ClCompile Include="src\usls\scene\mesh\Renderable.cpp" />
     <ClCompile Include="src\usls\scene\Scene.cpp" />
     <ClCompile Include="src\usls\scene\Shader.cpp" />
-    <ClCompile Include="src\usls\scene\Stage.cpp" />
-    <ClCompile Include="src\usls\scene\Transformable.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Stage.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Transformable.cpp" />
     <ClCompile Include="src\usls\scene\mesh\Vertex.cpp" />
     <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
@@ -178,25 +176,23 @@
     <ClInclude Include="src\inc\ExampleScene1.h" />
     <ClInclude Include="src\inc\BootScene.h" />
     <ClInclude Include="src\inc\usls\App.h" />
-    <ClInclude Include="src\inc\usls\scene\camera\Camera.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\Camera.h" />
     <ClInclude Include="src\inc\usls\Config.h" />
     <ClInclude Include="src\inc\usls\helpers.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
     <ClInclude Include="src\inc\usls\InputState.h" />
     <ClInclude Include="src\inc\usls\Logger.h" />
     <ClInclude Include="src\inc\usls\scene\mesh\Mesh.h" />
-    <ClInclude Include="src\inc\usls\scene\camera\OrthographicCamera.h" />
-    <ClInclude Include="src\inc\usls\scene\camera\PerspectiveCamera.h" />
-    <ClInclude Include="src\inc\usls\scene\Actor.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\Actor.h" />
     <ClInclude Include="src\inc\usls\scene\mesh\Renderable.h" />
-    <ClInclude Include="src\inc\usls\scene\transformable\Rotation.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\transformable\Rotation.h" />
     <ClInclude Include="src\inc\usls\scene\Scene.h" />
     <ClInclude Include="src\inc\usls\scene\Shader.h" />
     <ClInclude Include="src\inc\usls\scene\mesh\Texture.h" />
-    <ClInclude Include="src\inc\usls\scene\transformable\Transformable.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\transformable\Transformable.h" />
     <ClInclude Include="src\inc\usls\scene\mesh\Vertex.h" />
     <ClInclude Include="src\inc\usls\Window.h" />
-    <ClInclude Include="src\inc\usls\scene\Stage.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\Stage.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\config.ini" />

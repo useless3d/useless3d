@@ -2,8 +2,6 @@
 
 #include "usls/App.h"
 #include "usls/scene/Scene.h"
-#include "usls/scene/camera/PerspectiveCamera.h"
-#include "usls/scene/camera/OrthographicCamera.h"
 #include "usls/scene/mesh/Vertex.h"
 #include "usls/scene/mesh/Texture.h"
 
@@ -15,51 +13,38 @@ namespace usls
         if (!App::get().config.HEADLESS)
         {
             // initialize the default shader
-            this->shaders["default"] = std::move(std::make_unique<Shader>(
-                App::get().config.SHADER_FILE_PATH, 
-                App::get().config.DEFAULT_VERTEX_SHADER, 
+            this->shaders.push_back(Shader("default", App::get().config.SHADER_FILE_PATH,
+                App::get().config.DEFAULT_VERTEX_SHADER,
                 App::get().config.DEFAULT_FRAGMENT_SHADER));
         }
     }
 
     void Scene::addShader(std::string name, std::string vertName, std::string fragName)
     {
-        this->shaders[name] = std::move(std::make_unique<Shader>(
+        this->shaders.push_back(Shader(
+            name, 
             App::get().config.SHADER_FILE_PATH,
-            vertName,
+            vertName, 
             fragName));
     }
 
-    void Scene::addPerspectiveCamera(std::string name, bool fixed, float nearPlane, float farPlane, float fov)
+    void Scene::addStage(int id)
     {
-        this->cameras[name] = std::move(std::make_unique<PerspectiveCamera>(
-            fixed,
-            nearPlane,
-            farPlane,
-            fov
-        ));
+        this->stages.push_back(Stage(id));
     }
 
-    void Scene::addOrthographicCamera(std::string name, bool fixed, float nearPlane, float farPlane, float scale)
+    Stage& Scene::getStage(int id)
     {
-        this->cameras[name] = std::move(std::make_unique<OrthographicCamera>(
-            fixed,
-            nearPlane,
-            farPlane,
-            scale));
+        for (auto& s : this->stages)
+        {
+            if (s.getId() == id)
+            {
+                return s;
+            }
+        }
     }
 
-    void Scene::addStage(std::string name, std::string cameraName)
-    {
-        this->stages[name] = std::move(std::make_unique<Stage>(cameraName));
-    }
-
-    void Scene::addStage(std::string name)
-    {
-        this->stages[name] = std::move(std::make_unique<Stage>());
-    }
-
-    void Scene::addActor(std::string stageName, std::string actorFile, std::string shader)
+    void Scene::addActors(Stage& stage, std::string actorFile, std::string shader)
     {
         this->currentActorFile = actorFile;
         this->currentAssetDirectory = actorFile.substr(0, actorFile.find_last_of('/'));

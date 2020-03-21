@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "usls/scene/Actor.h"
+#include "usls/scene/stage/Actor.h"
 
 namespace usls
 {

@@ -2,17 +2,19 @@
 
 
 #include "usls/App.h"
-#include "usls/scene/camera/Camera.h"
+#include "usls/scene/stage/Camera.h"
 
 
 
 namespace usls
 {
-    Camera::Camera(bool fixed, float nearPlane, float farPlane) :
+    Camera::Camera(CameraType type, bool fixed, float nearPlane, float farPlane, float fovScale) :
+        type(type),
         screenSize(&App::get().getScreenSize()),
         fixed(fixed),
         nearPlane(nearPlane),
-        farPlane(farPlane)
+        farPlane(farPlane),
+        fovScale(fovScale)
     {
         
     }
@@ -53,6 +55,23 @@ namespace usls
     glm::vec3 Camera::getPosition()
     {
         return this->position;
+    }
+
+    void Camera::updateProjectionMatrix()
+    {
+        if (type == CameraType::ORTHOGRAPHIC) 
+        {
+            float aspect = (float)this->screenSize->x / (float)this->screenSize->y;
+            float sizeX = fovScale * aspect;
+            float sizeY = fovScale;
+            this->projectionMatrix = glm::ortho(-sizeX, sizeX, -sizeY, sizeY, this->nearPlane, this->farPlane);
+        }
+        else
+        {
+            this->projectionMatrix = glm::perspective(glm::radians(this->fovScale),
+                (float)this->screenSize->x / (float)this->screenSize->y, this->nearPlane, this->farPlane);
+        }
+
     }
 
 }

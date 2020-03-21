@@ -6,9 +6,9 @@
 #include "glm/glm.hpp"
 
 #include "usls/scene/mesh/Mesh.h"
-#include "usls/scene/camera/Camera.h"
-#include "usls/scene/transformable/Transformable.h"
-#include "usls/scene/transformable/Rotation.h"
+#include "usls/scene/stage/Camera.h"
+#include "usls/scene/stage/transformable/Transformable.h"
+#include "usls/scene/stage/transformable/Rotation.h"
 
 namespace usls
 {

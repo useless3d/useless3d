@@ -14,7 +14,8 @@
 namespace usls
 {
 
-    Shader::Shader(const std::string shaderDir, const std::string vertFile, const std::string fragFile)
+    Shader::Shader(std::string name, const std::string shaderDir, const std::string vertFile, const std::string fragFile) :
+        name(name)
     {
 
         // 1. retrieve the vertex/fragment source code from filePath
@@ -117,18 +118,9 @@ namespace usls
 
     }
 
-    void Shader::addActor(Actor* a)
+    unsigned int Shader::getID()
     {
-        this->actors.push_back(a);
-    }
-
-    void Shader::draw()
-    {
-        this->use();
-        for (auto& a : this->actors)
-        {
-            a->draw(this);
-        }
+        return this->ID;
     }
 
     void Shader::use() 

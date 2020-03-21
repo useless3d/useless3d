@@ -11,11 +11,10 @@
 #include "assimp/postprocess.h"
 
 #include "usls/scene/mesh/Mesh.h"
-#include "usls/scene/Stage.h"
-#include "usls/scene/transformable/Transformable.h"
+#include "usls/scene/stage/Stage.h"
+#include "usls/scene/stage/transformable/Transformable.h"
 #include "usls/scene/Shader.h"
-#include "usls/scene/camera/Camera.h"
-#include "usls/scene/Actor.h"
+#include "usls/scene/stage/Camera.h"
 
 
 namespace usls 
@@ -38,22 +37,25 @@ namespace usls
         
         std::function<void(Actor* a)> sendToShader;
 
+
+        std::vector<Shader>                         shaders;
+        std::vector<Stage>                          stages;
+        std::vector<Mesh>                           meshes;
+        
+
+        
+
+
+
     protected:
-
-        std::vector<std::unique_ptr<Mesh>>                  meshes;
-        std::map<std::string, std::unique_ptr<Shader>>      shaders;
-        std::map<std::string, std::unique_ptr<Camera>>      cameras;
-        std::map<std::string, std::unique_ptr<Stage>>       stages;
-        std::map<std::string, std::unique_ptr<Actor>>       actors;
-
         void                addShader(std::string name, std::string vertName, std::string fragName);
-        void                addPerspectiveCamera(std::string name, bool fixed, float nearPlane, float farPlane, float fov);
-        void                addOrthographicCamera(std::string name, bool fixed, float nearPlane, float farPlane, float scale);
+        
+        
 
-        void                addStage(std::string name, std::string cameraName);
-        void                addStage(std::string name); // for use in headless state
+        void                addStage(int id);
+        Stage&              getStage(int id);
 
-        void                addActor(std::string stageName, std::string actorFile, std::string shader = "default");
+        void                addActors(Stage& stage, std::string actorFile, std::string shader = "default");
 
         
 

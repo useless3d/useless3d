@@ -12,17 +12,12 @@ namespace usls
     class Shader 
     {
     private:
-        std::vector<Actor*> actors;
+        unsigned int ID; //program ID
+        std::string name;
 
     public:
-
-        unsigned int ID; //program ID
-
-        Shader(const std::string shaderDir, const std::string vertFile, const std::string fragFile);
-
-        void addActor(Actor* a);
-        void draw();
-
+        Shader(std::string name, const std::string shaderDir, const std::string vertFile, const std::string fragFile);
+        unsigned int getID();
         void use();
         void setBool(const std::string &name, bool value) const;
         void setInt(const std::string &name, int value) const;
