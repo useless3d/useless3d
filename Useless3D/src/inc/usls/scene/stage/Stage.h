@@ -16,7 +16,6 @@ namespace usls
     class Stage
     {
     private:
-        int                                         id;
         bool                                        visible; // defaults to true, used to determine if this stage should be drawn or not
         std::optional<Camera>                       camera; // not required in headless mode
         std::vector<Actor>                          actors;
@@ -26,13 +25,18 @@ namespace usls
         std::optional<std::vector<int>>             renderCommandsOrder;
 
     public:
-        Stage(int id, bool visible = true);
+        Stage(bool visible = true);
 
         void                addActors(std::string filename);
+        //void                addActors(std::string filename, int shaderIndex);
+        //void                addActors(std::string filename, std::vector<std::pair<int, std::vector<std::string>>>);
+
+        void                addActor(Actor a);
+
+        bool                hasActorWithName(std::string name);
         void                setActorContainerSize(unsigned int size);
         void                show();
         void                hide();
-        int                 getId();
         void                addPerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov);
         void                addOrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale);
 

@@ -9,8 +9,7 @@
 namespace usls
 {
 
-    Stage::Stage(int id, bool visible) :
-        id(id),
+    Stage::Stage(bool visible) :
         visible(visible)
     {
         // Default actors container to 1000 slots. If more space
@@ -35,11 +34,6 @@ namespace usls
     void Stage::show()
     {
         this->visible = true;
-    }
-
-    int Stage::getId()
-    {
-        return this->id;
     }
 
     void Stage::addPerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov)
@@ -67,6 +61,20 @@ namespace usls
     void Stage::addActors(std::string filename)
     {
 
+    }
+
+    void Stage::addActor()
+
+    bool Stage::hasActorWithName(std::string name)
+    {
+        for (auto& a : this->actors)
+        {
+            if (a.getName() == name)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

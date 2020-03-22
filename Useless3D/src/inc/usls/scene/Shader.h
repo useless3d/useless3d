@@ -13,10 +13,9 @@ namespace usls
     {
     private:
         unsigned int ID; //program ID
-        std::string name;
 
     public:
-        Shader(std::string name, const std::string shaderDir, const std::string vertFile, const std::string fragFile);
+        Shader(const std::string shaderDir, const std::string vertFile, const std::string fragFile);
         unsigned int getID();
         void use();
         void setBool(const std::string &name, bool value) const;

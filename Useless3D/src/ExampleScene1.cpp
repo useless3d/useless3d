@@ -10,14 +10,16 @@
 
 void ExampleScene1::load()
 {
-    // Add a stage
-    this->addStage(1); // create a stage with the given integer id (used for lookup)
+    // Add a stage. The value returned will be the index value of the stage in the scene.
+    int stageId = this->addStage(); // create a stage and retrieve it's index
+    this->getStage(stageId).addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f); // add a camera to the stage
+    this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx"); // add actors to this stage, use default shader for all meshes in this file
+    //this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx", 3); // add actors to this stage, use given shader id for all meshis in this file
+    //this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
+    //    { 1,{ "obj1", "anotherObject2", "someName" } },
+    //    { 2,{ "obj4", "obj5", "obj6", "etc" } }
+    //});
 
-    // Add a camera to the stage
-    this->getStage(1).addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f);
-
-    // Add actors to this stage (Scene is responsible for adding actors to a stage as it holds data that can be shared between stages)
-    this->addActors(this->getStage(1), "data/models/bin/stages/005/005.fbx"); // use default shader for all meshes in this file
 
 
 
@@ -30,8 +32,8 @@ void ExampleScene1::load()
 
 
     //this->addActor("stage2", "data/models/bin/stages/005/005.fbx") // default shader
-    //this->addActor("stage2", "data/models/bin/stages/005/005.fbx", "shader1") // use shader with specified name for all objects created from this file
-    //this->addActor("stage2", "data/models/bin/stages/005/005.fbx", {"obj1", 1, "obj2", 2}) // use vector of strings where each even element is a pattern of a name of an object (so "obj1" would match "obj1.001" and "obj1.002", etc) and each odd element is the id of a shader program to be used for processing the object that matches the name of the even element prior to itself
+    //this->addActor("stage2", "data/models/bin/stages/005/005.fbx", 3) // use shader with index name for all objects created from this file
+    
 
 }
 

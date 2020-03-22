@@ -4,7 +4,7 @@
 
 namespace usls
 {
-    struct Texture 
+    struct MeshTexture 
     {
         unsigned int id;
         std::string type;

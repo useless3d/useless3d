@@ -8,10 +8,10 @@
 #include "glm/glm.hpp"
 
 #include "usls/scene/Shader.h"
-#include "usls/scene/camera/Camera.h"
-#include "usls/scene/mesh/Vertex.h"
-#include "usls/scene/mesh/Texture.h"
-#include "usls/scene/mesh/Renderable.h"
+#include "usls/scene/stage/Camera.h"
+#include "usls/scene/mesh/MeshVertex.h"
+#include "usls/scene/mesh/MeshTexture.h"
+#include "usls/scene/mesh/MeshRenderable.h"
 
 
 namespace usls
@@ -21,18 +21,18 @@ namespace usls
 
     private:
         std::string                 name;
-        std::vector<Vertex>			vertices;
+        std::vector<MeshVertex>	    vertices;
         std::vector<unsigned int>   indices;
-        std::optional<std::unique_ptr<Renderable>> renderable;
+        std::optional<MeshRenderable> renderable;
 
     public:
-        Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+        Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices);
 
-        void                                makeRenderable(Texture texture);
+        void                                makeRenderable(MeshTexture texture);
         const std::string                   getTexturePath() const;
 
         const std::string                   getName() const;
-        const std::vector<Vertex>&			getVertices() const;
+        const std::vector<MeshVertex>&		getVertices() const;
         const std::vector<unsigned int>&	getIndices() const;
         
 

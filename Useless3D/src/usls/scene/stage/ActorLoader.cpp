@@ -1,80 +1,40 @@
 #include <iostream>
 
 #include "usls/App.h"
-#include "usls/scene/Scene.h"
+#include "usls/scene/stage/ActorLoader.h"
+#include "usls/scene/stage/transform/Rotation.h"
 #include "usls/scene/mesh/MeshVertex.h"
-#include "usls/scene/mesh/MeshTexture.h"
-
 
 namespace usls
 {
-    Scene::Scene()
-    {
-        if (!App::get().config.HEADLESS)
-        {
-            // initialize the default shader
-            this->shaders.push_back(Shader(App::get().config.SHADER_FILE_PATH,
-                App::get().config.DEFAULT_VERTEX_SHADER,
-                App::get().config.DEFAULT_FRAGMENT_SHADER));
-        }
-    }
+    /*
+        Possibly abusing the App singleton in this class's implementation. Just making
+        note of that for a possible future refactor. The way this class is used in the
+        Stage class to load actors, (created on stack, used, then destroyed) I'm not
+        overly worried about it though.
+    */
 
-    void Scene::addShader(std::string vertName, std::string fragName)
+    ActorLoader::ActorLoader(Stage* stage, std::string actorFile) :
+        headless(App::get().config.HEADLESS),
+        currentStage(stage),
+        currentActorFile(actorFile),
+        currentAssetDirectory(actorFile.substr(0, actorFile.find_last_of('/'))) 
     {
-        this->shaders.push_back(Shader(
-            App::get().config.SHADER_FILE_PATH,
-            vertName, 
-            fragName));
-    }
+    
 
-    int Scene::addStage()
+    
+    };
+
+    void ActorLoader::execute()
     {
-        this->stages.push_back(Stage());
-        return this->stages.size() - 1;
-    }
-
-    Stage& Scene::getStage(int id)
-    {
-        return this->stages.at(id);
-    }
-
-    const std::vector<Mesh>& Scene::getMeshes() const
-    {
-        return this->meshes;
-    }
-
-    unsigned int Scene::addMesh(Mesh m)
-    {
-        this->meshes.push_back(m);
-        return this->meshes.size() - 1;
-    }
-
-    Mesh& Scene::getMesh(unsigned int index)
-    {
-        return this->meshes.at(index);
-    }
-
-    void Scene::addActors(Stage& stage, std::string actorFile, std::string shader)
-    {
-        this->currentActorFile = actorFile;
-        this->currentAssetDirectory = actorFile.substr(0, actorFile.find_last_of('/'));
-
         Assimp::Importer importer;
         const aiScene* aiScene;
-        this->getAssimpScene(actorFile, importer, aiScene);
-
-        // this is the method used when all objects of this file are associated with the default
-        // shader, or a single shader
-        this->sendToShader = [&](Actor* a) {
-
-            this->shaders[shader]->addActor(a);
-
-        };
+        this->getAssimpScene(this->currentActorFile, importer, aiScene);
 
         this->processNode(aiScene->mRootNode, aiScene);
     }
 
-    void Scene::getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene) const
+    void ActorLoader::getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene) const
     {
         scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -87,7 +47,7 @@ namespace usls
         }
     }
 
-    void Scene::processNode(aiNode* node, const aiScene* scene)
+    void ActorLoader::processNode(aiNode* node, const aiScene* scene)
     {
         // For debugging
         //std::cout << "node:";
@@ -121,7 +81,7 @@ namespace usls
         this->processTransformable(node);
 
 
-        this->currentMeshPtr = nullptr;
+        this->currentMeshIndex = -1;
 
         if (node->mNumMeshes == 1)
         {
@@ -129,7 +89,6 @@ namespace usls
 
             if (App::get().config.HEADLESS)
             {
-                
                 this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable, this->currentMeshPtr));
             }
             else
@@ -141,7 +100,7 @@ namespace usls
         }
         else
         {
-            // no mesh so this is an empty and does not require a mesh or camera pointer
+            // no mesh so this is an empty
             this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable));
         }
 
@@ -161,7 +120,7 @@ namespace usls
         }
     }
 
-    void Scene::processTransformable(aiNode* node)
+    void ActorLoader::processTransformable(aiNode* node)
     {
         aiVector3D aiScale;
         aiVector3D aiPosition;
@@ -180,20 +139,20 @@ namespace usls
         this->currentTransformable = Transformable(translation, rotation, scale);
     }
 
-    void Scene::processMesh(aiNode* node, const aiScene* scene)
+    void ActorLoader::processMesh(aiNode* node, const aiScene* scene)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[0]];
         //std::cout << mesh->mName.C_Str();
         //std::cout << "\n";
 
         // process mesh
-        std::vector<Vertex> vertices;
+        std::vector<MeshVertex> vertices;
         std::vector<unsigned int> indices;
 
         // Walk through each of the mesh's vertices
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
-            Vertex vertex;
+            MeshVertex vertex;
             glm::vec3 vector;
 
             // position
@@ -244,7 +203,7 @@ namespace usls
         aiString str;
         material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
 
-        Texture texture;
+        MeshTexture texture;
         texture.type = "diffuse";
         if (str.length == 0)
         {
@@ -257,43 +216,44 @@ namespace usls
         }
 
 
-        // Does the exact same mesh exist? If so return the pointer to that mesh.
+        // Does the exact same mesh exist? If so return the index to that mesh.
 
         // Loop through each existing meshes and determine if the verticies and texture(textures in the future) are the same.
-        // (I can't imagine this will scale well, and a more clever solution should be implemented in the future, BUT premature optimization never helped anyone)
+        // (I can't imagine this will scale well, and a more clever solution should be implemented)
         // (ALSO NOTE that right now we are only using the vertices (and texture path if not headless) data to determine uniqueness of the mesh (I cannot
         // think of a reason to also compare indices))
-        for (auto& m : this->meshes)
+        int meshIndex = 0;
+        for (auto& m : App::get().getScene()->getMeshes())
         {
             // If not running headless mode, determine if the vertices AND texture are already loaded. If so, return a pointer
             // to the already loaded mesh object, otherwise create a new mesh object save it within meshes and return a pointer to it
-            if (!App::get().config.HEADLESS && (vertices == m->getVertices() && texture.path == m->getTexturePath()))
+            if (!this->headless && (vertices == m.getVertices() && texture.path == m.getTexturePath()))
             {
-                this->currentMeshPtr = m.get();
+                this->currentMeshIndex = meshIndex;
                 return;
             }
-            if (App::get().config.HEADLESS && vertices == m->getVertices())
+            if (this->headless && vertices == m.getVertices())
             {
-                this->currentMeshPtr = m.get();
+                this->currentMeshIndex = meshIndex;
                 return;
             }
+            meshIndex++;
         }
 
-        auto newMesh = std::make_unique<Mesh>(mesh->mName.C_Str(), vertices, indices);
-        if (!App::get().config.HEADLESS)
+        // Did not locate an existing mesh, so create one
+        this->currentMeshIndex = App::get().getScene()->addMesh(Mesh(mesh->mName.C_Str(), vertices, indices));
+        if (!this->headless)
         {
-            newMesh->makeRenderable(texture);
+            App::get().getScene()->getMesh(this->currentMeshIndex).makeRenderable(texture);
         }
-        auto meshPtr = newMesh.get();
-        this->meshes.push_back(std::move(newMesh));
-        this->currentMeshPtr = meshPtr;
+
     }
 
     // verify actor name is unique, and if it is not, write to log to notify user that this is happening
     // so that they can address the situation if need be
-    std::string Scene::generateUniqueActorName(std::string name)
+    std::string ActorLoader::generateUniqueActorName(std::string name)
     {
-        if (this->actors.count(name) == 0)
+        if (!this->currentStage->hasActorWithName(name))
         {
             return name;
         }
@@ -303,7 +263,7 @@ namespace usls
 
         int uniqueNumber = 0;
         std::string newName = (name + std::to_string(uniqueNumber));
-        while (this->actors.count(newName) != 0)
+        while (this->currentStage->hasActorWithName(newName))
         {
             uniqueNumber++;
             newName = (name + std::to_string(uniqueNumber));
@@ -312,24 +272,6 @@ namespace usls
         App::get().logger.log(message + newName);
 
         return newName;
-    }
-
-    void Scene::draw()
-    {
-        std::cout << "Attempting to Draw\n";
-        // Update all cameras
-        for (auto& c : this->cameras)
-        {
-            c.second->update();
-        }
-
-        // Draw all actors of all shaders. Actors are ordered, so they will be drawn in the order they
-        // were added to the scene (layering)
-        for (auto& s : this->shaders)
-        {
-            s.second->draw();
-        }
-
     }
 
 }

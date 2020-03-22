@@ -29,6 +29,10 @@ namespace usls
         }
     }
     
+    Scene* App::getScene()
+    {
+        return this->scene.value().get();
+    }
 
     void App::close()
     {

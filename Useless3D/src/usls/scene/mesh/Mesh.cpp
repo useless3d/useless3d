@@ -10,7 +10,7 @@
 namespace usls
 {
 
-    Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices) :
+    Mesh::Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices) :
         name(name),
         vertices(vertices),
         indices(indices)
@@ -18,12 +18,12 @@ namespace usls
         
     }
 
-    void Mesh::makeRenderable(Texture texture)
+    void Mesh::makeRenderable(MeshTexture texture)
     {
-        this->renderable = std::move(std::make_unique<Renderable>(this->vertices, this->indices, texture));
+        this->renderable = MeshRenderable(this->vertices, this->indices, texture);
     }
 
-    const std::vector<Vertex>& Mesh::getVertices() const
+    const std::vector<MeshVertex>& Mesh::getVertices() const
     {
         return this->vertices;
     }

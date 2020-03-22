@@ -42,6 +42,7 @@ namespace usls
         void                operator=(App const&) = delete;
 
         void                setScene(std::unique_ptr<Scene> scene);
+        Scene*              getScene();
         void                clearScene();
         const double        time() const;
         const InputState&   getInputState() const;

@@ -4,20 +4,20 @@
 #include "STB_IMAGE/stb_image.h"
 #include "glm/gtx/string_cast.hpp"
 
-#include "usls/scene/mesh/Renderable.h"
+#include "usls/scene/mesh/MeshRenderable.h"
 
 
 
 namespace usls
 {
-    Renderable::Renderable(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, Texture texture) :
+    MeshRenderable::MeshRenderable(const std::vector<MeshVertex>& vertices, const std::vector<unsigned int>& indices, MeshTexture texture) :
         texture(texture),
         indiceCount(indices.size())
     {
         this->sendToGPU(vertices, indices);        
     }
 
-    Renderable::~Renderable() 
+    MeshRenderable::~MeshRenderable()
     {
         std::cout << "Destructor Called\n";
         glDeleteVertexArrays(1, &this->VAO);
@@ -26,7 +26,7 @@ namespace usls
         glDeleteTextures(1, &this->texture.id);
     }
 
-    void Renderable::loadTexture()
+    void MeshRenderable::loadTexture()
     {
         if (this->texture.path == "")
         {
@@ -69,7 +69,7 @@ namespace usls
         }
     }
 
-    void Renderable::sendToGPU(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices)
+    void MeshRenderable::sendToGPU(const std::vector<MeshVertex>& vertices, const std::vector<unsigned int>& indices)
     {
         this->loadTexture();
 
@@ -80,7 +80,7 @@ namespace usls
         // Generate and bind vertex buffer object
         glGenBuffers(1, &this->VBO);
         glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(MeshVertex), &vertices[0], GL_STATIC_DRAW);
 
         // Generate and bind element buffer object
         glGenBuffers(1, &this->EBO);
@@ -89,26 +89,26 @@ namespace usls
 
         // Assign vertex positions to location = 0
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)0);
 
         // Assign vertex positions to location = 1
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, normal));
 
         // Assign vertex texture coordinates to location = 2
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, textureCoordinates));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, textureCoordinates));
 
         // Unbind the vertex array to prevent accidental operations
         glBindVertexArray(0);
     }
 
-    const Texture& Renderable::getTexture() const
+    const MeshTexture& MeshRenderable::getTexture() const
     {
         return this->texture;
     }
 
-    void Renderable::draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix)
+    void MeshRenderable::draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix)
     {
         shader->setMat4("mvp", camera->getProjectionMatrix() * camera->getViewMatrix() * modelMatrix);
 
