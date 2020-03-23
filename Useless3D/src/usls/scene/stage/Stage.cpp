@@ -69,7 +69,14 @@ namespace usls
 
     void Stage::loadActors(std::string filename)
     {
+        if (!this->headless)
+        {
+            this->loadActors(filename, 0);
+            return;
+        }
+
         auto loader = ActorLoader(this, filename);
+        loader.execute();
     }
 
     void Stage::loadActors(std::string filename, int shaderIndex)
@@ -78,6 +85,7 @@ namespace usls
         loader.findShaderId = [&](std::string actorName) {
             return shaderIndex;
         };
+        loader.execute();
     }
 
     void Stage::loadActors(std::string filename,
@@ -100,6 +108,7 @@ namespace usls
             return 0; // if no shader assoc found, use default shader
 
         };
+        loader.execute();
     }
 
     void Stage::addActor(Actor a)
@@ -122,6 +131,8 @@ namespace usls
 
         if (!this->headless)
         {
+            // FAILING HERE BECAUSE ACTORS ARE NOT GUARUNTEED TO HAVE A SHADER/MESH/TEXTURE
+
             // Search the existing render commands to see if one exists for the given criteria
             int renderCommandIndex = this->renderCommandExists(actor->getShaderIndex(), actor->getMeshIndex(), actor->getTextureIndex());
 
@@ -143,8 +154,23 @@ namespace usls
         }
     }
 
-    void Stage::removeActor(std::string name) {
+    Actor* Stage::getActor(std::string name)
+    {
+        for (auto& a : this->actors) 
+        {
+            if (a.getName() == name) 
+            {
+                return &a;
+            }
+        }
+    }
 
+    Actor* Stage::getActor(int index) {
+        return &this->actors.at(index);
+    }
+
+    void Stage::removeActor(std::string name) 
+    {
         for (unsigned int i = 0; i < this->actors.size(); i++)
         {
             auto a = this->actors.at(i);
@@ -153,7 +179,6 @@ namespace usls
                 this->removeActor(i);
             }
         }
-
     }
 
     void Stage::removeActor(int index)
@@ -167,7 +192,7 @@ namespace usls
         }
 
         a.setDeleted(true);
-        this->actorFreeSlots.push_back(i);
+        this->actorFreeSlots.push_back(index);
     }
 
     int Stage::addRenderCommand(RenderCommand rc) {
@@ -228,6 +253,31 @@ namespace usls
             }
         }
         return false;
+    }
+
+    void Stage::printRenderCommands() 
+    {
+
+        //std::cout << this->renderCommands.value().size();
+
+        std::cout << "RenderCommands\n";
+        std::cout << "----------------------------------\n";
+        for (auto& rc : this->renderCommands.value()) {
+            std::cout << "shaderIndex:" << rc.getShaderIndex() << " meshIndex:" << rc.getMeshIndex() << " textureIndex:" << rc.getTextureIndex() << "\n";
+            std::cout << "actors:";
+            for (auto& a : rc.getActorIndexes()) {
+                //std::cout << a << ",";
+                if (a != -1) {
+                    std::cout << this->actors.at(a).getName() << ",";
+                }
+            }
+            std::cout << "\norder:";
+            for (auto& o : this->renderCommandsOrder.value()) {
+                std::cout << o << ",";
+            }
+            std::cout << "\n------------------------------\n";
+        }
+
     }
 
 }

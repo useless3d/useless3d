@@ -30,7 +30,7 @@ namespace usls
         textureIndex(textureIndex)
     {}
 
-    bool Actor::setDeleted(bool d)
+    void Actor::setDeleted(bool d)
     {
         this->deleted = d;
     }

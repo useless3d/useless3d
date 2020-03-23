@@ -50,4 +50,8 @@ namespace usls
         return this->textureIndex;
     }
     
+    const std::vector<int>& RenderCommand::getActorIndexes() const
+    {
+        return this->actorIndexes;
+    }
 }

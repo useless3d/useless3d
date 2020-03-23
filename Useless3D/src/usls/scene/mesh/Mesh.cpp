@@ -43,17 +43,4 @@ namespace usls
         return this->renderable.has_value();
     }
 
-    const std::string Mesh::getTexturePath() const
-    {
-        return this->renderable.value()->getTexture().path;
-    }
-
-    void Mesh::draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix)
-     {
-        if (this->isRenderable())
-        {
-            this->renderable.value()->draw(shader, camera, modelMatrix);
-        }
-    }
-
 }

@@ -8,7 +8,6 @@
 
 namespace usls
 {
-
     void GPU::loadMesh(Mesh& m)
     {
         MeshRenderable mr = MeshRenderable();

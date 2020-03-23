@@ -37,7 +37,8 @@ namespace usls
     void App::close()
     {
         this->shouldClose = true;
-        if (!this->config.HEADLESS) {
+        if (!this->config.HEADLESS) 
+        {
             this->window.value()->setToClose();
         }
     }
@@ -82,11 +83,10 @@ namespace usls
 
         while (true)
         {
-
-            if (this->shouldClose || (!this->config.HEADLESS && this->window.value()->shouldClose())) {
+            if (this->shouldClose || (!this->config.HEADLESS && this->window.value()->shouldClose())) 
+            {
                 break;
             }
-
 
             if (this->scene && !this->scene.value()->loaded)
             {

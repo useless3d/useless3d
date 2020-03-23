@@ -18,7 +18,7 @@ namespace usls
         std::string             name;
         CameraType              type;
         float                   fovScale;
-        glm::vec2* 	            screenSize;
+        const glm::vec2*        screenSize;
         float                   nearPlane;
         float                   farPlane;
 

@@ -14,8 +14,8 @@ void ExampleScene1::load()
     int stageId = this->addStage(); // create a stage and retrieve it's index
     this->getStage(stageId).addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f); // add a camera to the stage
     this->getStage(stageId).loadActors("data/models/bin/stages/005/005.fbx"); // add actors to this stage, use default shader for all meshes in this file
-    //this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx", 3); // add actors to this stage, use given shader id for all meshis in this file
-    //this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
+    //this->getStage(stageId).loadActors("data/models/bin/stages/005/005.fbx", 3); // add actors to this stage, use given shader id for all meshis in this file
+    //this->getStage(stageId).loadActors("data/models/bin/stages/005/005.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
     //    { 1,{ "obj1", "anotherObject2", "someName" } },
     //    { 2,{ "obj4", "obj5", "obj6", "etc" } }
     //});
@@ -52,5 +52,5 @@ void ExampleScene1::end()
 {
     // What to do when this scene is over
 
-    usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
+    //usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
 }

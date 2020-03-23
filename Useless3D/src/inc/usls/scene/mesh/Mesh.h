@@ -29,17 +29,12 @@ namespace usls
         Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices);
 
         void                                setRenderable(MeshRenderable mr);
-        const std::string                   getTexturePath() const;
 
         const std::string                   getName() const;
         const std::vector<MeshVertex>&		getVertices() const;
         const std::vector<unsigned int>&	getIndices() const;
-        
-
         const bool                          isRenderable() const;
 
-        
-        void                                draw(Shader* shader, Camera* camera, glm::mat4 modelMatrix);
 
 
 

@@ -21,6 +21,8 @@ namespace usls
         int                 getMeshIndex();
         int                 getTextureIndex();
 
+        const std::vector<int>&   getActorIndexes() const;
+
         int                 addActorIndex(int actorIndex);
         void                removeActorIndex(int actorSlot);
     };

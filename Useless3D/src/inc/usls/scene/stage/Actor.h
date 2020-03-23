@@ -35,7 +35,7 @@ namespace usls
         int                     getTextureIndex();
         void                    addRenderCommand(std::pair<int, int> cmd);
         std::pair<int, int>&    getRenderCommand();
-        bool                    setDeleted(bool d);
+        void                    setDeleted(bool d);
 
     };
 }
