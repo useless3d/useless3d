@@ -13,7 +13,7 @@ void ExampleScene1::load()
     // Add a stage. The value returned will be the index value of the stage in the scene.
     int stageId = this->addStage(); // create a stage and retrieve it's index
     this->getStage(stageId).addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f); // add a camera to the stage
-    this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx"); // add actors to this stage, use default shader for all meshes in this file
+    this->getStage(stageId).loadActors("data/models/bin/stages/005/005.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx", 3); // add actors to this stage, use given shader id for all meshis in this file
     //this->getStage(stageId).addActors("data/models/bin/stages/005/005.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
     //    { 1,{ "obj1", "anotherObject2", "someName" } },

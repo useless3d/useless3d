@@ -20,15 +20,15 @@ namespace usls
     {
 
     private:
-        std::string                 name;
-        std::vector<MeshVertex>	    vertices;
-        std::vector<unsigned int>   indices;
-        std::optional<MeshRenderable> renderable;
+        std::string                         name;
+        std::vector<MeshVertex>	            vertices;
+        std::vector<unsigned int>           indices;
+        std::optional<MeshRenderable>       renderable;
 
     public:
         Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices);
 
-        void                                makeRenderable(MeshTexture texture);
+        void                                setRenderable(MeshRenderable mr);
         const std::string                   getTexturePath() const;
 
         const std::string                   getName() const;

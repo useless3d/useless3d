@@ -18,9 +18,9 @@ namespace usls
         
     }
 
-    void Mesh::makeRenderable(MeshTexture texture)
+    void Mesh::setRenderable(MeshRenderable mr)
     {
-        this->renderable = MeshRenderable(this->vertices, this->indices, texture);
+        this->renderable = mr;
     }
 
     const std::vector<MeshVertex>& Mesh::getVertices() const

@@ -68,6 +68,11 @@ namespace usls
         this->scene.reset();
     }
 
+    GPU& App::getGPU()
+    {
+        return this->gpu.value();
+    }
+
     void App::execute()
     {
         this->deltaTime = 1 / this->config.LOGIC_TICK;

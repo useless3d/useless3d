@@ -8,9 +8,10 @@
 
 namespace usls
 {
-    Scene::Scene()
+    Scene::Scene() :
+        headless(App::get().config.HEADLESS)
     {
-        if (!App::get().config.HEADLESS)
+        if (!this->headless)
         {
             // initialize the default shader
             this->shaders.push_back(Shader(App::get().config.SHADER_FILE_PATH,
@@ -29,7 +30,7 @@ namespace usls
 
     int Scene::addStage()
     {
-        this->stages.push_back(Stage());
+        this->stages.push_back(Stage(this->headless));
         return this->stages.size() - 1;
     }
 
@@ -43,6 +44,11 @@ namespace usls
         return this->meshes;
     }
 
+    const std::vector<MeshTexture>& Scene::getTextures() const
+    {
+        return this->textures;
+    }
+
     unsigned int Scene::addMesh(Mesh m)
     {
         this->meshes.push_back(m);
@@ -52,6 +58,17 @@ namespace usls
     Mesh& Scene::getMesh(unsigned int index)
     {
         return this->meshes.at(index);
+    }
+
+    MeshTexture& Scene::getTexture(unsigned int index)
+    {
+        return this->textures.at(index);
+    }
+
+    unsigned int Scene::addTexture(MeshTexture t)
+    {
+        this->textures.push_back(t);
+        return this->textures.size() - 1;
     }
 
     void Scene::addActors(Stage& stage, std::string actorFile, std::string shader)

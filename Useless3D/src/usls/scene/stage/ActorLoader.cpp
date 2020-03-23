@@ -74,44 +74,42 @@ namespace usls
             exit(EXIT_FAILURE);
         }
 
-
         std::string actorName = this->generateUniqueActorName(node->mName.C_Str());
-
 
         this->processTransformable(node);
 
-
         this->currentMeshIndex = -1;
+        this->currentMeshTextureIndex = -1;
 
         if (node->mNumMeshes == 1)
         {
             this->processMesh(node, scene);
 
-            if (App::get().config.HEADLESS)
+            if (this->headless)
             {
-                this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable, this->currentMeshPtr));
+                this->currentStage->addActor(Actor(actorName, this->currentTransform, this->currentMeshIndex));
             }
             else
             {
-                this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable,
-                    this->currentMeshPtr, this->cameras[this->stages[this->currentStageName]->getCameraName()].get()));
-            }
+                int shaderIndex = this->findShaderId.value()(actorName);
 
+                if (this->currentMeshTextureIndex != -1)
+                {
+                    this->currentStage->addActor(Actor(actorName, this->currentTransform, 
+                        this->currentMeshIndex, shaderIndex, this->currentMeshTextureIndex));
+                }
+                else
+                {
+                    this->currentStage->addActor(Actor(actorName, this->currentTransform,
+                        this->currentMeshIndex, shaderIndex));
+                }
+            }
         }
         else
         {
             // no mesh so this is an empty
-            this->actors[actorName] = std::move(std::make_unique<Actor>(this->currentTransformable));
+            this->currentStage->addActor(Actor(actorName, this->currentTransform));
         }
-
-
-        // send Actor pointer to stage
-        this->stages[this->currentStageName]->addActor(this->actors[actorName].get());
-
-
-        // invoke callback which contains logic for processing the various ways that actors can be associated with
-        // shaders
-        this->sendToShader(this->actors[actorName].get());
 
         // Do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -136,7 +134,7 @@ namespace usls
         rotation.angle = rotationAngle * (180 / 3.124); // convert radian to degree
         rotation.axis = rotationAxis;
 
-        this->currentTransformable = Transformable(translation, rotation, scale);
+        this->currentTransform = Transform(translation, rotation, scale);
     }
 
     void ActorLoader::processMesh(aiNode* node, const aiScene* scene)
@@ -198,54 +196,75 @@ namespace usls
             }
         }
 
-        // process materials
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        aiString str;
-        material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
+        // Does the exact same mesh exist? If so use the index of that mesh.
 
-        MeshTexture texture;
-        texture.type = "diffuse";
-        if (str.length == 0)
-        {
-            texture.path = "";
-        }
-        else
-        {
-            texture.path = this->currentAssetDirectory + "/";
-            texture.path += str.C_Str();
-        }
-
-
-        // Does the exact same mesh exist? If so return the index to that mesh.
-
-        // Loop through each existing meshes and determine if the verticies and texture(textures in the future) are the same.
+        // Loop through each existing mesh and determine if the verticies are the same.
         // (I can't imagine this will scale well, and a more clever solution should be implemented)
-        // (ALSO NOTE that right now we are only using the vertices (and texture path if not headless) data to determine uniqueness of the mesh (I cannot
-        // think of a reason to also compare indices))
         int meshIndex = 0;
         for (auto& m : App::get().getScene()->getMeshes())
         {
-            // If not running headless mode, determine if the vertices AND texture are already loaded. If so, return a pointer
-            // to the already loaded mesh object, otherwise create a new mesh object save it within meshes and return a pointer to it
-            if (!this->headless && (vertices == m.getVertices() && texture.path == m.getTexturePath()))
+            // If mesh exists, use the index of the existing mesh...
+            if (vertices == m.getVertices())
             {
                 this->currentMeshIndex = meshIndex;
-                return;
-            }
-            if (this->headless && vertices == m.getVertices())
-            {
-                this->currentMeshIndex = meshIndex;
-                return;
+                break;
             }
             meshIndex++;
         }
+        // ...otherwise create a new mesh, save it within meshes and return the new index
+        if (this->currentMeshIndex == -1)
+        {
+            // Did not locate an existing mesh, so create one
+            this->currentMeshIndex = App::get().getScene()->addMesh(Mesh(mesh->mName.C_Str(), vertices, indices));
+            if (!this->headless)
+            {
+                // Since this is not headless mode, send mesh to the GPU
+                App::get().getGPU().loadMesh(App::get().getScene()->getMesh(this->currentMeshIndex));
+            }
+        }
 
-        // Did not locate an existing mesh, so create one
-        this->currentMeshIndex = App::get().getScene()->addMesh(Mesh(mesh->mName.C_Str(), vertices, indices));
+
         if (!this->headless)
         {
-            App::get().getScene()->getMesh(this->currentMeshIndex).makeRenderable(texture);
+            // process materials
+            aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+            aiString str;
+            material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
+
+            // if mesh does not contain a texture, exit
+            if (str.length == 0)
+            {
+                return;
+            }
+
+            // determine if the texture already exists, if it does use it's index...
+            int meshTextureIndex = 0;
+            for (auto& t : App::get().getScene()->getTextures())
+            {
+                if (t.path == (this->currentAssetDirectory + "/" + str.C_Str()))
+                {
+                    this->currentMeshTextureIndex = meshTextureIndex;
+                    break;
+                }
+                meshTextureIndex++;
+            }
+            // ...otherwise create a new texture
+            if (this->currentMeshTextureIndex == -1)
+            {
+                MeshTexture texture;
+                texture.type = "diffuse";
+                texture.path = this->currentAssetDirectory + "/";
+                texture.path += str.C_Str();
+
+                this->currentMeshTextureIndex = App::get().getScene()->addTexture(texture);
+
+                // Since this is not headless mode, send texture to the GPU
+                App::get().getGPU().loadTexture(App::get().getScene()->getTexture(this->currentMeshTextureIndex));
+
+            }
         }
+
+        
 
     }
 

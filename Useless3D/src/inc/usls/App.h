@@ -9,6 +9,7 @@
 #include "usls/Logger.h"
 #include "usls/Window.h"
 #include "usls/scene/Scene.h"
+#include "usls/GPU.h"
 
 
 namespace usls 
@@ -33,6 +34,7 @@ namespace usls
         double			    accumulator = 0.0;        
 
         std::optional<std::unique_ptr<Scene>> scene;
+        std::optional<GPU>  gpu;
     
     public:
         static App&         get();
@@ -43,6 +45,7 @@ namespace usls
 
         void                setScene(std::unique_ptr<Scene> scene);
         Scene*              getScene();
+        GPU&                getGPU();
         void                clearScene();
         const double        time() const;
         const InputState&   getInputState() const;

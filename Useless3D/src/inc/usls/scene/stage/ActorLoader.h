@@ -24,8 +24,9 @@ namespace usls
         Stage*              currentStage;
         std::string         currentActorFile;
         std::string         currentAssetDirectory;
-        int                 currentMeshIndex;
         Transform           currentTransform;
+        int                 currentMeshIndex;
+        int                 currentMeshTextureIndex;
 
         void                getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene) const;
         void                processNode(aiNode* node, const aiScene* scene);
@@ -33,10 +34,9 @@ namespace usls
         void                processMesh(aiNode* node, const aiScene* scene);
         std::string         generateUniqueActorName(std::string name);
 
-        std::function<void(Actor* a)> sendToShader;
-
     public:
                             ActorLoader(Stage* stage, std::string actorFile);
+        std::optional<std::function<int(std::string actorName)>> findShaderId;
         void                execute();
 
 
