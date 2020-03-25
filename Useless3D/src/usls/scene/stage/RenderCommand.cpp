@@ -35,17 +35,17 @@ namespace usls
         this->freeSlots.push_back(actorSlot);
     }
 
-    int RenderCommand::getShaderIndex()
+    const int& RenderCommand::getShaderIndex() const
     {
         return this->shaderIndex;
     }
 
-    int RenderCommand::getMeshIndex()
+    const int& RenderCommand::getMeshIndex() const
     {
         return this->meshIndex;
     }
 
-    int RenderCommand::getTextureIndex()
+    const int& RenderCommand::getTextureIndex() const
     {
         return this->textureIndex;
     }

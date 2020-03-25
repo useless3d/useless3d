@@ -26,6 +26,9 @@ namespace usls
         {
             auto w = std::make_unique<Window>(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN);
             this->window = std::move(w);
+
+            this->gpu = GPU(this->config.SHADER_FILE_PATH);
+
         }
     }
     
@@ -69,9 +72,9 @@ namespace usls
         this->scene.reset();
     }
 
-    GPU& App::getGPU()
+    std::optional<GPU>& App::getGPU()
     {
-        return this->gpu.value();
+        return this->gpu;
     }
 
     void App::execute()

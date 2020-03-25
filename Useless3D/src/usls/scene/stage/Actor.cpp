@@ -5,17 +5,20 @@
 namespace usls
 {
     Actor::Actor(std::string name, Transform t) :
+        name(name),
         deleted(false),
         transform(t) 
     {}
 
     Actor::Actor(std::string name, Transform t, int meshIndex) :
+        name(name),
         deleted(false),
         transform(t),
         meshIndex(meshIndex) 
     {}
 
     Actor::Actor(std::string name, Transform t, int meshIndex, int shaderIndex) :
+        name(name),
         deleted(false),
         transform(t),
         meshIndex(meshIndex), 
@@ -23,6 +26,7 @@ namespace usls
     {}
 
     Actor::Actor(std::string name, Transform t, int meshIndex, int shaderIndex, int textureIndex) :
+        name(name),
         deleted(false),
         transform(t),
         meshIndex(meshIndex),
@@ -40,24 +44,24 @@ namespace usls
         return this->renderCommand.value();
     }
 
-    std::string Actor::getName()
+    const std::string Actor::getName() const
     {
         return this->name;
     }
 
-    int Actor::getShaderIndex()
+    const std::optional<int>& Actor::getShaderIndex() const
     {
-        return this->shaderIndex.value();
+        return this->shaderIndex;
     }
 
-    int Actor::getMeshIndex()
+    const std::optional<int>& Actor::getMeshIndex() const
     {
-        return this->meshIndex.value();
+        return this->meshIndex;
     }
 
-    int Actor::getTextureIndex()
+    const std::optional<int>& Actor::getTextureIndex() const
     {
-        return this->textureIndex.value();
+        return this->textureIndex;
     }
 
     void Actor::addRenderCommand(std::pair<int, int> cmd)

@@ -14,18 +14,18 @@ namespace usls
         if (!this->headless)
         {
             // initialize the default shader
-            this->shaders.push_back(Shader(App::get().config.SHADER_FILE_PATH,
-                App::get().config.DEFAULT_VERTEX_SHADER,
-                App::get().config.DEFAULT_FRAGMENT_SHADER));
+            unsigned int shaderProgramId = App::get().getGPU()->loadShader(
+                App::get().config.DEFAULT_VERTEX_SHADER, 
+                App::get().config.DEFAULT_FRAGMENT_SHADER);
+
+            this->shaders.push_back(Shader("default", shaderProgramId));
         }
     }
 
-    void Scene::addShader(std::string vertName, std::string fragName)
+    void Scene::addShader(std::string name, std::string vertName, std::string fragName)
     {
-        this->shaders.push_back(Shader(
-            App::get().config.SHADER_FILE_PATH,
-            vertName, 
-            fragName));
+        unsigned int shaderProgramId = App::get().getGPU()->loadShader(vertName, fragName);
+        this->shaders.push_back(Shader(name, shaderProgramId));
     }
 
     int Scene::addStage()
@@ -75,10 +75,25 @@ namespace usls
     {
         for (auto& s : this->stages)
         {
-            s.printRenderCommands();
+            //s.printRenderCommands();
+
+            int activeShader = -1;
+            int activeMesh = -1;
+            int activeTexture = -1;
+
+            for (auto& rc : s.getRenderCommands().value())
+            {
+                if (rc.getShaderIndex() != activeShader)
+                {
+                    activeShader = rc.getShaderIndex();
+
+                }
+            }
+            
         }
 
-        std::cin.get();
+
+        //std::cin.get();
     }
 
 }

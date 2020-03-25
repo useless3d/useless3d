@@ -25,7 +25,7 @@ namespace usls
         
 
     protected:
-        void                        addShader(std::string vertName, std::string fragName);
+        void                        addShader(std::string name, std::string vertName, std::string fragName);
         int                         addStage();
         Stage&                      getStage(int id);
         

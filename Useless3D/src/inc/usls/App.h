@@ -45,7 +45,7 @@ namespace usls
 
         void                setScene(std::unique_ptr<Scene> scene);
         Scene*              getScene();
-        GPU&                getGPU();
+        std::optional<GPU>& getGPU();
         void                clearScene();
         const double        time() const;
         const InputState&   getInputState() const;

@@ -219,7 +219,7 @@ namespace usls
             if (!this->headless)
             {
                 // Since this is not headless mode, send mesh to the GPU
-                App::get().getGPU().loadMesh(App::get().getScene()->getMesh(this->currentMeshIndex));
+                App::get().getGPU()->loadMesh(App::get().getScene()->getMesh(this->currentMeshIndex));
             }
         }
 
@@ -259,7 +259,7 @@ namespace usls
                 this->currentMeshTextureIndex = App::get().getScene()->addTexture(texture);
 
                 // Since this is not headless mode, send texture to the GPU
-                App::get().getGPU().loadTexture(App::get().getScene()->getTexture(this->currentMeshTextureIndex));
+                App::get().getGPU()->loadTexture(App::get().getScene()->getTexture(this->currentMeshTextureIndex));
 
             }
         }

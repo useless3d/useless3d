@@ -111,6 +111,11 @@ namespace usls
         loader.execute();
     }
 
+    const unsigned int Stage::getActorSize() const
+    {
+        return this->actors.size();
+    }
+
     void Stage::addActor(Actor a)
     {
         int slotIndex;
@@ -129,17 +134,21 @@ namespace usls
 
         auto actor = &this->actors.at(slotIndex);
 
-        if (!this->headless)
+        if (!this->headless && 
+            actor->getShaderIndex().has_value() && 
+            actor->getMeshIndex().has_value()) // If we are not in headless mode, AND this actor has a shader and mesh
         {
             // FAILING HERE BECAUSE ACTORS ARE NOT GUARUNTEED TO HAVE A SHADER/MESH/TEXTURE
 
+            int textureId = actor->getTextureIndex().has_value() ? actor->getTextureIndex().value() : -1;
+
             // Search the existing render commands to see if one exists for the given criteria
-            int renderCommandIndex = this->renderCommandExists(actor->getShaderIndex(), actor->getMeshIndex(), actor->getTextureIndex());
+            int renderCommandIndex = this->renderCommandExists(actor->getShaderIndex().value(), actor->getMeshIndex().value(), textureId);
 
             // If a render command does not exist for the given criteria, create one and get it's index
             if (renderCommandIndex == -1)
             {
-                auto rc = RenderCommand(actor->getShaderIndex(), actor->getMeshIndex(), actor->getTextureIndex());
+                auto rc = RenderCommand(actor->getShaderIndex().value(), actor->getMeshIndex().value(), textureId);
                 renderCommandIndex = this->addRenderCommand(rc);
             }
 
@@ -278,6 +287,11 @@ namespace usls
             std::cout << "\n------------------------------\n";
         }
 
+    }
+
+    const std::optional<std::vector<RenderCommand>>& Stage::getRenderCommands() const
+    {
+        return this->renderCommands;
     }
 
 }

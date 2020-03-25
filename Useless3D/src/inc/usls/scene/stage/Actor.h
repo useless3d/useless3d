@@ -29,13 +29,13 @@ namespace usls
         Actor(std::string name, Transform t, int meshIndex, int shaderIndex);
         Actor(std::string name, Transform t, int meshIndex, int shaderIndex, int textureIndex);
 
-        std::string             getName();
-        int                     getShaderIndex();
-        int                     getMeshIndex();
-        int                     getTextureIndex();
-        void                    addRenderCommand(std::pair<int, int> cmd);
-        std::pair<int, int>&    getRenderCommand();
-        void                    setDeleted(bool d);
+        const std::string               getName() const;
+        const std::optional<int>&       getShaderIndex() const;
+        const std::optional<int>&       getMeshIndex() const;
+        const std::optional<int>&       getTextureIndex() const;
+        void                            addRenderCommand(std::pair<int, int> cmd);
+        std::pair<int, int>&            getRenderCommand();
+        void                            setDeleted(bool d);
 
     };
 }

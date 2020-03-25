@@ -41,8 +41,11 @@ namespace usls
         void                removeActor(int index);
         Actor*              getActor(int index);
         Actor*              getActor(std::string name);
+        const unsigned int  getActorSize() const;
 
         void                printRenderCommands();
+        const std::optional<std::vector<RenderCommand>>& getRenderCommands() const;
+
 
         bool                hasActorWithName(std::string name);
         void                setActorContainerSize(unsigned int size);

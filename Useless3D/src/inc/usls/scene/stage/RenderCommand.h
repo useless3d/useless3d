@@ -17,9 +17,9 @@ namespace usls
     public:
                             RenderCommand(int sI, int mI, int tI = -1);
 
-        int                 getShaderIndex();
-        int                 getMeshIndex();
-        int                 getTextureIndex();
+        const int&          getShaderIndex() const;
+        const int&          getMeshIndex() const;
+        const int&          getTextureIndex() const;
 
         const std::vector<int>&   getActorIndexes() const;
 
