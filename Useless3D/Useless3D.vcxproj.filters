@@ -51,9 +51,6 @@
     <ClCompile Include="src\usls\scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\usls\scene\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\usls\scene\mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

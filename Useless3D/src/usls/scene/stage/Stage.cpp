@@ -1,6 +1,7 @@
 #include <iostream>
 
 
+#include "usls/App.h"
 #include "usls/scene/stage/Stage.h"
 #include "usls/scene/stage/ActorLoader.h"
 
@@ -138,15 +139,17 @@ namespace usls
             actor->getShaderIndex().has_value() && 
             actor->getMeshIndex().has_value()) // If we are not in headless mode, AND this actor has a shader and mesh
         {
-            int textureId = actor->getTextureIndex().has_value() ? actor->getTextureIndex().value() : -1;
+            int shaderIndex = actor->getShaderIndex().value();
+            int meshRenderableIndex = App::get().getScene()->getMesh(actor->getMeshIndex().value()).getMeshRenderableIndex().value();
+            int textureIndex = actor->getTextureIndex().has_value() ? actor->getTextureIndex().value() : -1;
 
             // Search the existing render commands to see if one exists for the given criteria
-            int renderCommandIndex = this->renderCommandExists(actor->getShaderIndex().value(), actor->getMeshIndex().value(), textureId);
+            int renderCommandIndex = this->renderCommandExists(shaderIndex, meshRenderableIndex, textureIndex);
 
             // If a render command does not exist for the given criteria, create one and get it's index
             if (renderCommandIndex == -1)
             {
-                auto rc = RenderCommand(actor->getShaderIndex().value(), actor->getMeshIndex().value(), textureId);
+                auto rc = RenderCommand(shaderIndex, meshRenderableIndex, textureIndex);
                 renderCommandIndex = this->addRenderCommand(rc);
             }
 
@@ -161,19 +164,19 @@ namespace usls
         }
     }
 
-    Actor* Stage::getActor(std::string name)
+    Actor& Stage::getActor(std::string name)
     {
         for (auto& a : this->actors) 
         {
             if (a.getName() == name) 
             {
-                return &a;
+                return a;
             }
         }
     }
 
-    Actor* Stage::getActor(int index) {
-        return &this->actors.at(index);
+    Actor& Stage::getActor(int index) {
+        return this->actors.at(index);
     }
 
     void Stage::removeActor(std::string name) 
@@ -190,7 +193,7 @@ namespace usls
 
     void Stage::removeActor(int index)
     {
-        auto a = this->actors.at(index);
+        Actor& a = this->actors.at(index);
 
         // remove actor from render command
         if (this->renderCommands)
@@ -287,9 +290,19 @@ namespace usls
 
     }
 
-    const std::optional<std::vector<RenderCommand>>& Stage::getRenderCommands() const
+    RenderCommand& Stage::getRenderCommand(int index)
     {
-        return this->renderCommands;
+        return this->renderCommands->at(index);
+    }
+
+    const std::optional<std::vector<int>>& Stage::getRenderCommandsOrder() const
+    {
+        return this->renderCommandsOrder;
+    }
+
+    std::optional<Camera>& Stage::getCamera()
+    {
+        return this->camera;
     }
 
 }

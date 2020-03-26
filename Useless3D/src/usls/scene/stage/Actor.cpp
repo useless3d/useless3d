@@ -34,6 +34,16 @@ namespace usls
         textureIndex(textureIndex)
     {}
 
+    const Transform& Actor::getTransform() const
+    {
+        return this->transform;
+    }
+
+    bool Actor::isDeleted()
+    {
+        return this->deleted;
+    }
+
     void Actor::setDeleted(bool d)
     {
         this->deleted = d;

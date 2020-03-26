@@ -1,6 +1,11 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include "glad/glad.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 #include "STB_IMAGE/stb_image.h"
 
 #include "usls/GPU.h"
@@ -9,7 +14,10 @@
 namespace usls
 {
     GPU::GPU(std::string shaderDirectory) :
-        shaderDirectory(shaderDirectory)
+        shaderDirectory(shaderDirectory),
+        activeShaderIndex(-1),
+        activeMeshRenderableIndex(-1),
+        activeTextureIndex(-1)
     {}
 
     int GPU::loadShader(const std::string name, const std::string vertFile, const std::string fragFile)
@@ -114,9 +122,13 @@ namespace usls
         glDeleteShader(vertex);
         glDeleteShader(fragment);
 
-        this->shaders.push_back(Shader(name, id));
+        auto shader = Shader();
+        shader.name = name;
+        shader.id = id;
 
-        return id;
+        this->shaders.push_back(shader);
+
+        return this->shaders.size() - 1;
     }
 
     int GPU::loadMesh(Mesh& m)
@@ -204,9 +216,84 @@ namespace usls
         }
     }
 
+    const int GPU::getActiveShaderIndex() const
+    {
+        return this->activeShaderIndex;
+    }
+
+    const int GPU::getActiveMeshRenderableIndex() const
+    {
+        return this->activeMeshRenderableIndex;
+    }
+
+    const int GPU::getActiveTextureIndex() const
+    {
+        return this->activeTextureIndex;
+    }
+
     const std::vector<MeshTexture>& GPU::getTextures() const
     {
         return this->textures;
+    }
+
+    void GPU::useShader(int shaderIndex)
+    {
+        this->activeShaderIndex = shaderIndex;
+        glUseProgram(this->shaders.at(shaderIndex).id);
+    }
+
+    void GPU::setShaderBool(const std::string &name, bool value) const
+    {
+        glUniform1i(glGetUniformLocation(
+            this->shaders.at(this->activeShaderIndex).id, 
+            name.c_str()), 
+            (int)value);
+    }
+
+    void GPU::setShaderInt(const std::string &name, int value) const
+    {
+        glUniform1i(glGetUniformLocation(
+            this->shaders.at(this->activeShaderIndex).id, 
+            name.c_str()), 
+            value);
+    }
+
+    void GPU::setShaderFloat(const std::string &name, float value) const
+    {
+        glUniform1f(glGetUniformLocation(
+            this->shaders.at(this->activeShaderIndex).id, 
+            name.c_str()), 
+            value);
+    }
+
+    void GPU::setShaderMat4(const std::string &name, glm::mat4 value) const
+    {
+        glUniformMatrix4fv(glGetUniformLocation(
+            this->shaders.at(this->activeShaderIndex).id, 
+            name.c_str()), 
+            1,
+            GL_FALSE, glm::value_ptr(value));
+    }
+
+
+    void GPU::useMeshRenderable(int meshRenderableIndex)
+    {
+        this->activeMeshRenderableIndex = meshRenderableIndex;
+        glBindVertexArray(this->meshRenderables.at(meshRenderableIndex).VAO);
+    }
+
+    void GPU::useTexture(int textureIndex)
+    {
+        this->activeTextureIndex = textureIndex;
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, this->textures.at(textureIndex).id);
+        this->setShaderInt("texture1", 0);
+    }
+
+    void GPU::drawMeshRenderable()
+    {
+        //std::cout << "GPUATI: " << this->activeTextureIndex << "\n";
+        glDrawElements(GL_TRIANGLES, this->meshRenderables.at(this->activeMeshRenderableIndex).indiceCount, GL_UNSIGNED_INT, 0);
     }
 
 }

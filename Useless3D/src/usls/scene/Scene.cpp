@@ -60,27 +60,74 @@ namespace usls
 
     void Scene::draw()
     {
+        GPU& gpu = App::get().getGPU().value();
+
+        //int i = 0;
+        //for (auto& mt : gpu.getTextures())
+        //{
+        //    std::cout << "i:" << i << " " << mt.path << "\n";
+        //    i++;
+        //}
+
         for (auto& s : this->stages)
         {
-            s.printRenderCommands();
+            //s.printRenderCommands();
 
-            //int activeShader = -1;
-            //int activeMesh = -1;
-            //int activeTexture = -1;
+            
 
-            //for (auto& rc : s.getRenderCommands().value())
-            //{
-            //    if (rc.getShaderIndex() != activeShader)
-            //    {
-            //        activeShader = rc.getShaderIndex();
+            // should always have a camera if we've made it this far
+            s.getCamera()->update();
 
-            //    }
-            //}
+
+            for (auto& rco : s.getRenderCommandsOrder().value())
+            {
+                RenderCommand& rc = s.getRenderCommand(rco);
+
+                if (rc.getShaderIndex() != gpu.getActiveShaderIndex())
+                {
+                    gpu.useShader(rc.getShaderIndex());
+                }
+
+                if (rc.getMeshIndex() != gpu.getActiveMeshRenderableIndex())
+                {
+                    gpu.useMeshRenderable(rc.getMeshIndex());
+                }
+
+                if (rc.getTextureIndex() != gpu.getActiveTextureIndex())
+                {
+                    gpu.useTexture(rc.getTextureIndex());
+                }
+
+                //std::cout << "S:" << gpu.getActiveShaderIndex() << " M:" << gpu.getActiveMeshRenderableIndex() << " T:" << gpu.getActiveTextureIndex() << "\n";
+
+                // gpu state has been set, now draw all actors which use this gpu state
+                for (auto& ai : rc.getActorIndexes())
+                {
+                    Actor& a = s.getActor(ai);
+
+                    //std::cout << "AS:" << a.getShaderIndex().value() << " AM:" << App::get().getScene()->getMesh(a.getMeshIndex().value()).getMeshRenderableIndex().value() << " AT:" << a.getTextureIndex().value() << "\n";
+
+                    if (!a.isDeleted())
+                    {
+                        gpu.setShaderMat4("mvp", 
+                            s.getCamera()->getProjectionMatrix() * 
+                            s.getCamera()->getViewMatrix() * 
+                            a.getTransform().getMatrix());
+
+                        gpu.drawMeshRenderable();
+
+                    }
+
+                }
+
+            }
+
+            
             
         }
 
 
-        std::cin.get();
+        //std::cin.get();
     }
 
 }

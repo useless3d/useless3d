@@ -39,13 +39,15 @@ namespace usls
         void                addActor(Actor a);
         void                removeActor(std::string name);
         void                removeActor(int index);
-        Actor*              getActor(int index);
-        Actor*              getActor(std::string name);
+        Actor&              getActor(int index);
+        Actor&              getActor(std::string name);
         const unsigned int  getActorSize() const;
 
         void                printRenderCommands();
-        const std::optional<std::vector<RenderCommand>>& getRenderCommands() const;
+        RenderCommand& getRenderCommand(int index);
+        const std::optional<std::vector<int>>& getRenderCommandsOrder() const;
 
+        std::optional<Camera>& getCamera();
 
         bool                hasActorWithName(std::string name);
         void                setActorContainerSize(unsigned int size);
@@ -53,6 +55,7 @@ namespace usls
         void                hide();
         void                addPerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov);
         void                addOrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale);
+        
 
 
     };

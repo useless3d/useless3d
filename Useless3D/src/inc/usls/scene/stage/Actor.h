@@ -36,6 +36,9 @@ namespace usls
         void                            addRenderCommand(std::pair<int, int> cmd);
         std::pair<int, int>&            getRenderCommand();
         void                            setDeleted(bool d);
+        bool                            isDeleted();
+
+        const Transform&                getTransform() const;
 
     };
 }

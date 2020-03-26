@@ -166,7 +166,6 @@
     <ClCompile Include="src\usls\scene\mesh\Mesh.cpp" />
     <ClCompile Include="src\usls\scene\stage\Actor.cpp" />
     <ClCompile Include="src\usls\scene\Scene.cpp" />
-    <ClCompile Include="src\usls\scene\Shader.cpp" />
     <ClCompile Include="src\usls\scene\stage\RenderCommand.cpp" />
     <ClCompile Include="src\usls\scene\stage\Stage.cpp" />
     <ClCompile Include="src\usls\scene\stage\Transform.cpp" />

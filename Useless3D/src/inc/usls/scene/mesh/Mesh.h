@@ -29,6 +29,7 @@ namespace usls
         Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices);
 
         void                                setMeshRenderableIndex(int index);
+        const std::optional<int>&           getMeshRenderableIndex() const;
 
         const std::string                   getName() const;
         const std::vector<MeshVertex>&		getVertices() const;

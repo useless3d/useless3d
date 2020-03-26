@@ -42,8 +42,8 @@ namespace usls
 
         glm::vec3               getPosition();
 
-        void                    setPosition(glm::vec3 p);
-        void                    setLookAt(glm::vec3 la);
+        void                    setPosition(float x, float y, float z);
+        void                    setLookAt(float x, float y, float z);
     
 
     };

@@ -42,14 +42,14 @@ namespace usls
         return this->projectionMatrix;
     }
 
-    void Camera::setPosition(glm::vec3 p)
+    void Camera::setPosition(float x, float y, float z)
     {
-        this->position = p;
+        this->position = glm::vec3(x, y, z);
     }
 
-    void Camera::setLookAt(glm::vec3 la)
+    void Camera::setLookAt(float x, float y, float z)
     {
-        this->lookAt = la;
+        this->lookAt = glm::vec3(x, y, z);
     }
 
     glm::vec3 Camera::getPosition()

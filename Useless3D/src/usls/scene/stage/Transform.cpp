@@ -55,7 +55,7 @@ namespace usls
         return this->scale;
     }
 
-    glm::mat4 Transform::getMatrix()
+    const glm::mat4 Transform::getMatrix() const
     {
         glm::mat4 m = glm::mat4(1.0f);
         m = glm::translate(m, this->translation);

@@ -43,4 +43,9 @@ namespace usls
         return this->meshRenderableIndex.has_value();
     }
 
+    const std::optional<int>& Mesh::getMeshRenderableIndex() const
+    {
+        return this->meshRenderableIndex;
+    }
+
 }

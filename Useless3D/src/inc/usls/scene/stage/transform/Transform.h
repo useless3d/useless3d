@@ -22,7 +22,7 @@ namespace usls
         glm::vec3   getTranslation();
         Rotation    getRotation();
         glm::vec3   getScale();
-        glm::mat4   getMatrix();
+        const glm::mat4   getMatrix() const;
         void        print();
     };
 }
