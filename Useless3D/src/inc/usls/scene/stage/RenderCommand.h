@@ -24,6 +24,6 @@ namespace usls
         const std::vector<int>&   getActorIndexes() const;
 
         int                 addActorIndex(int actorIndex);
-        void                removeActorIndex(int actorSlot);
+        void                freeActorIndex(int actorSlot);
     };
 }

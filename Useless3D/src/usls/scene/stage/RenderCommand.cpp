@@ -29,7 +29,7 @@ namespace usls
         return slotIndex;
     }
 
-    void RenderCommand::removeActorIndex(int actorSlot)
+    void RenderCommand::freeActorIndex(int actorSlot)
     {
         //this->actorIndexes.at(actorSlot) = -1;
         this->freeSlots.push_back(actorSlot);

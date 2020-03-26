@@ -175,7 +175,8 @@ namespace usls
         }
     }
 
-    Actor& Stage::getActor(int index) {
+    Actor& Stage::getActor(int index) 
+    {
         return this->actors.at(index);
     }
 
@@ -195,18 +196,18 @@ namespace usls
     {
         Actor& a = this->actors.at(index);
 
-        // remove actor from render command
+        // free actor slot in render command
         if (this->renderCommands)
         {
-            this->renderCommands.value().at(a.getRenderCommand().first).removeActorIndex(a.getRenderCommand().second);
+            this->renderCommands.value().at(a.getRenderCommand().first).freeActorIndex(a.getRenderCommand().second);
         }
 
         a.setDeleted(true);
         this->actorFreeSlots.push_back(index);
     }
 
-    int Stage::addRenderCommand(RenderCommand rc) {
-
+    int Stage::addRenderCommand(RenderCommand rc) 
+    {
         this->renderCommands->push_back(rc);
         int renderCommandIndex = this->renderCommands->size() - 1;
 
@@ -215,14 +216,13 @@ namespace usls
 
         std::vector<std::pair<int, int>> toSort;
 
-        for (unsigned int i = 0; i < this->renderCommands->size(); i++) {
-
+        for (unsigned int i = 0; i < this->renderCommands->size(); i++) 
+        {
             std::string cmdString = std::to_string(this->renderCommands->at(i).getShaderIndex()) +
                 std::to_string(this->renderCommands->at(i).getMeshIndex()) +
                 std::to_string(this->renderCommands->at(i).getTextureIndex());
 
             toSort.push_back(std::pair<int, int>(i, std::stoi(cmdString)));
-
         }
 
         std::sort(toSort.begin(), toSort.end(), [](auto &left, auto &right) {
@@ -231,7 +231,8 @@ namespace usls
 
         this->renderCommandsOrder->clear();
 
-        for (auto& p : toSort) {
+        for (auto& p : toSort) 
+        {
             this->renderCommandsOrder->push_back(p.first);
         }
 
@@ -272,17 +273,21 @@ namespace usls
 
         std::cout << "RenderCommands\n";
         std::cout << "----------------------------------\n";
-        for (auto& rc : this->renderCommands.value()) {
+        for (auto& rc : this->renderCommands.value()) 
+        {
             std::cout << "shaderIndex:" << rc.getShaderIndex() << " meshIndex:" << rc.getMeshIndex() << " textureIndex:" << rc.getTextureIndex() << "\n";
             std::cout << "actors:";
-            for (auto& a : rc.getActorIndexes()) {
+            for (auto& a : rc.getActorIndexes()) 
+            {
                 //std::cout << a << ",";
-                if (a != -1) {
+                if (a != -1) 
+                {
                     std::cout << this->actors.at(a).getName() << ",";
                 }
             }
             std::cout << "\norder:";
-            for (auto& o : this->renderCommandsOrder.value()) {
+            for (auto& o : this->renderCommandsOrder.value()) 
+            {
                 std::cout << o << ",";
             }
             std::cout << "\n------------------------------\n";
