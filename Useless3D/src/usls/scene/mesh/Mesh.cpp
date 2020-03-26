@@ -18,9 +18,9 @@ namespace usls
         
     }
 
-    void Mesh::setRenderable(MeshRenderable mr)
+    void Mesh::setMeshRenderableIndex(int index)
     {
-        this->renderable = mr;
+        this->meshRenderableIndex = index;
     }
 
     const std::vector<MeshVertex>& Mesh::getVertices() const
@@ -40,7 +40,7 @@ namespace usls
 
     const bool Mesh::isRenderable() const
     {
-        return this->renderable.has_value();
+        return this->meshRenderableIndex.has_value();
     }
 
 }

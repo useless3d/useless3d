@@ -19,13 +19,18 @@ namespace usls
     class GPU
     {
     private:
-        std::string shaderDirectory;
+        std::string                 shaderDirectory;
+        std::vector<Shader>         shaders;
+        std::vector<MeshTexture>    textures;
+        std::vector<MeshRenderable> meshRenderables;
 
     public:
                     GPU(std::string shaderDirectory);
-        int         loadShader(const std::string vertFile, const std::string fragFile);
-        void        loadMesh(Mesh& m);
-        void        loadTexture(MeshTexture& mt);
+        int         loadShader(const std::string name, const std::string vertFile, const std::string fragFile);
+        int         loadMesh(Mesh& m);
+        int         loadTexture(std::string type, std::string path);
+
+        const std::vector<MeshTexture>& getTextures() const;
 
 
     };

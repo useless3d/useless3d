@@ -23,12 +23,12 @@ namespace usls
         std::string                         name;
         std::vector<MeshVertex>	            vertices;
         std::vector<unsigned int>           indices;
-        std::optional<MeshRenderable>       renderable;
+        std::optional<int>                  meshRenderableIndex;
 
     public:
         Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices);
 
-        void                                setRenderable(MeshRenderable mr);
+        void                                setMeshRenderableIndex(int index);
 
         const std::string                   getName() const;
         const std::vector<MeshVertex>&		getVertices() const;

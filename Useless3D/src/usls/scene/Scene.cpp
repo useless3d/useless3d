@@ -14,18 +14,16 @@ namespace usls
         if (!this->headless)
         {
             // initialize the default shader
-            unsigned int shaderProgramId = App::get().getGPU()->loadShader(
+            App::get().getGPU()->loadShader(
+                "default",
                 App::get().config.DEFAULT_VERTEX_SHADER, 
                 App::get().config.DEFAULT_FRAGMENT_SHADER);
-
-            this->shaders.push_back(Shader("default", shaderProgramId));
         }
     }
 
-    void Scene::addShader(std::string name, std::string vertName, std::string fragName)
+    int Scene::addShader(std::string name, std::string vertName, std::string fragName)
     {
-        unsigned int shaderProgramId = App::get().getGPU()->loadShader(vertName, fragName);
-        this->shaders.push_back(Shader(name, shaderProgramId));
+        return App::get().getGPU()->loadShader(name, vertName, fragName);
     }
 
     int Scene::addStage()
@@ -44,13 +42,12 @@ namespace usls
         return this->meshes;
     }
 
-    const std::vector<MeshTexture>& Scene::getTextures() const
-    {
-        return this->textures;
-    }
-
     unsigned int Scene::addMesh(Mesh m)
     {
+        if (!this->headless)
+        {
+            m.setMeshRenderableIndex(App::get().getGPU()->loadMesh(m)); // Since this is not headless mode, send mesh to the GPU
+        }
         this->meshes.push_back(m);
         return this->meshes.size() - 1;
     }
@@ -60,40 +57,30 @@ namespace usls
         return this->meshes.at(index);
     }
 
-    MeshTexture& Scene::getTexture(unsigned int index)
-    {
-        return this->textures.at(index);
-    }
-
-    unsigned int Scene::addTexture(MeshTexture t)
-    {
-        this->textures.push_back(t);
-        return this->textures.size() - 1;
-    }
 
     void Scene::draw()
     {
         for (auto& s : this->stages)
         {
-            //s.printRenderCommands();
+            s.printRenderCommands();
 
-            int activeShader = -1;
-            int activeMesh = -1;
-            int activeTexture = -1;
+            //int activeShader = -1;
+            //int activeMesh = -1;
+            //int activeTexture = -1;
 
-            for (auto& rc : s.getRenderCommands().value())
-            {
-                if (rc.getShaderIndex() != activeShader)
-                {
-                    activeShader = rc.getShaderIndex();
+            //for (auto& rc : s.getRenderCommands().value())
+            //{
+            //    if (rc.getShaderIndex() != activeShader)
+            //    {
+            //        activeShader = rc.getShaderIndex();
 
-                }
-            }
+            //    }
+            //}
             
         }
 
 
-        //std::cin.get();
+        std::cin.get();
     }
 
 }

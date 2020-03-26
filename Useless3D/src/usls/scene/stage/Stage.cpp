@@ -71,7 +71,7 @@ namespace usls
     {
         if (!this->headless)
         {
-            this->loadActors(filename, 0);
+            this->loadActors(filename, 0); // default shader is always index 0
             return;
         }
 
@@ -138,8 +138,6 @@ namespace usls
             actor->getShaderIndex().has_value() && 
             actor->getMeshIndex().has_value()) // If we are not in headless mode, AND this actor has a shader and mesh
         {
-            // FAILING HERE BECAUSE ACTORS ARE NOT GUARUNTEED TO HAVE A SHADER/MESH/TEXTURE
-
             int textureId = actor->getTextureIndex().has_value() ? actor->getTextureIndex().value() : -1;
 
             // Search the existing render commands to see if one exists for the given criteria
@@ -153,12 +151,12 @@ namespace usls
             }
 
             // Add this actor's slot index to the actorIndexes container of it's RenderCommand
-            int indexOfActorInRenderCommandActorIndexes = this->renderCommands->at(renderCommandIndex).addActorIndex(slotIndex);
+            int indexOfActorInRenderCommand = this->renderCommands->at(renderCommandIndex).addActorIndex(slotIndex);
 
             // Now add the renderCommandIndex AND indexOfActorInRenderCommandActorIndexes to the actor's 
             // std::optional<std::pair<int, int>> renderCommand member, which is used to quickly remove the 
             // actor from the render command if it is ever removed from the stage
-            actor->addRenderCommand(std::pair<int, int>(renderCommandIndex, indexOfActorInRenderCommandActorIndexes));
+            actor->addRenderCommand(std::pair<int, int>(renderCommandIndex, indexOfActorInRenderCommand));
 
         }
     }

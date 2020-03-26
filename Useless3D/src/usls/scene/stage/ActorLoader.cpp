@@ -211,16 +211,11 @@ namespace usls
             }
             meshIndex++;
         }
-        // ...otherwise create a new mesh, save it within meshes and return the new index
+        // ...otherwise create a new mesh, save it within meshes and save the new index
         if (this->currentMeshIndex == -1)
         {
             // Did not locate an existing mesh, so create one
             this->currentMeshIndex = App::get().getScene()->addMesh(Mesh(mesh->mName.C_Str(), vertices, indices));
-            if (!this->headless)
-            {
-                // Since this is not headless mode, send mesh to the GPU
-                App::get().getGPU()->loadMesh(App::get().getScene()->getMesh(this->currentMeshIndex));
-            }
         }
 
 
@@ -239,7 +234,7 @@ namespace usls
 
             // determine if the texture already exists, if it does use it's index...
             int meshTextureIndex = 0;
-            for (auto& t : App::get().getScene()->getTextures())
+            for (auto& t : App::get().getGPU()->getTextures())
             {
                 if (t.path == (this->currentAssetDirectory + "/" + str.C_Str()))
                 {
@@ -251,21 +246,9 @@ namespace usls
             // ...otherwise create a new texture
             if (this->currentMeshTextureIndex == -1)
             {
-                MeshTexture texture;
-                texture.type = "diffuse";
-                texture.path = this->currentAssetDirectory + "/";
-                texture.path += str.C_Str();
-
-                this->currentMeshTextureIndex = App::get().getScene()->addTexture(texture);
-
-                // Since this is not headless mode, send texture to the GPU
-                App::get().getGPU()->loadTexture(App::get().getScene()->getTexture(this->currentMeshTextureIndex));
-
+                this->currentMeshTextureIndex = App::get().getGPU()->loadTexture("diffuse", (this->currentAssetDirectory + "/" + str.C_Str()));
             }
         }
-
-        
-
     }
 
     // verify actor name is unique, and if it is not, write to log to notify user that this is happening

@@ -12,7 +12,7 @@ namespace usls
         shaderDirectory(shaderDirectory)
     {}
 
-    int GPU::loadShader(const std::string vertFile, const std::string fragFile)
+    int GPU::loadShader(const std::string name, const std::string vertFile, const std::string fragFile)
     {
         unsigned int id;
 
@@ -114,10 +114,12 @@ namespace usls
         glDeleteShader(vertex);
         glDeleteShader(fragment);
 
+        this->shaders.push_back(Shader(name, id));
+
         return id;
     }
 
-    void GPU::loadMesh(Mesh& m)
+    int GPU::loadMesh(Mesh& m)
     {
         MeshRenderable mr = MeshRenderable();
         mr.indiceCount = m.getIndices().size();
@@ -151,17 +153,22 @@ namespace usls
         // Unbind the vertex array to prevent accidental operations
         glBindVertexArray(0);
 
-        // Assign this MeshRenderable to the mesh m
-        m.setRenderable(mr);
+        this->meshRenderables.push_back(mr);
+
+        return this->meshRenderables.size() - 1;
     }
 
-    void GPU::loadTexture(MeshTexture& mt)
+    int GPU::loadTexture(std::string type, std::string path)
     {
-        glGenTextures(1, &mt.id);
+        MeshTexture texture;
+        texture.type = "diffuse";
+        texture.path = path;
+
+        glGenTextures(1, &texture.id);
 
         int width, height, nrComponents;
         //stbi_set_flip_vertically_on_load(true);
-        unsigned char*	data = stbi_load(mt.path.c_str(), &width, &height, &nrComponents, 0);
+        unsigned char*	data = stbi_load(texture.path.c_str(), &width, &height, &nrComponents, 0);
         if (data) 
         {
             GLenum format;
@@ -172,7 +179,7 @@ namespace usls
             else if (nrComponents == 4)
                 format = GL_RGBA;
 
-            glBindTexture(GL_TEXTURE_2D, mt.id);
+            glBindTexture(GL_TEXTURE_2D, texture.id);
             glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -183,14 +190,23 @@ namespace usls
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             stbi_image_free(data);
+
+            this->textures.push_back(texture);
+
+            return this->textures.size() - 1;
         }
         else
         {
             stbi_image_free(data);
-            std::cout << "Texture failed to load at path: " << mt.path << "\n";
+            std::cout << "Texture failed to load at path: " << texture.path << "\n";
             std::cin.get();
             exit(EXIT_FAILURE);
         }
+    }
+
+    const std::vector<MeshTexture>& GPU::getTextures() const
+    {
+        return this->textures;
     }
 
 }

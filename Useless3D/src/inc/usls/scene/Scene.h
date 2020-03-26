@@ -17,18 +17,15 @@ namespace usls
     {
     private:
         bool                        headless;
-        std::vector<Shader>         shaders;
         std::vector<Stage>          stages;
-        std::vector<Mesh>           meshes;
-        std::vector<MeshTexture>    textures;
+        std::vector<Mesh>           meshes;        
 
-        
 
     protected:
-        void                        addShader(std::string name, std::string vertName, std::string fragName);
+        int                         addShader(std::string name, std::string vertName, std::string fragName);
         int                         addStage();
         Stage&                      getStage(int id);
-        
+      
 
     public:
                                     Scene();
@@ -36,10 +33,6 @@ namespace usls
         const std::vector<Mesh>&    getMeshes() const;
         unsigned int                addMesh(Mesh m);
         Mesh&                       getMesh(unsigned int index);
-
-        const std::vector<MeshTexture>& getTextures() const;
-        unsigned int                addTexture(MeshTexture t);
-        MeshTexture&                getTexture(unsigned int index);
 
         bool                        loaded = false;
         void                        draw();
