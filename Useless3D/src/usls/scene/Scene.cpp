@@ -11,13 +11,12 @@ namespace usls
     Scene::Scene() :
         headless(App::get().config.HEADLESS)
     {
+        this->stages.reserve(10); // can't see ever needing more than 10 stages (naive, but good enough until it's not)
+
         if (!this->headless)
         {
             // initialize the default shader
-            App::get().getGPU()->loadShader(
-                "default",
-                App::get().config.DEFAULT_VERTEX_SHADER, 
-                App::get().config.DEFAULT_FRAGMENT_SHADER);
+            this->addShader("default", App::get().config.DEFAULT_VERTEX_SHADER, App::get().config.DEFAULT_FRAGMENT_SHADER);
         }
     }
 
