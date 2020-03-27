@@ -19,11 +19,7 @@ namespace usls
         currentStage(stage),
         currentActorFile(actorFile),
         currentAssetDirectory(actorFile.substr(0, actorFile.find_last_of('/'))) 
-    {
-    
-
-    
-    };
+    {}
 
     void ActorLoader::execute()
     {
@@ -234,7 +230,7 @@ namespace usls
 
             // determine if the texture already exists, if it does use it's index...
             int meshTextureIndex = 0;
-            for (auto& t : App::get().getGPU()->getTextures())
+            for (auto& t : App::get().getGPU()->getTextures()) // ignore intellisense error for getTextures()
             {
                 if (t.path == (this->currentAssetDirectory + "/" + str.C_Str()))
                 {
