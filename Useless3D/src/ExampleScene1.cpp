@@ -24,18 +24,11 @@ void ExampleScene1::load()
     //});
 
 
-
-
-    
     // Create a second stage that will be rendered on top of the previous stage
-
-    //this->addOrthographicCamera("camera2", true, -0.1f, 250.0f, 0.665f);
-    //this->addStage("stage2", "camera2");
-    //this->addActor("stage2", "data/models/bin/stages/005/005.fbx");
-
-
-    //this->addActor("stage2", "data/models/bin/stages/005/005.fbx") // default shader
-    //this->addActor("stage2", "data/models/bin/stages/005/005.fbx", 3) // use shader with index name for all objects created from this file
+    int secondStageId = this->addStage();
+    auto& stage2 = this->getStage(secondStageId);
+    stage2.addOrthographicCamera(true, -0.1f, 250.0f, 0.665f); // add a camera to the stage
+    stage2.loadActors("data/models/bin/stages/005/005.fbx");
     
 
 }
@@ -45,8 +38,24 @@ void ExampleScene1::loop()
 {
     // Application logic, move things around, swap scenes, etc
 
-    if (usls::App::get().getInputState().keySpace) {
+    if (usls::App::get().getInputState().keySpace) 
+    {
         this->end();
+    }
+
+    if (usls::App::get().getInputState().keyD) 
+    {
+        this->getStage(0).removeActor("crate.010");
+        this->getStage(0).removeActor("crate.011");
+        this->getStage(0).removeActor("crate.012");
+        this->getStage(0).removeActor("crate.013");
+    }
+
+    if (usls::App::get().getInputState().keyA)
+    {
+        auto actorCopy = this->getStage(0).getActor("crate.010");
+        actorCopy.setDeleted(false);
+        this->getStage(0).addActor(actorCopy);
     }
 
 }
@@ -55,5 +64,5 @@ void ExampleScene1::end()
 {
     // What to do when this scene is over
 
-    //usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
+    usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
 }

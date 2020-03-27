@@ -28,7 +28,7 @@ namespace usls
             this->window = std::move(w);
 
             this->gpu = GPU(this->config.SHADER_FILE_PATH);
-
+            this->gpu->loadShader("default", this->config.DEFAULT_VERTEX_SHADER, this->config.DEFAULT_FRAGMENT_SHADER);
         }
     }
     
@@ -142,16 +142,12 @@ namespace usls
                 // perform draw (render) logic with (eventually) automatic interpolation of stage actors
                 if (!this->config.HEADLESS)
                 {
-                    glEnable(GL_DEPTH_TEST);
-                    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Draw only lines for debugging
+                    this->gpu->enableDepthTest();
+                    //this->gpu->drawLinesOnly();
+                    this->gpu->clearBuffers(0.2f, 0.3f, 0.3f, 1.0f);
 
-                    // Select a color to clear the screen with and clear screen
-                    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-                    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-                    if (this->scene)
+                    if (this->scene && this->scene.value()->loaded)
                     {
-                        //std::cout << "scene draw\n";
                         this->scene.value()->draw();
                     }
 

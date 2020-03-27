@@ -25,6 +25,10 @@ namespace usls
     public:
                     GPU(std::string shaderDirectory);
 
+        void        enableDepthTest();
+        void        clearBuffers(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 0.0f);
+        void        drawLinesOnly();
+
         const int   getActiveShaderIndex() const;
         const int   getActiveMeshRenderableIndex() const;
         const int   getActiveTextureIndex() const;
@@ -33,8 +37,9 @@ namespace usls
         int         loadMesh(Mesh& m);
         int         loadTexture(std::string type, std::string path);
 
-        void        clearTexture();
+        void        useTexture(int textureIndex);
         const std::vector<MeshTexture>& getTextures() const;
+        void        clearTexture();
         
         void        useShader(int shaderIndex);
         void        setShaderBool(const std::string &name, bool value) const;
@@ -43,9 +48,9 @@ namespace usls
         void        setShaderMat4(const std::string &name, glm::mat4 value) const;
 
         void        useMeshRenderable(int meshRenderableIndex);
-        void        useTexture(int textureIndex);
-
         void        drawMeshRenderable();
+
+        void        wipe();
 
         
 

@@ -12,12 +12,12 @@ namespace usls
         headless(App::get().config.HEADLESS)
     {
         this->stages.reserve(10); // can't see ever needing more than 10 stages (naive, but good enough until it's not)
+    }
 
-        if (!this->headless)
-        {
-            // initialize the default shader
-            this->addShader("default", App::get().config.DEFAULT_VERTEX_SHADER, App::get().config.DEFAULT_FRAGMENT_SHADER);
-        }
+    Scene::~Scene()
+    {
+        std::cout << "Scene Destructor Ran\n";
+        App::get().getGPU()->wipe();
     }
 
     int Scene::addShader(std::string name, std::string vertName, std::string fragName)

@@ -282,18 +282,79 @@ namespace usls
         glBindVertexArray(this->meshRenderables.at(meshRenderableIndex).VAO);
     }
 
+    void GPU::clearTexture()
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        this->activeTextureIndex = -1;
+    }
+
     void GPU::useTexture(int textureIndex)
     {
-        this->activeTextureIndex = textureIndex;
+        if (textureIndex == -1)
+        {
+            this->clearTexture();
+            return;
+        }
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this->textures.at(textureIndex).id);
         this->setShaderInt("texture1", 0);
+
+        this->activeTextureIndex = textureIndex;
     }
 
     void GPU::drawMeshRenderable()
     {
-        //std::cout << "GPUATI: " << this->activeTextureIndex << "\n";
         glDrawElements(GL_TRIANGLES, this->meshRenderables.at(this->activeMeshRenderableIndex).indiceCount, GL_UNSIGNED_INT, 0);
+    }
+
+    void GPU::enableDepthTest()
+    {
+        glEnable(GL_DEPTH_TEST);
+    }
+
+    void GPU::clearBuffers(float r, float g, float b, float a)
+    {
+        glClearColor(r, g, b, a);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void GPU::drawLinesOnly()
+    {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+
+    void GPU::wipe()
+    {
+        for (auto& mr : this->meshRenderables)
+        {
+            glDeleteVertexArrays(1, &mr.VAO);
+            glDeleteBuffers(1, &mr.VBO);
+            glDeleteBuffers(1, &mr.EBO);
+        }
+
+        for (auto& t : this->textures)
+        {
+            glDeleteTextures(1, &t.id);
+        }
+
+        for (auto& s : this->shaders)
+        {
+            if (s.name != "default")
+            {
+                glDeleteProgram(s.id);
+            }
+        }
+
+        this->shaders.resize(1); // wipe all shaders except default
+        this->meshRenderables.clear();
+        this->textures.clear();
+
+        this->activeShaderIndex = -1;
+        this->activeMeshRenderableIndex = -1;
+        this->activeTextureIndex = -1;
+
     }
 
 }

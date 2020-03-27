@@ -29,6 +29,7 @@ namespace usls
 
     public:
                                     Scene();
+                                    ~Scene();
 
         const std::vector<Mesh>&    getMeshes() const;
         unsigned int                addMesh(Mesh m);

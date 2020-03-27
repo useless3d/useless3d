@@ -8,12 +8,12 @@
 
 void BootSceneHeadless::load()
 {
+    // Add a stage. The value returned will be the index value of the stage in the scene.
+    int stageId = this->addStage(); // create a stage and retrieve it's index
+    auto& stage = this->getStage(stageId);
+    stage.loadActors("data/models/bin/stages/004/004.fbx"); // add actors to this stage, use default shader for all meshes in this file
 
-    //this->addStage("stage1");
-    //this->addActor("stage1", "data/models/bin/stages/005/005.fbx");
-
-    //std::cout << "Props:" << this->stages.back()->getPropCount() << "\n";
-    //std::cout << "Meshes:" << this->stages.back()->getMeshCount() << "\n";
+    std::cout << "Loaded Actors:" << stage.getActorSize();
 
 }
 
