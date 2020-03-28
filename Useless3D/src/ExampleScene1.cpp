@@ -10,23 +10,23 @@
 
 void ExampleScene1::load()
 {
+    // Add an additional shader program
+    int myShaderIndex = this->addShader("test1", "test1.vert", "test1.frag");
+
     // Add a stage. The value returned will be the index value of the stage in the scene.
-    int stageId = this->addStage(); // create a stage and retrieve it's index
-    auto& stage = this->getStage(stageId);
+    auto& stage = this->addStage(); // create a stage and retrieve it's index
     stage.addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f); // add a camera to the stage
     stage.getCamera()->setPosition(0.0f, 4.0f, 8.0f);
     stage.getCamera()->setLookAt(0.0f, 0.0f, 0.0f);
-    stage.loadActors("data/models/bin/stages/004/004.fbx"); // add actors to this stage, use default shader for all meshes in this file
-    //this->getStage(stageId).loadActors("data/models/bin/stages/005/005.fbx", 3); // add actors to this stage, use given shader id for all meshis in this file
-    //this->getStage(stageId).loadActors("data/models/bin/stages/005/005.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
-    //    { 1,{ "obj1", "anotherObject2", "someName" } },
-    //    { 2,{ "obj4", "obj5", "obj6", "etc" } }
-    //});
+    //stage.loadActors("data/models/bin/stages/004/004.fbx"); // add actors to this stage, use default shader for all meshes in this file
+    //stage.loadActors("data/models/bin/stages/004/004.fbx", myShaderIndex); // add actors to this stage, use given shader id for all meshes in this file
+    stage.loadActors("data/models/bin/stages/004/004.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
+        { myShaderIndex, { "crate.01", "crate.02" } }
+    });
 
 
     // Create a second stage that will be rendered on top of the previous stage
-    int secondStageId = this->addStage();
-    auto& stage2 = this->getStage(secondStageId);
+    auto& stage2 = this->addStage();
     stage2.addOrthographicCamera(true, -0.1f, 250.0f, 0.665f); // add a camera to the stage
     stage2.loadActors("data/models/bin/stages/005/005.fbx");
     
@@ -37,32 +37,29 @@ void ExampleScene1::load()
 void ExampleScene1::loop()
 {
     // Application logic, move things around, swap scenes, etc
+    auto& stage = this->getStage(0);
 
     if (usls::App::get().getInputState().keySpace) 
     {
-        this->end();
+        usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
     }
 
     if (usls::App::get().getInputState().keyD) 
     {
-        this->getStage(0).removeActor("crate.010");
-        this->getStage(0).removeActor("crate.011");
-        this->getStage(0).removeActor("crate.012");
-        this->getStage(0).removeActor("crate.013");
+        stage.removeActor("crate.010");
+        stage.removeActor("crate.011");
+        stage.removeActor("crate.012");
+        stage.removeActor("crate.013");
     }
 
     if (usls::App::get().getInputState().keyA)
     {
-        auto actorCopy = this->getStage(0).getActor("crate.010");
-        actorCopy.setDeleted(false);
-        this->getStage(0).addActor(actorCopy);
+        auto actorCopy = stage.getActor("crate");
+        actorCopy.getTransform().setTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+        actorCopy.getTransform().setScale(glm::vec3(2.0f, 2.0f, 2.0f));
+        stage.addActor(actorCopy);
+
+        stage.printRenderCommands();
     }
 
-}
-
-void ExampleScene1::end()
-{
-    // What to do when this scene is over
-
-    usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
 }

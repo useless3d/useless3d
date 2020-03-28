@@ -34,6 +34,7 @@ namespace usls
         double			    accumulator = 0.0;        
 
         std::optional<std::unique_ptr<Scene>> scene;
+        
         std::optional<GPU>  gpu;
     
     public:
@@ -42,6 +43,7 @@ namespace usls
 
                             App(App const&) = delete;
         void                operator=(App const&) = delete;
+
 
         void                setScene(std::unique_ptr<Scene> scene);
         Scene*              getScene();

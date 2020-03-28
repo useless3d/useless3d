@@ -34,11 +34,11 @@ namespace usls
         const std::optional<int>&       getMeshIndex() const;
         const std::optional<int>&       getTextureIndex() const;
         void                            addRenderCommand(std::pair<int, int> cmd);
-        std::pair<int, int>&            getRenderCommand();
+        const std::pair<int, int>&      getRenderCommand() const;
         void                            setDeleted(bool d);
-        bool                            isDeleted();
+        const bool                      isDeleted() const;
 
-        const Transform&                getTransform() const;
+        Transform&                      getTransform();
 
     };
 }

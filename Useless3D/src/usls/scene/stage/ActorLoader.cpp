@@ -7,13 +7,6 @@
 
 namespace usls
 {
-    /*
-        Possibly abusing the App singleton in this class's implementation. Just making
-        note of that for a possible future refactor. The way this class is used in the
-        Stage class to load actors, (created on stack, used, then destroyed) I'm not
-        overly worried about it though.
-    */
-
     ActorLoader::ActorLoader(Stage* stage, std::string actorFile) :
         headless(App::get().config.HEADLESS),
         currentStage(stage),

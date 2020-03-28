@@ -11,7 +11,6 @@ public:
 
     void    load();
     void    loop();
-    void    end();
     
 
 };

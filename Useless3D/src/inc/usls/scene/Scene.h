@@ -16,31 +16,31 @@ namespace usls
     class Scene
     {
     private:
-        bool                        headless;
+        const bool                  headless;
         std::vector<Stage>          stages;
         std::vector<Mesh>           meshes;        
 
 
     protected:
         int                         addShader(std::string name, std::string vertName, std::string fragName);
-        int                         addStage();
-        Stage&                      getStage(int id);
+        Stage&                      addStage();
+        Stage&                      getStage(int index);
       
 
     public:
                                     Scene();
                                     ~Scene();
 
+        bool                        loaded;
         const std::vector<Mesh>&    getMeshes() const;
         unsigned int                addMesh(Mesh m);
         Mesh&                       getMesh(unsigned int index);
 
-        bool                        loaded = false;
+        
         void                        draw();
 
         virtual void                load() = 0;
         virtual void                loop() = 0;
-        virtual void                end() = 0;
 
     };
 

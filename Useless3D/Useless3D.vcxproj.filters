@@ -157,5 +157,7 @@
     <None Include="src\config.ini" />
     <None Include="src\usls\scene\shaders\default.frag" />
     <None Include="src\usls\scene\shaders\default.vert" />
+    <None Include="src\usls\scene\shaders\test1.vert" />
+    <None Include="src\usls\scene\shaders\test1.frag" />
   </ItemGroup>
 </Project>

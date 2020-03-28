@@ -34,12 +34,12 @@ namespace usls
         textureIndex(textureIndex)
     {}
 
-    const Transform& Actor::getTransform() const
+    Transform& Actor::getTransform()
     {
         return this->transform;
     }
 
-    bool Actor::isDeleted()
+    const bool Actor::isDeleted() const
     {
         return this->deleted;
     }
@@ -49,7 +49,7 @@ namespace usls
         this->deleted = d;
     }
 
-    std::pair<int, int>& Actor::getRenderCommand()
+    const std::pair<int, int>& Actor::getRenderCommand() const
     {
         return this->renderCommand.value();
     }

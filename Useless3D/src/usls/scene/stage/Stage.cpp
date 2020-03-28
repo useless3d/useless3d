@@ -254,7 +254,7 @@ namespace usls
         return -1;
     }
 
-    bool Stage::hasActorWithName(std::string name)
+    const bool Stage::hasActorWithName(std::string name) const
     {
         for (auto& a : this->actors)
         {
@@ -266,7 +266,7 @@ namespace usls
         return false;
     }
 
-    void Stage::printRenderCommands() 
+    void Stage::printRenderCommands() const
     {
 
         //std::cout << this->renderCommands.value().size();

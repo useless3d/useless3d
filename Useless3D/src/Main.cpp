@@ -11,8 +11,7 @@ int main()
     usls::App::init();
 
     // Load the initial Scene
-    std::unique_ptr<usls::Scene> scene = std::make_unique<BootScene>();
-    usls::App::get().setScene(std::move(scene));
+    usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
 
     // Execute the program, passing control to the App execute loop
     usls::App::get().execute();

@@ -31,7 +31,12 @@ namespace usls
             this->gpu->loadShader("default", this->config.DEFAULT_VERTEX_SHADER, this->config.DEFAULT_FRAGMENT_SHADER);
         }
     }
-    
+
+    void App::setScene(std::unique_ptr<Scene> scene)
+    {
+        this->scene = std::move(scene);
+    }
+
     Scene* App::getScene()
     {
         return this->scene.value().get();
@@ -60,11 +65,6 @@ namespace usls
     const InputState& App::getInputState() const
     {
         return this->window.value()->getInputState();
-    }
-
-    void App::setScene(std::unique_ptr<Scene> scene)
-    {
-        this->scene = std::move(scene);
     }
 
     void App::clearScene()
@@ -129,7 +129,7 @@ namespace usls
                         this->window.value()->update();
                     }
                     
-                    if (this->scene) 
+                    if (this->scene && this->scene.value()->loaded) 
                     {
                         // call user defined loop method (where logic is performed (ie movement and such))
                         this->scene.value()->loop();

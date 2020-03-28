@@ -9,14 +9,15 @@
 namespace usls
 {
     Scene::Scene() :
-        headless(App::get().config.HEADLESS)
+        headless(App::get().config.HEADLESS),
+        loaded(false)
     {
         this->stages.reserve(10); // can't see ever needing more than 10 stages (naive, but good enough until it's not)
     }
 
     Scene::~Scene()
     {
-        std::cout << "Scene Destructor Ran\n";
+        //std::cout << "Scene Destructor Ran\n";
         App::get().getGPU()->wipe();
     }
 
@@ -25,15 +26,15 @@ namespace usls
         return App::get().getGPU()->loadShader(name, vertName, fragName);
     }
 
-    int Scene::addStage()
+    Stage& Scene::addStage()
     {
         this->stages.push_back(Stage(this->headless));
-        return this->stages.size() - 1;
+        return this->getStage(this->stages.size() - 1);
     }
 
-    Stage& Scene::getStage(int id)
+    Stage& Scene::getStage(int index)
     {
-        return this->stages.at(id);
+        return this->stages.at(index);
     }
 
     const std::vector<Mesh>& Scene::getMeshes() const
