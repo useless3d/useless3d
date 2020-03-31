@@ -16,9 +16,11 @@ void ExampleScene1::load()
     // Add a stage. The value returned will be the index value of the stage in the scene.
     auto& stage = this->addStage(); // create a stage and retrieve it's index
     stage.addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f); // add a camera to the stage
-    stage.getCamera()->setPosition(0.0f, 4.0f, 8.0f);
+    //stage.getCamera()->setPosition(0.0f, 4.0f, 8.0f);
+    stage.getCamera()->setPosition(0.0f, 10.0f, 22.0f);
     stage.getCamera()->setLookAt(0.0f, 0.0f, 0.0f);
-    stage.loadActors("data/models/bin/stages/004b/004.fbx"); // add actors to this stage, use default shader for all meshes in this file
+    stage.loadActors("data/models/bin/stages/stress/001.fbx"); // add actors to this stage, use default shader for all meshes in this file
+    //stage.loadActors("data/models/bin/stages/004b/004.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //stage.loadActors("data/models/bin/stages/004/004.fbx", myShaderIndex); // add actors to this stage, use given shader id for all meshes in this file
     //stage.loadActors("data/models/bin/stages/004/004.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
     //    { myShaderIndex, { "crate.01", "crate.02" } }
