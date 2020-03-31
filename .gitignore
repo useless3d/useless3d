@@ -3,3 +3,7 @@ bin/x64/Debug/*
 .vs/*
 *.blend1
 data/log.txt
+data/models/bin/stages/stress/*
+!data/models/bin/stages/stress/readme.md
+data/models/src/stages/stress/*
+!data/models/src/stages/stress/readme.md
