@@ -32,9 +32,11 @@ namespace usls
         void			setCallbacks();
 
     public:
-        Window(Window&&) = default;
-        Window(int screenWidth, int screenHeight, bool fullScreen);
-        ~Window();
+                        Window(Window&&) = default;
+                        Window(int screenWidth, int screenHeight, bool fullScreen);
+                        ~Window();
+
+        void            setTitle(std::string title);
         bool			shouldClose();
         void			setToClose();
         void			update();

@@ -77,6 +77,39 @@ namespace usls
         return this->gpu;
     }
 
+    void App::displayAverageFrameTime()
+    {
+        if (this->time() - this->lastDisplayTime >= 1.0 && this->averageFrameTimeArrayFull) 
+        {    
+            this->lastDisplayTime = this->time();
+
+            double average = 0.0;
+            for (auto& v : this->averageFrameTimeArray)
+            {
+                average += v;
+            }
+
+            average = average / 100.0;
+            
+            this->window.value()->setTitle("Average FrameTime: " + std::to_string(average));
+        }
+
+        this->averageFrameTimeArray[this->currentAverageFrameTimeArrayIndex] = this->frameTime;
+
+        if (this->currentAverageFrameTimeArrayIndex == 99)
+        {
+            if (!this->averageFrameTimeArrayFull)
+            {
+                this->averageFrameTimeArrayFull = true;
+            }
+            this->currentAverageFrameTimeArrayIndex = 0;
+
+            return;
+        }
+        
+        this->currentAverageFrameTimeArrayIndex++;
+    }
+
     void App::execute()
     {
         this->deltaTime = 1 / this->config.LOGIC_TICK;
@@ -86,6 +119,8 @@ namespace usls
 
         while (true)
         {
+            this->displayAverageFrameTime();            
+
             if (this->shouldClose || (!this->config.HEADLESS && this->window.value()->shouldClose())) 
             {
                 break;
