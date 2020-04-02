@@ -14,7 +14,7 @@ void BootScene::load()
     // Add a stage. The value returned will be the index value of the stage in the scene.
     auto& stage = this->addStage(); // create a stage
     stage.addOrthographicCamera(true, -0.1f, 250.0f, 0.665f); // add a camera to the stage
-    stage.loadActors("data/models/bin/stages/boot/boot.fbx"); // add actors to this stage, use default shader for all meshes in this file
+    stage.loadActors("data/models/bin/maps/boot/boot.fbx"); // add actors to this stage, use default shader for all meshes in this file
 
 }
 

@@ -91,7 +91,7 @@ namespace usls
 
             average = average / 100.0;
             
-            this->window.value()->setTitle("Average FrameTime: " + std::to_string(average));
+            this->window.value()->setTitle("FrameTime: " + std::to_string(average) + " | FPS: " + std::to_string(1000 / (average * 1000)));
         }
 
         this->averageFrameTimeArray[this->currentAverageFrameTimeArrayIndex] = this->frameTime;
