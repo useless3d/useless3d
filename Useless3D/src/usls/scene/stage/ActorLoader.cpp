@@ -43,7 +43,7 @@ namespace usls
         //    std::cout << "ROOT\n";
         //}
 
-        // If node has more than one mesh, log an error and exit (as I cannot think of a reason
+        // If node has more than one mesh, display an error and exit (as I cannot think of a reason
         // why a node would have more than one mesh at this time, therefore if we ever receive
         // an error here we can re-examine our thought process)
         // Well this answers my question: https://github.com/assimp/assimp/issues/314 however i'm
@@ -58,31 +58,34 @@ namespace usls
 
         std::string actorName = this->generateUniqueActorName(node->mName.C_Str());
 
-        this->processTransformable(node);
-
-        this->currentMeshIndex = -1;
-        this->currentMeshTextureIndex = -1;
-
-        auto actor = Actor(actorName, this->currentTransform);
-
-        if (node->mNumMeshes == 1)
+        if (actorName != "RootNode")
         {
-            this->processMesh(node);
+            this->processTransformable(node);
 
-            actor.setMeshIndex(this->currentMeshIndex);
+            this->currentMeshIndex = -1;
+            this->currentMeshTextureIndex = -1;
 
-            if (!this->headless)
+            auto actor = Actor(actorName, this->currentTransform);
+
+            if (node->mNumMeshes == 1)
             {
-                actor.setShaderIndex(this->findShaderId.value()(actorName));
+                this->processMesh(node);
 
-                if (this->currentMeshTextureIndex != -1)
+                actor.setMeshIndex(this->currentMeshIndex);
+
+                if (!this->headless)
                 {
-                    actor.setTextureIndex(this->currentMeshTextureIndex);
+                    actor.setShaderIndex(this->findShaderId.value()(actorName));
+
+                    if (this->currentMeshTextureIndex != -1)
+                    {
+                        actor.setTextureIndex(this->currentMeshTextureIndex);
+                    }
                 }
             }
+
+            this->currentStage->addActor(actor);
         }
-        
-        this->currentStage->addActor(actor);
 
         // Do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)

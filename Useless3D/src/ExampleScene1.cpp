@@ -29,9 +29,9 @@ void ExampleScene1::load()
 
 
     // Create a second stage that will be rendered on top of the previous stage
-    auto& stage2 = this->addStage();
-    stage2.addOrthographicCamera(true, -0.1f, 250.0f, 0.665f); // add a camera to the stage
-    stage2.loadActors("data/models/bin/maps/005/005.fbx");
+    //auto& stage2 = this->addStage();
+    //stage2.addOrthographicCamera(true, -0.1f, 250.0f, 0.665f); // add a camera to the stage
+    //stage2.loadActors("data/models/bin/maps/005/005.fbx");
     
 
 }
