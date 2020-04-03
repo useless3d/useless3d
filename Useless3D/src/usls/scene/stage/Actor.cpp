@@ -10,29 +10,44 @@ namespace usls
         transform(t) 
     {}
 
-    Actor::Actor(std::string name, Transform t, int meshIndex) :
-        name(name),
-        deleted(false),
-        transform(t),
-        meshIndex(meshIndex) 
-    {}
+    //Actor::Actor(std::string name, Transform t, int meshIndex) :
+    //    name(name),
+    //    deleted(false),
+    //    transform(t),
+    //    meshIndex(meshIndex) 
+    //{}
 
-    Actor::Actor(std::string name, Transform t, int meshIndex, int shaderIndex) :
-        name(name),
-        deleted(false),
-        transform(t),
-        meshIndex(meshIndex), 
-        shaderIndex(shaderIndex)
-    {}
+    //Actor::Actor(std::string name, Transform t, int meshIndex, int shaderIndex) :
+    //    name(name),
+    //    deleted(false),
+    //    transform(t),
+    //    meshIndex(meshIndex), 
+    //    shaderIndex(shaderIndex)
+    //{}
 
-    Actor::Actor(std::string name, Transform t, int meshIndex, int shaderIndex, int textureIndex) :
-        name(name),
-        deleted(false),
-        transform(t),
-        meshIndex(meshIndex),
-        shaderIndex(shaderIndex),
-        textureIndex(textureIndex)
-    {}
+    //Actor::Actor(std::string name, Transform t, int meshIndex, int shaderIndex, int textureIndex) :
+    //    name(name),
+    //    deleted(false),
+    //    transform(t),
+    //    meshIndex(meshIndex),
+    //    shaderIndex(shaderIndex),
+    //    textureIndex(textureIndex)
+    //{}
+
+    void Actor::setMeshIndex(int i)
+    {
+        this->meshIndex = i;
+    }
+
+    void Actor::setShaderIndex(int i)
+    {
+        this->shaderIndex = i;
+    }
+
+    void Actor::setTextureIndex(int i)
+    {
+        this->textureIndex = i;
+    }
 
     Transform& Actor::getTransform()
     {

@@ -25,9 +25,13 @@ namespace usls
 
     public:
         Actor(std::string name, Transform t);
-        Actor(std::string name, Transform t, int meshIndex);
-        Actor(std::string name, Transform t, int meshIndex, int shaderIndex);
-        Actor(std::string name, Transform t, int meshIndex, int shaderIndex, int textureIndex);
+        //Actor(std::string name, Transform t, int meshIndex);
+        //Actor(std::string name, Transform t, int meshIndex, int shaderIndex);
+        //Actor(std::string name, Transform t, int meshIndex, int shaderIndex, int textureIndex);
+
+        void                            setMeshIndex(int i);
+        void                            setShaderIndex(int i);
+        void                            setTextureIndex(int i);
 
         const std::string               getName() const;
         const std::optional<int>&       getShaderIndex() const;

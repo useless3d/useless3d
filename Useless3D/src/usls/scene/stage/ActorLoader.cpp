@@ -63,35 +63,26 @@ namespace usls
         this->currentMeshIndex = -1;
         this->currentMeshTextureIndex = -1;
 
+        auto actor = Actor(actorName, this->currentTransform);
+
         if (node->mNumMeshes == 1)
         {
             this->processMesh(node);
 
-            if (this->headless)
+            actor.setMeshIndex(this->currentMeshIndex);
+
+            if (!this->headless)
             {
-                this->currentStage->addActor(Actor(actorName, this->currentTransform, this->currentMeshIndex));
-            }
-            else
-            {
-                int shaderIndex = this->findShaderId.value()(actorName);
+                actor.setShaderIndex(this->findShaderId.value()(actorName));
 
                 if (this->currentMeshTextureIndex != -1)
                 {
-                    this->currentStage->addActor(Actor(actorName, this->currentTransform, 
-                        this->currentMeshIndex, shaderIndex, this->currentMeshTextureIndex));
-                }
-                else
-                {
-                    this->currentStage->addActor(Actor(actorName, this->currentTransform,
-                        this->currentMeshIndex, shaderIndex));
+                    actor.setTextureIndex(this->currentMeshTextureIndex);
                 }
             }
         }
-        else
-        {
-            // no mesh so this is an empty
-            this->currentStage->addActor(Actor(actorName, this->currentTransform));
-        }
+        
+        this->currentStage->addActor(actor);
 
         // Do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
