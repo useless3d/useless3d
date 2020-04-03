@@ -16,10 +16,11 @@ void ExampleScene1::load()
     // Add a stage. The value returned will be the index value of the stage in the scene.
     auto& stage = this->addStage(); // create a stage and retrieve it's index
     stage.addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f); // add a camera to the stage
+    stage.getCamera()->setPosition(0.0f, 4.0f, 6.0f);
     //stage.getCamera()->setPosition(0.0f, 4.0f, 8.0f);
-    stage.getCamera()->setPosition(0.0f, 10.0f, 22.0f);
+    //stage.getCamera()->setPosition(0.0f, 10.0f, 22.0f);
     stage.getCamera()->setLookAt(0.0f, 0.0f, 0.0f);
-    stage.loadActors("data/models/bin/maps/stress/001.fbx"); // add actors to this stage, use default shader for all meshes in this file
+    stage.loadActors("data/models/bin/characters/low_poly/low_poly_animated.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //stage.loadActors("data/models/bin/maps/004b/004.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //stage.loadActors("data/models/bin/maps/004/004.fbx", myShaderIndex); // add actors to this stage, use given shader id for all meshes in this file
     //stage.loadActors("data/models/bin/maps/004/004.fbx", { // add actors to this stage, use a vector of pairs where first value is the id of the shader and second value is a vector of strings containing patterns of actor names of which should use this shader index
@@ -46,22 +47,22 @@ void ExampleScene1::loop()
         usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
     }
 
-    if (usls::App::get().getInputState().keyD) 
-    {
-        stage.removeActor("crate.010");
-        stage.removeActor("crate.011");
-        stage.removeActor("crate.012");
-        stage.removeActor("crate.013");
-    }
+    //if (usls::App::get().getInputState().keyD) 
+    //{
+    //    stage.removeActor("crate.010");
+    //    stage.removeActor("crate.011");
+    //    stage.removeActor("crate.012");
+    //    stage.removeActor("crate.013");
+    //}
 
-    if (usls::App::get().getInputState().keyA)
-    {
-        auto actorCopy = stage.getActor("crate");
-        actorCopy.getTransform().setTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
-        actorCopy.getTransform().setScale(glm::vec3(2.0f, 2.0f, 2.0f));
-        stage.addActor(actorCopy);
+    //if (usls::App::get().getInputState().keyA)
+    //{
+    //    auto actorCopy = stage.getActor("crate");
+    //    actorCopy.getTransform().setTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+    //    actorCopy.getTransform().setScale(glm::vec3(2.0f, 2.0f, 2.0f));
+    //    stage.addActor(actorCopy);
 
-        stage.printRenderCommands();
-    }
+    //    stage.printRenderCommands();
+    //}
 
 }

@@ -109,15 +109,13 @@ namespace usls
 
                     if (!a.isDeleted())
                     {
-                        gpu.setShaderMat4("mvp", 
-                            s.getCamera()->getProjectionMatrix() * 
-                            s.getCamera()->getViewMatrix() * 
+                        gpu.setShaderMat4("mvp",
+                            s.getCamera()->getProjectionMatrix() *
+                            s.getCamera()->getViewMatrix() *
                             a.getTransform().getMatrix());
 
                         gpu.drawMeshRenderable();
-
                     }
-
                 }
 
             }

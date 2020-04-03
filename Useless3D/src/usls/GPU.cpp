@@ -306,6 +306,8 @@ namespace usls
 
     void GPU::drawMeshRenderable()
     {
+        // The naive approach. But after researching how to optimize this for 3 days I decided to leave it alone
+        // until there's an actual reason to (DRASTICALLY) complicate things.
         glDrawElements(GL_TRIANGLES, this->meshRenderables.at(this->activeMeshRenderableIndex).indiceCount, GL_UNSIGNED_INT, 0);
     }
 
