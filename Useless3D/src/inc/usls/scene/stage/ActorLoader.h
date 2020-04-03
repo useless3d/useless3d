@@ -20,6 +20,9 @@ namespace usls
     class ActorLoader
     {
     private:
+        Assimp::Importer    aiImporter;
+        const aiScene*      aiScene;
+        
         bool                headless;
         Stage*              currentStage;
         std::string         currentActorFile;
@@ -28,10 +31,9 @@ namespace usls
         int                 currentMeshIndex;
         int                 currentMeshTextureIndex;
 
-        void                getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene) const;
-        void                processNode(aiNode* node, const aiScene* scene);
+        void                processNode(aiNode* node);
         void                processTransformable(aiNode* node);
-        void                processMesh(aiNode* node, const aiScene* scene);
+        void                processMesh(aiNode* node);
         std::string         generateUniqueActorName(std::string name);
 
     public:

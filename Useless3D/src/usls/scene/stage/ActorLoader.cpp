@@ -12,31 +12,24 @@ namespace usls
         currentStage(stage),
         currentActorFile(actorFile),
         currentAssetDirectory(actorFile.substr(0, actorFile.find_last_of('/'))) 
-    {}
-
-    void ActorLoader::execute()
     {
-        Assimp::Importer importer;
-        const aiScene* aiScene;
-        this->getAssimpScene(this->currentActorFile, importer, aiScene);
+        this->aiScene = this->aiImporter.ReadFile(this->currentActorFile, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-        this->processNode(aiScene->mRootNode, aiScene);
-    }
-
-    void ActorLoader::getAssimpScene(std::string filePath, Assimp::Importer &importer, const aiScene* &scene) const
-    {
-        scene = importer.ReadFile(filePath, aiProcess_Triangulate | aiProcess_FlipUVs);
-
-        if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+        if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
         {
-            std::string errorMessage = importer.GetErrorString();
+            std::string errorMessage = this->aiImporter.GetErrorString();
             std::cout << "ERROR::ASSIMP::" << errorMessage << "\n";
             std::cin.get();
             exit(EXIT_FAILURE);
         }
     }
 
-    void ActorLoader::processNode(aiNode* node, const aiScene* scene)
+    void ActorLoader::execute()
+    {
+        this->processNode(this->aiScene->mRootNode);
+    }
+
+    void ActorLoader::processNode(aiNode* node)
     {
         // For debugging
         //std::cout << "node:";
@@ -72,7 +65,7 @@ namespace usls
 
         if (node->mNumMeshes == 1)
         {
-            this->processMesh(node, scene);
+            this->processMesh(node);
 
             if (this->headless)
             {
@@ -103,7 +96,7 @@ namespace usls
         // Do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
-            this->processNode(node->mChildren[i], scene);
+            this->processNode(node->mChildren[i]);
         }
     }
 
@@ -126,9 +119,9 @@ namespace usls
         this->currentTransform = Transform(translation, rotation, scale);
     }
 
-    void ActorLoader::processMesh(aiNode* node, const aiScene* scene)
+    void ActorLoader::processMesh(aiNode* node)
     {
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[0]];
+        aiMesh* mesh = this->aiScene->mMeshes[node->mMeshes[0]];
         //std::cout << mesh->mName.C_Str();
         //std::cout << "\n";
 
@@ -211,7 +204,7 @@ namespace usls
         if (!this->headless)
         {
             // process materials
-            aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+            aiMaterial* material = this->aiScene->mMaterials[mesh->mMaterialIndex];
             aiString str;
             material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
 
@@ -223,7 +216,7 @@ namespace usls
 
             // determine if the texture already exists, if it does use it's index...
             int meshTextureIndex = 0;
-            for (auto& t : App::get().getGPU()->getTextures()) // ignore intellisense error for getTextures()
+            for (auto& t : App::get().getGPU()->getTextures()) // ignore intellisense error for getTextures(), not sure why it doesn't understand it's legit
             {
                 if (t.path == (this->currentAssetDirectory + "/" + str.C_Str()))
                 {
