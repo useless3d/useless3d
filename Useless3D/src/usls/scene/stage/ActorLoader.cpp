@@ -15,9 +15,9 @@ namespace usls
     {
         this->aiScene = this->aiImporter.ReadFile(this->currentActorFile, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-        //if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
+        if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
         //if (!this->aiScene || !this->aiScene->mRootNode)
-        if (this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
+        //if (this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
         {
             std::string errorMessage = this->aiImporter.GetErrorString();
             std::cout << "ERROR::ASSIMP::" << errorMessage << "\n";

@@ -68,6 +68,22 @@ namespace usls
         );
     }
 
+	void Stage::loadActor(std::string filename)
+	{
+		this->loadActors(filename);
+	}
+
+	void Stage::loadActor(std::string filename, int shaderIndex)
+	{
+		this->loadActors(filename, shaderIndex);
+	}
+
+	void Stage::loadActor(std::string filename,
+		std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs)
+	{
+		this->loadActors(filename, actorShaderAssocs);
+	}
+
     void Stage::loadActors(std::string filename)
     {
         if (!this->headless)

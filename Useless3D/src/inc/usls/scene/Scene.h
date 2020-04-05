@@ -18,7 +18,7 @@ namespace usls
     private:
         const bool                  headless;
         std::vector<Stage>          stages;
-        std::vector<Mesh>           meshes;        
+        std::vector<Mesh>           meshes;
 
 
     protected:
