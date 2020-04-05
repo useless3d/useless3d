@@ -7,10 +7,10 @@
 #include "usls/scene/mesh/Mesh.h"
 
 
-namespace usls
+namespace usls::scene::mesh
 {
 
-    Mesh::Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices) :
+    Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices) :
         name(name),
         vertices(vertices),
         indices(indices)
@@ -23,7 +23,7 @@ namespace usls
         this->meshRenderableIndex = index;
     }
 
-    const std::vector<MeshVertex>& Mesh::getVertices() const
+    const std::vector<Vertex>& Mesh::getVertices() const
     {
         return this->vertices;
     }

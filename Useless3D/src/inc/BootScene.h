@@ -3,11 +3,11 @@
 #include "usls/scene/Scene.h"
 
 
-class BootScene : public usls::Scene
+class BootScene : public usls::scene::Scene
 {
 
 public:
-    BootScene() : usls::Scene() {};
+    BootScene() : usls::scene::Scene() {};
 
     void    load();
     void    loop();

@@ -1,13 +1,13 @@
 #include <iostream>
 
 #include "usls/App.h"
-#include "usls/scene/stage/ActorLoader.h"
-#include "usls/scene/stage/transform/Rotation.h"
-#include "usls/scene/mesh/MeshVertex.h"
+#include "usls/scene/AssetLoader.h"
+#include "usls/scene/transform/Rotation.h"
+#include "usls/scene/mesh/Vertex.h"
 
-namespace usls
+namespace usls::scene
 {
-    ActorLoader::ActorLoader(Stage* stage, std::string actorFile) :
+	AssetLoader::AssetLoader(Stage* stage, std::string actorFile) :
         headless(App::get().config.HEADLESS),
         currentStage(stage),
         currentActorFile(actorFile),
@@ -26,7 +26,7 @@ namespace usls
         }
     }
 
-    void ActorLoader::execute()
+    void AssetLoader::execute()
     {
         std::cout << "> Nodes\n";
 
@@ -49,7 +49,7 @@ namespace usls
 
     }
 
-    void ActorLoader::processNode(aiNode* node)
+    void AssetLoader::processNode(aiNode* node)
     {
         // For debugging
         std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
@@ -114,7 +114,7 @@ namespace usls
         }
     }
 
-    void ActorLoader::processTransformable(aiNode* node)
+    void AssetLoader::processTransformable(aiNode* node)
     {
         aiVector3D aiScale;
         aiVector3D aiPosition;
@@ -133,7 +133,7 @@ namespace usls
         this->currentTransform = Transform(translation, rotation, scale);
     }
 
-    void ActorLoader::processMesh(aiNode* node)
+    void AssetLoader::processMesh(aiNode* node)
     {
         aiMesh* mesh = this->aiScene->mMeshes[node->mMeshes[0]];
         //std::cout << mesh->mName.C_Str();
@@ -149,13 +149,13 @@ namespace usls
         }
 
         // process mesh
-        std::vector<MeshVertex> vertices;
+        std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
 
         // Walk through each of the mesh's vertices
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
-            MeshVertex vertex;
+            Vertex vertex;
             glm::vec3 vector;
 
             // position
@@ -258,7 +258,7 @@ namespace usls
 
     // verify actor name is unique, and if it is not, write to log to notify user that this is happening
     // so that they can address the situation if need be
-    std::string ActorLoader::generateUniqueActorName(std::string name)
+    std::string AssetLoader::generateUniqueActorName(std::string name)
     {
         if (!this->currentStage->hasActorWithName(name))
         {

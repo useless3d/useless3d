@@ -4,20 +4,17 @@
 #include <vector>
 
 #include "glm/glm.hpp"
+#include "glm/gtc/quaternion.hpp"
 
 
 
-namespace usls
+namespace usls::scene::armature
 {
-	namespace armature
+	struct Bone
 	{
-		struct Bone
-		{
-			std::string name;
-			std::vector<glm::vec3> positions;
-			std::vector<glm::quat> rotations;
-			std::vector<glm::vec3> scalings;
-		};
-	}
-	
+		std::string name;
+		std::vector<glm::vec3> positions;
+		std::vector<glm::quat> rotations;
+		std::vector<glm::vec3> scalings;
+	};	
 }

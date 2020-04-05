@@ -6,9 +6,11 @@
 #include "glm/glm.hpp"
 
 #include "usls/scene/mesh/Mesh.h"
-#include "usls/scene/stage/transform/Transform.h"
+#include "usls/scene/transform/Transform.h"
 
-namespace usls
+using namespace usls::scene::transform;
+
+namespace usls::scene::stage
 {
     class Actor
     {

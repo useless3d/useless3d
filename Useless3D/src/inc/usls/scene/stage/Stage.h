@@ -12,7 +12,7 @@
 #include "usls/scene/stage/Camera.h"
 #include "usls/scene/stage/RenderCommand.h"
 
-namespace usls
+namespace usls::scene::stage
 {
     class Stage
     {
@@ -30,34 +30,34 @@ namespace usls
         int                                         addRenderCommand(RenderCommand rc);
 
     public:
-                            Stage(bool headless);
+													Stage(bool headless);
 
-		void                loadActor(std::string filename);
-		void                loadActor(std::string filename, int shaderIndex);
-		void                loadActor(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
-        void                loadActors(std::string filename);
-        void                loadActors(std::string filename, int shaderIndex);
-        void                loadActors(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
+		void										loadActor(std::string filename);
+		void										loadActor(std::string filename, int shaderIndex);
+		void										loadActor(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
+        void										loadActors(std::string filename);
+        void										loadActors(std::string filename, int shaderIndex);
+        void										loadActors(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
 
-        void                addActor(Actor a);
-        void                removeActor(std::string name);
-        void                removeActor(int index);
-        Actor&              getActor(int index);
-        Actor&              getActor(std::string name);
-        const unsigned int  getActorSize() const;
+        void										addActor(Actor a);
+        void										removeActor(std::string name);
+        void										removeActor(int index);
+        Actor&										getActor(int index);
+        Actor&										getActor(std::string name);
+        const unsigned int							getActorSize() const;
 
-        void                printRenderCommands() const;
-        RenderCommand& getRenderCommand(int index);
-        const std::optional<std::vector<int>>& getRenderCommandsOrder() const;
+        void										printRenderCommands() const;
+        RenderCommand&								getRenderCommand(int index);
+        const std::optional<std::vector<int>>&		getRenderCommandsOrder() const;
 
-        std::optional<Camera>& getCamera();
+        std::optional<Camera>&						getCamera();
 
-        const bool          hasActorWithName(std::string name) const;
-        void                setActorContainerSize(unsigned int size);
-        void                show();
-        void                hide();
-        void                addPerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov);
-        void                addOrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale);
+        const bool									hasActorWithName(std::string name) const;
+        void										setActorContainerSize(unsigned int size);
+        void										show();
+        void										hide();
+        void										addPerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov);
+        void										addOrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale);
         
 
 

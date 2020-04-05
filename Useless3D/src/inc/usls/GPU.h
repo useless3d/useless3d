@@ -5,7 +5,9 @@
 
 #include "usls/scene/Shader.h"
 #include "usls/scene/mesh/Mesh.h"
-#include "usls/scene/mesh/MeshTexture.h"
+#include "usls/scene/mesh/Texture.h"
+
+using namespace usls::scene;
 
 
 namespace usls
@@ -13,10 +15,10 @@ namespace usls
     class GPU
     {
     private:
-        std::string                 shaderDirectory;
-        std::vector<Shader>         shaders;
-        std::vector<MeshTexture>    textures;
-        std::vector<MeshRenderable> meshRenderables;
+        std::string							shaderDirectory;
+        std::vector<Shader>					shaders;
+        std::vector<mesh::Texture>			textures;
+        std::vector<mesh::Renderable>		meshRenderables;
 
         int         activeShaderIndex;
         int         activeMeshRenderableIndex;
@@ -34,11 +36,11 @@ namespace usls
         const int   getActiveTextureIndex() const;
 
         int         loadShader(const std::string name, const std::string vertFile, const std::string fragFile);
-        int         loadMesh(Mesh& m);
+        int         loadMesh(mesh::Mesh& m);
         int         loadTexture(std::string type, std::string path);
 
         void        useTexture(int textureIndex);
-        const std::vector<MeshTexture>& getTextures() const;
+        const std::vector<mesh::Texture>& getTextures() const;
         void        clearTexture();
         
         void        useShader(int shaderIndex);

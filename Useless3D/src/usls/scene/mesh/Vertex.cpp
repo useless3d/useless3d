@@ -1,8 +1,8 @@
-#include "usls/scene/mesh/MeshVertex.h"
+#include "usls/scene/mesh/Vertex.h"
 
-namespace usls
+namespace usls::scene::mesh
 {
-    bool MeshVertex::operator==(const MeshVertex &v) const
+    bool Vertex::operator==(const Vertex &v) const
     {
         return position == v.position && normal == v.normal && textureCoordinates == v.textureCoordinates;
     }

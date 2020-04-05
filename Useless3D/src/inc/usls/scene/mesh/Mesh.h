@@ -9,35 +9,33 @@
 
 #include "usls/scene/Shader.h"
 #include "usls/scene/stage/Camera.h"
-#include "usls/scene/mesh/MeshVertex.h"
-#include "usls/scene/mesh/MeshTexture.h"
-#include "usls/scene/mesh/MeshRenderable.h"
+#include "usls/scene/mesh/Vertex.h"
+#include "usls/scene/mesh/Texture.h"
+#include "usls/scene/mesh/Renderable.h"
 
 
-namespace usls
+namespace usls::scene::mesh
 {
-    class Mesh 
-    {
+	class Mesh
+	{
 
-    private:
-        std::string                         name;
-        std::vector<MeshVertex>	            vertices;
-        std::vector<unsigned int>           indices;
-        std::optional<int>                  meshRenderableIndex;
+	private:
+		std::string                         name;
+		std::vector<Vertex>					vertices;
+		std::vector<unsigned int>           indices;
+		std::optional<int>                  meshRenderableIndex;
 
-    public:
-        Mesh(std::string name, std::vector<MeshVertex> vertices, std::vector<unsigned int> indices);
+	public:
+		Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
-        void                                setMeshRenderableIndex(int index);
-        const std::optional<int>&           getMeshRenderableIndex() const;
+		void                                setMeshRenderableIndex(int index);
+		const std::optional<int>&           getMeshRenderableIndex() const;
 
-        const std::string                   getName() const;
-        const std::vector<MeshVertex>&		getVertices() const;
-        const std::vector<unsigned int>&	getIndices() const;
-        const bool                          isRenderable() const;
+		const std::string                   getName() const;
+		const std::vector<Vertex>&			getVertices() const;
+		const std::vector<unsigned int>&	getIndices() const;
+		const bool                          isRenderable() const;
 
-
-
-
-    };
+	};
+    
 }

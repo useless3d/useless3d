@@ -2,11 +2,11 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "usls/scene/stage/transform/Transform.h"
+#include "usls/scene/transform/Transform.h"
 
 
 
-namespace usls
+namespace usls::scene::transform
 {
 
     Transform::Transform() :

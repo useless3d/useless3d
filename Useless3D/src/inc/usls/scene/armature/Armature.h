@@ -5,24 +5,16 @@
 
 #include "usls/scene/armature/Animation.h"
 
-namespace usls
+namespace usls::scene::armature
 {
-	namespace armature
+	class Armature
 	{
+	private:
+		std::string name;
+		std::vector<Animation> animations;
 
-		class Armature
-		{
+	public:
+		Armature(std::string name);
 
-		private:
-			std::string name;
-			std::vector<Animation> animations;
-
-
-		public:
-			Armature(std::string name);
-
-		};
-
-
-	}
+	};
 }

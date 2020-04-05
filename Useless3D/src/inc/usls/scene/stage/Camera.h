@@ -4,7 +4,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
-namespace usls
+namespace usls::scene::stage
 {
     // using this enum to avoid polymorphism where it is not really necessary
     enum CameraType {

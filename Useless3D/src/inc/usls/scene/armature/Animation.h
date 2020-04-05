@@ -5,18 +5,14 @@
 
 #include "usls/scene/armature/Bone.h"
 
-namespace usls
+namespace usls::scene::armature
 {
-	namespace armature
+	struct Animation
 	{
-		struct Animation
-		{
-			std::string			name;
-			double				duration;
-			double				tps;
-			std::vector<Bone>	bones;
-		};
-	}
-
+		std::string			name;
+		double				duration;
+		double				tps;
+		std::vector<Bone>	bones;
+	};
 	
 }

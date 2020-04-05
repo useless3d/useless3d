@@ -2,11 +2,11 @@
 
 #include "usls/App.h"
 #include "usls/scene/Scene.h"
-#include "usls/scene/mesh/MeshVertex.h"
-#include "usls/scene/mesh/MeshTexture.h"
+#include "usls/scene/mesh/Vertex.h"
+#include "usls/scene/mesh/Texture.h"
 
 
-namespace usls
+namespace usls::scene
 {
     Scene::Scene() :
         headless(App::get().config.HEADLESS),

@@ -9,7 +9,7 @@
 #include "STB_IMAGE/stb_image.h"
 
 #include "usls/GPU.h"
-#include "usls/scene/mesh/MeshVertex.h"
+#include "usls/scene/mesh/Vertex.h"
 
 namespace usls
 {
@@ -131,9 +131,9 @@ namespace usls
         return this->shaders.size() - 1;
     }
 
-    int GPU::loadMesh(Mesh& m)
+    int GPU::loadMesh(mesh::Mesh& m)
     {
-        MeshRenderable mr = MeshRenderable();
+        mesh::Renderable mr = mesh::Renderable();
         mr.indiceCount = m.getIndices().size();
 
         // Generate and bind vertex attribute array
@@ -143,7 +143,7 @@ namespace usls
         // Generate and bind vertex buffer object
         glGenBuffers(1, &mr.VBO);
         glBindBuffer(GL_ARRAY_BUFFER, mr.VBO);
-        glBufferData(GL_ARRAY_BUFFER, m.getVertices().size() * sizeof(MeshVertex), &m.getVertices()[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m.getVertices().size() * sizeof(mesh::Vertex), &m.getVertices()[0], GL_STATIC_DRAW);
 
         // Generate and bind element buffer object
         glGenBuffers(1, &mr.EBO);
@@ -152,15 +152,15 @@ namespace usls
 
         // Assign vertex positions to location = 0
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(mesh::Vertex), (void*)0);
 
         // Assign vertex positions to location = 1
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, normal));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(mesh::Vertex), (void*)offsetof(mesh::Vertex, normal));
 
         // Assign vertex texture coordinates to location = 2
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), (void*)offsetof(MeshVertex, textureCoordinates));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(mesh::Vertex), (void*)offsetof(mesh::Vertex, textureCoordinates));
 
         // Unbind the vertex array to prevent accidental operations
         glBindVertexArray(0);
@@ -172,7 +172,7 @@ namespace usls
 
     int GPU::loadTexture(std::string type, std::string path)
     {
-        MeshTexture texture;
+		mesh::Texture texture;
         texture.type = "diffuse";
         texture.path = path;
 
@@ -231,7 +231,7 @@ namespace usls
         return this->activeTextureIndex;
     }
 
-    const std::vector<MeshTexture>& GPU::getTextures() const
+    const std::vector<mesh::Texture>& GPU::getTextures() const
     {
         return this->textures;
     }

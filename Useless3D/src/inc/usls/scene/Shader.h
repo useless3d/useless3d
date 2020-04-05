@@ -5,11 +5,13 @@
 
 #include "glm/glm.hpp"
 
-namespace usls 
+namespace usls::scene 
 {
-    struct Shader 
-    {
-        unsigned int id;
-        std::string name;
-    };
+
+	struct Shader
+	{
+		unsigned int id;
+		std::string name;
+	};
+    
 }

@@ -2,7 +2,7 @@
 
 #include "usls/scene/stage/RenderCommand.h"
 
-namespace usls
+namespace usls::scene::stage
 {
 
     RenderCommand::RenderCommand(int sI, int mI, int tI) :

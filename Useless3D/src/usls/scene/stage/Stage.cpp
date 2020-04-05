@@ -3,12 +3,12 @@
 
 #include "usls/App.h"
 #include "usls/scene/stage/Stage.h"
-#include "usls/scene/stage/ActorLoader.h"
+#include "usls/scene/AssetLoader.h"
 
 
 
 
-namespace usls
+namespace usls::scene::stage
 {
 
     Stage::Stage(bool headless) :
@@ -92,13 +92,13 @@ namespace usls
             return;
         }
 
-        auto loader = ActorLoader(this, filename);
+        auto loader = AssetLoader(this, filename);
         loader.execute();
     }
 
     void Stage::loadActors(std::string filename, int shaderIndex)
     {
-        auto loader = ActorLoader(this, filename);
+        auto loader = AssetLoader(this, filename);
         loader.findShaderId = [&](std::string actorName) {
             return shaderIndex;
         };
@@ -108,7 +108,7 @@ namespace usls
     void Stage::loadActors(std::string filename,
         std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs)
     {
-        auto loader = ActorLoader(this, filename);
+        auto loader = AssetLoader(this, filename);
         loader.findShaderId = [&](std::string actorName) {
             
             for (auto& a : actorShaderAssocs)
