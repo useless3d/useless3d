@@ -20,39 +20,38 @@ namespace usls
         std::vector<mesh::Texture>			textures;
         std::vector<mesh::Renderable>		meshRenderables;
 
-        int         activeShaderIndex;
-        int         activeMeshRenderableIndex;
-        int         activeTextureIndex;
+        size_t								activeShaderIndex;
+		size_t								activeMeshRenderableIndex;
+		size_t								activeTextureIndex;
 
     public:
-                    GPU(std::string shaderDirectory);
+											GPU(std::string shaderDirectory);
 
-        void        enableDepthTest();
-        void        clearBuffers(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 0.0f);
-        void        drawLinesOnly();
+        void								enableDepthTest();
+        void								clearBuffers(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 0.0f);
+        void								drawLinesOnly();
 
-        const int   getActiveShaderIndex() const;
-        const int   getActiveMeshRenderableIndex() const;
-        const int   getActiveTextureIndex() const;
+        const size_t						getActiveShaderIndex() const;
+        const size_t						getActiveMeshRenderableIndex() const;
+        const size_t						getActiveTextureIndex() const;
 
-        int         loadShader(const std::string name, const std::string vertFile, const std::string fragFile);
-        int         loadMesh(mesh::Mesh& m);
-        int         loadTexture(std::string type, std::string path);
+		size_t								loadShader(const std::string name, const std::string vertFile, const std::string fragFile);
+		size_t								loadMesh(mesh::Mesh& m);
+		size_t								loadTexture(std::string type, std::string path);
 
-        void        useTexture(int textureIndex);
-        const std::vector<mesh::Texture>& getTextures() const;
-        void        clearTexture();
+        void								useTexture(size_t textureIndex);
+        const std::vector<mesh::Texture>&	getTextures() const;
         
-        void        useShader(int shaderIndex);
-        void        setShaderBool(const std::string &name, bool value) const;
-        void        setShaderInt(const std::string &name, int value) const;
-        void        setShaderFloat(const std::string &name, float value) const;
-        void        setShaderMat4(const std::string &name, glm::mat4 value) const;
+        void								useShader(size_t shaderIndex);
+        void								setShaderBool(const std::string &name, bool value) const;
+        void								setShaderInt(const std::string &name, int value) const;
+        void								setShaderFloat(const std::string &name, float value) const;
+        void								setShaderMat4(const std::string &name, glm::mat4 value) const;
 
-        void        useMeshRenderable(int meshRenderableIndex);
-        void        drawMeshRenderable();
+        void								useMeshRenderable(size_t meshRenderableIndex);
+        void								drawMeshRenderable();
 
-        void        wipe();
+        void								wipe();
 
         
 

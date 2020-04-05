@@ -5,14 +5,14 @@
 namespace usls::scene::stage
 {
 
-    RenderCommand::RenderCommand(int sI, int mI, int tI) :
+    RenderCommand::RenderCommand(size_t sI, size_t mI, size_t tI) :
         shaderIndex(sI),
         meshIndex(mI),
         textureIndex(tI) {}
 
-    int RenderCommand::addActorIndex(int actorIndex)
+    size_t RenderCommand::addActorIndex(size_t actorIndex)
     {
-        int slotIndex;
+		size_t slotIndex;
 
         if (this->freeSlots.size() > 0)
         {
@@ -29,28 +29,27 @@ namespace usls::scene::stage
         return slotIndex;
     }
 
-    void RenderCommand::freeActorIndex(int actorSlot)
+    void RenderCommand::freeActorIndex(size_t actorSlot)
     {
-        //this->actorIndexes.at(actorSlot) = -1;
         this->freeSlots.push_back(actorSlot);
     }
 
-    const int& RenderCommand::getShaderIndex() const
+    const size_t& RenderCommand::getShaderIndex() const
     {
         return this->shaderIndex;
     }
 
-    const int& RenderCommand::getMeshIndex() const
+    const size_t& RenderCommand::getMeshIndex() const
     {
         return this->meshIndex;
     }
 
-    const int& RenderCommand::getTextureIndex() const
+    const size_t& RenderCommand::getTextureIndex() const
     {
         return this->textureIndex;
     }
     
-    const std::vector<int>& RenderCommand::getActorIndexes() const
+    const std::vector<size_t>& RenderCommand::getActorIndexes() const
     {
         return this->actorIndexes;
     }

@@ -19,11 +19,11 @@ namespace usls::scene::stage
         std::string             name;
         Transform               transform;
 
-        std::optional<int>      shaderIndex;
-        std::optional<int>      meshIndex;
-        std::optional<int>      textureIndex;
+        std::optional<size_t>      shaderIndex;
+        std::optional<size_t>      meshIndex;
+        std::optional<size_t>      textureIndex;
         
-        std::optional<std::pair<int, int>> renderCommand;
+        std::optional<std::pair<size_t, size_t>> renderCommand;
 
     public:
         Actor(std::string name, Transform t);
@@ -31,20 +31,20 @@ namespace usls::scene::stage
         //Actor(std::string name, Transform t, int meshIndex, int shaderIndex);
         //Actor(std::string name, Transform t, int meshIndex, int shaderIndex, int textureIndex);
 
-        void                            setMeshIndex(int i);
-        void                            setShaderIndex(int i);
-        void                            setTextureIndex(int i);
+        void									setMeshIndex(size_t i);
+        void									setShaderIndex(size_t i);
+        void									setTextureIndex(size_t i);
 
-        const std::string               getName() const;
-        const std::optional<int>&       getShaderIndex() const;
-        const std::optional<int>&       getMeshIndex() const;
-        const std::optional<int>&       getTextureIndex() const;
-        void                            addRenderCommand(std::pair<int, int> cmd);
-        const std::pair<int, int>&      getRenderCommand() const;
-        void                            setDeleted(bool d);
-        const bool                      isDeleted() const;
+        const std::string						getName() const;
+        const std::optional<size_t>&			getShaderIndex() const;
+        const std::optional<size_t>&			getMeshIndex() const;
+        const std::optional<size_t>&			getTextureIndex() const;
+        void									addRenderCommand(std::pair<size_t, size_t> cmd);
+        const std::pair<size_t, size_t>&		getRenderCommand() const;
+        void									setDeleted(bool d);
+        const bool								isDeleted() const;
 
-        Transform&                      getTransform();
+        Transform&								getTransform();
 
     };
 }

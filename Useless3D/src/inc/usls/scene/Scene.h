@@ -22,9 +22,9 @@ namespace usls::scene
 
 
 	protected:
-		int									addShader(std::string name, std::string vertName, std::string fragName);
+		size_t								addShader(std::string name, std::string vertName, std::string fragName);
 		Stage&								addStage();
-		Stage&								getStage(int index);
+		Stage&								getStage(size_t index);
 
 
 	public:
@@ -33,8 +33,8 @@ namespace usls::scene
 
 		bool								loaded;
 		const std::vector<Mesh>&			getMeshes() const;
-		unsigned int						addMesh(Mesh m);
-		Mesh&								getMesh(unsigned int index);
+		size_t								addMesh(Mesh m);
+		Mesh&								getMesh(size_t index);
 
 
 		void								draw();

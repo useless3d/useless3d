@@ -10,17 +10,17 @@ namespace usls::scene::stage
         transform(t) 
     {}
 
-    void Actor::setMeshIndex(int i)
+    void Actor::setMeshIndex(size_t i)
     {
         this->meshIndex = i;
     }
 
-    void Actor::setShaderIndex(int i)
+    void Actor::setShaderIndex(size_t i)
     {
         this->shaderIndex = i;
     }
 
-    void Actor::setTextureIndex(int i)
+    void Actor::setTextureIndex(size_t i)
     {
         this->textureIndex = i;
     }
@@ -40,7 +40,7 @@ namespace usls::scene::stage
         this->deleted = d;
     }
 
-    const std::pair<int, int>& Actor::getRenderCommand() const
+    const std::pair<size_t, size_t>& Actor::getRenderCommand() const
     {
         return this->renderCommand.value();
     }
@@ -50,22 +50,22 @@ namespace usls::scene::stage
         return this->name;
     }
 
-    const std::optional<int>& Actor::getShaderIndex() const
+    const std::optional<size_t>& Actor::getShaderIndex() const
     {
         return this->shaderIndex;
     }
 
-    const std::optional<int>& Actor::getMeshIndex() const
+    const std::optional<size_t>& Actor::getMeshIndex() const
     {
         return this->meshIndex;
     }
 
-    const std::optional<int>& Actor::getTextureIndex() const
+    const std::optional<size_t>& Actor::getTextureIndex() const
     {
         return this->textureIndex;
     }
 
-    void Actor::addRenderCommand(std::pair<int, int> cmd)
+    void Actor::addRenderCommand(std::pair<size_t, size_t> cmd)
     {
         this->renderCommand = cmd;
     }

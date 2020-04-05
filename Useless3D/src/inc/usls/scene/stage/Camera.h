@@ -18,7 +18,7 @@ namespace usls::scene::stage
         std::string             name;
         CameraType              type;
         float                   fovScale;
-        const glm::vec2*        screenSize;
+        const glm::ivec2*       screenSize;
         float                   nearPlane;
         float                   farPlane;
 

@@ -17,7 +17,7 @@ namespace usls
     {
        
     private:
-        glm::vec2		screenSize;
+        glm::ivec2		screenSize;
         bool            fullScreen = false;
         InputState		inputState;
         GLFWwindow*     glfwWindow;
@@ -42,7 +42,7 @@ namespace usls
         void			update();
 
         const InputState& getInputState() const;
-        const glm::vec2& getScreenSize() const;
+        const glm::ivec2& getScreenSize() const;
 
         void			swapBuffers();
         //void			vsync();

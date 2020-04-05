@@ -24,11 +24,19 @@ namespace usls
     {
         if (!this->config.HEADLESS)
         {
+			// create window
             auto w = std::make_unique<Window>(this->config.SCREEN_WIDTH, this->config.SCREEN_HEIGHT, this->config.FULLSCREEN);
             this->window = std::move(w);
 
-            this->gpu = GPU(this->config.SHADER_FILE_PATH);
+			// initialize GPU
+			this->gpu = GPU(this->config.SHADER_FILE_PATH);
+
+			// create default shader
             this->gpu->loadShader("default", this->config.DEFAULT_VERTEX_SHADER, this->config.DEFAULT_FRAGMENT_SHADER);
+
+			// create default texture
+			this->gpu->loadTexture("diffuse", ("data/models/bin/default_texture.jpg"));
+
         }
     }
 
@@ -57,7 +65,7 @@ namespace usls
         return t.count();
     }
 
-    const glm::vec2& App::getScreenSize() const
+    const glm::ivec2& App::getScreenSize() const
     {
         return this->window.value()->getScreenSize();
     }

@@ -21,7 +21,7 @@ namespace usls::scene
         App::get().getGPU()->wipe();
     }
 
-    int Scene::addShader(std::string name, std::string vertName, std::string fragName)
+    size_t Scene::addShader(std::string name, std::string vertName, std::string fragName)
     {
         return App::get().getGPU()->loadShader(name, vertName, fragName);
     }
@@ -32,7 +32,7 @@ namespace usls::scene
         return this->getStage(this->stages.size() - 1);
     }
 
-    Stage& Scene::getStage(int index)
+    Stage& Scene::getStage(size_t index)
     {
         return this->stages.at(index);
     }
@@ -42,7 +42,7 @@ namespace usls::scene
         return this->meshes;
     }
 
-    unsigned int Scene::addMesh(Mesh m)
+	size_t Scene::addMesh(Mesh m)
     {
         if (!this->headless)
         {
@@ -52,7 +52,7 @@ namespace usls::scene
         return this->meshes.size() - 1;
     }
 
-    Mesh& Scene::getMesh(unsigned int index)
+    Mesh& Scene::getMesh(size_t index)
     {
         return this->meshes.at(index);
     }
@@ -103,16 +103,14 @@ namespace usls::scene
                 // gpu state has been set, now draw all actors which use this gpu state
                 for (auto& ai : rc.getActorIndexes())
                 {
-                    Actor& a = s.getActor(ai);
+                    Actor* a = s.getActor(ai);
 
-                    //std::cout << "AS:" << a.getShaderIndex().value() << " AM:" << App::get().getScene()->getMesh(a.getMeshIndex().value()).getMeshRenderableIndex().value() << " AT:" << a.getTextureIndex().value() << "\n";
-
-                    if (!a.isDeleted())
+                    if (!a->isDeleted())
                     {
                         gpu.setShaderMat4("mvp",
                             s.getCamera()->getProjectionMatrix() *
                             s.getCamera()->getViewMatrix() *
-                            a.getTransform().getMatrix());
+                            a->getTransform().getMatrix());
 
                         gpu.drawMeshRenderable();
                     }

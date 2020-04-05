@@ -21,13 +21,13 @@ namespace usls::scene::stage
         bool                                        visible; // defaults to true, used to determine if this stage should be drawn or not
         std::optional<Camera>                       camera; // not required in headless mode
         std::vector<Actor>                          actors;
-        std::vector<int>                            actorFreeSlots;
+        std::vector<size_t>                         actorFreeSlots;
 
         std::optional<std::vector<RenderCommand>>   renderCommands;
-        std::optional<std::vector<int>>             renderCommandsOrder;
+        std::optional<std::vector<size_t>>          renderCommandsOrder;
 
-        int                                         renderCommandExists(int sI, int mI, int tI);
-        int                                         addRenderCommand(RenderCommand rc);
+		std::optional<size_t>                       renderCommandExists(size_t sI, size_t mI, size_t tI);
+        size_t                                      addRenderCommand(RenderCommand rc);
 
     public:
 													Stage(bool headless);
@@ -41,14 +41,14 @@ namespace usls::scene::stage
 
         void										addActor(Actor a);
         void										removeActor(std::string name);
-        void										removeActor(int index);
-        Actor&										getActor(int index);
-        Actor&										getActor(std::string name);
-        const unsigned int							getActorSize() const;
+        void										removeActor(size_t index);
+        Actor*										getActor(size_t index);
+        Actor*										getActor(std::string name);
+        const size_t								getActorSize() const;
 
         void										printRenderCommands() const;
-        RenderCommand&								getRenderCommand(int index);
-        const std::optional<std::vector<int>>&		getRenderCommandsOrder() const;
+        RenderCommand&								getRenderCommand(size_t index);
+        const std::optional<std::vector<size_t>>&	getRenderCommandsOrder() const;
 
         std::optional<Camera>&						getCamera();
 

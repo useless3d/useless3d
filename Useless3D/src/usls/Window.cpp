@@ -5,7 +5,7 @@
 namespace usls
 {
     Window::Window(int screenWidth, int screenHeight, bool fullScreen) :
-        screenSize(glm::vec2(screenWidth, screenHeight)),
+        screenSize(glm::ivec2(screenWidth, screenHeight)),
         fullScreen(fullScreen)        
     {
         // Initialize GLFW. This is the library that creates our cross platform (kinda since
@@ -174,7 +174,7 @@ namespace usls
         return this->inputState;
     }
 
-    const glm::vec2& Window::getScreenSize() const
+    const glm::ivec2& Window::getScreenSize() const
     {
         return this->screenSize;
     }

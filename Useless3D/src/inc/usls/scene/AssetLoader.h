@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <optional>
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
@@ -22,26 +23,28 @@ namespace usls::scene
 	class AssetLoader
 	{
 	private:
-		Assimp::Importer    aiImporter;
-		const aiScene*      aiScene;
+		Assimp::Importer		aiImporter;
+		const aiScene*			aiScene;
 
-		bool                headless;
-		Stage*              currentStage;
-		std::string         currentActorFile;
-		std::string         currentAssetDirectory;
-		Transform           currentTransform;
-		int                 currentMeshIndex;
-		int                 currentMeshTextureIndex;
+		bool					headless;
+		Stage*					currentStage;
+		std::string				currentActorFile;
+		std::string				currentAssetDirectory;
+		Transform				currentTransform;
+		std::optional<size_t>   currentMeshIndex;
+		std::optional<size_t>   currentMeshTextureIndex;
 
-		void                processNode(aiNode* node);
-		void                processTransformable(aiNode* node);
-		void                processMesh(aiNode* node);
-		std::string         generateUniqueActorName(std::string name);
+		void					processNode(aiNode* node);
+		void					processTransformable(aiNode* node);
+		void					processMesh(aiNode* node);
+		std::string				generateUniqueActorName(std::string name);
 
 	public:
-		AssetLoader(Stage* stage, std::string actorFile);
-		std::optional<std::function<int(std::string actorName)>> findShaderId;
-		void                execute();
+								AssetLoader(Stage* stage, std::string actorFile);
+
+		std::optional<std::function<int(std::string actorName)>>	findShaderId;
+
+		void					execute();
 
 
 	};

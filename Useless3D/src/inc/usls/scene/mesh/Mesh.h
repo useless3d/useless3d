@@ -23,13 +23,13 @@ namespace usls::scene::mesh
 		std::string                         name;
 		std::vector<Vertex>					vertices;
 		std::vector<unsigned int>           indices;
-		std::optional<int>                  meshRenderableIndex;
+		std::optional<size_t>               meshRenderableIndex;
 
 	public:
 		Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
-		void                                setMeshRenderableIndex(int index);
-		const std::optional<int>&           getMeshRenderableIndex() const;
+		void                                setMeshRenderableIndex(size_t index);
+		const std::optional<size_t>&        getMeshRenderableIndex() const;
 
 		const std::string                   getName() const;
 		const std::vector<Vertex>&			getVertices() const;

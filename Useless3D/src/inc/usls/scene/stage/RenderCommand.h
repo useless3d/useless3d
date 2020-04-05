@@ -7,23 +7,23 @@ namespace usls::scene::stage
     class RenderCommand
     {
     private:
-        std::vector<int>			actorIndexes;
-        std::vector<int>			freeSlots;
+        std::vector<size_t>			actorIndexes;
+        std::vector<size_t>			freeSlots;
         
-        int							shaderIndex;
-        int							meshIndex;
-        int							textureIndex;
+		size_t						shaderIndex;
+		size_t						meshIndex;
+        size_t						textureIndex; // 0 is default texture index
 
     public:
-									RenderCommand(int sI, int mI, int tI = -1);
+									RenderCommand(size_t sI, size_t mI, size_t tI);
 
-        const int&					getShaderIndex() const;
-        const int&					getMeshIndex() const;
-        const int&					getTextureIndex() const;
+        const size_t&				getShaderIndex() const;
+		const size_t&				getMeshIndex() const;
+        const size_t&				getTextureIndex() const;
 
-        const std::vector<int>&		getActorIndexes() const;
+        const std::vector<size_t>&	getActorIndexes() const;
 
-        int							addActorIndex(int actorIndex);
-        void						freeActorIndex(int actorSlot);
+		size_t						addActorIndex(size_t actorIndex);
+        void						freeActorIndex(size_t actorSlot);
     };
 }

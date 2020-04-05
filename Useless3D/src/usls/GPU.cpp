@@ -20,7 +20,7 @@ namespace usls
         activeTextureIndex(-1)
     {}
 
-    int GPU::loadShader(const std::string name, const std::string vertFile, const std::string fragFile)
+    size_t GPU::loadShader(const std::string name, const std::string vertFile, const std::string fragFile)
     {
         unsigned int id;
 
@@ -131,10 +131,10 @@ namespace usls
         return this->shaders.size() - 1;
     }
 
-    int GPU::loadMesh(mesh::Mesh& m)
+	size_t GPU::loadMesh(mesh::Mesh& m)
     {
         mesh::Renderable mr = mesh::Renderable();
-        mr.indiceCount = m.getIndices().size();
+        mr.indiceCount = (GLsizei)m.getIndices().size();
 
         // Generate and bind vertex attribute array
         glGenVertexArrays(1, &mr.VAO);
@@ -170,7 +170,7 @@ namespace usls
         return this->meshRenderables.size() - 1;
     }
 
-    int GPU::loadTexture(std::string type, std::string path)
+	size_t GPU::loadTexture(std::string type, std::string path)
     {
 		mesh::Texture texture;
         texture.type = "diffuse";
@@ -216,17 +216,17 @@ namespace usls
         }
     }
 
-    const int GPU::getActiveShaderIndex() const
+    const size_t GPU::getActiveShaderIndex() const
     {
         return this->activeShaderIndex;
     }
 
-    const int GPU::getActiveMeshRenderableIndex() const
+    const size_t GPU::getActiveMeshRenderableIndex() const
     {
         return this->activeMeshRenderableIndex;
     }
 
-    const int GPU::getActiveTextureIndex() const
+    const size_t GPU::getActiveTextureIndex() const
     {
         return this->activeTextureIndex;
     }
@@ -236,7 +236,7 @@ namespace usls
         return this->textures;
     }
 
-    void GPU::useShader(int shaderIndex)
+    void GPU::useShader(size_t shaderIndex)
     {
         this->activeShaderIndex = shaderIndex;
         glUseProgram(this->shaders.at(shaderIndex).id);
@@ -276,27 +276,14 @@ namespace usls
     }
 
 
-    void GPU::useMeshRenderable(int meshRenderableIndex)
+    void GPU::useMeshRenderable(size_t meshRenderableIndex)
     {
         this->activeMeshRenderableIndex = meshRenderableIndex;
         glBindVertexArray(this->meshRenderables.at(meshRenderableIndex).VAO);
     }
 
-    void GPU::clearTexture()
+    void GPU::useTexture(size_t textureIndex)
     {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        this->activeTextureIndex = -1;
-    }
-
-    void GPU::useTexture(int textureIndex)
-    {
-        if (textureIndex == -1)
-        {
-            this->clearTexture();
-            return;
-        }
-
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this->textures.at(textureIndex).id);
         this->setShaderInt("texture1", 0);

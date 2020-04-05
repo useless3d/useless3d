@@ -26,7 +26,7 @@ namespace usls::scene::stage
         if (!this->headless)
         {
             this->renderCommands = std::vector<RenderCommand>();
-            this->renderCommandsOrder = std::vector<int>();
+            this->renderCommandsOrder = std::vector<size_t>();
         }
 
     }
@@ -128,14 +128,14 @@ namespace usls::scene::stage
         loader.execute();
     }
 
-    const unsigned int Stage::getActorSize() const
+    const size_t Stage::getActorSize() const
     {
         return this->actors.size();
     }
 
     void Stage::addActor(Actor a)
     {
-        int slotIndex;
+        size_t slotIndex;
 
         if (this->actorFreeSlots.size() > 0)
         {
@@ -153,47 +153,53 @@ namespace usls::scene::stage
 
         if (!this->headless && 
             actor->getShaderIndex().has_value() && 
-            actor->getMeshIndex().has_value()) // If we are not in headless mode, AND this actor has a shader and mesh
+            actor->getMeshIndex().has_value() &&
+			actor->getTextureIndex().has_value()) // If we are not in headless mode, AND this actor has a shader, mesh, and texture
         {
-            int shaderIndex = actor->getShaderIndex().value();
-            int meshRenderableIndex = App::get().getScene()->getMesh(actor->getMeshIndex().value()).getMeshRenderableIndex().value();
-            int textureIndex = actor->getTextureIndex().has_value() ? actor->getTextureIndex().value() : -1;
+            size_t shaderIndex = actor->getShaderIndex().value();
+			size_t meshRenderableIndex = App::get().getScene()->getMesh(actor->getMeshIndex().value()).getMeshRenderableIndex().value();
+			size_t textureIndex = actor->getTextureIndex().value();
 
             // Search the existing render commands to see if one exists for the given criteria
-            int renderCommandIndex = this->renderCommandExists(shaderIndex, meshRenderableIndex, textureIndex);
+            std::optional<size_t> renderCommandIndex = this->renderCommandExists(shaderIndex, meshRenderableIndex, textureIndex);
 
             // If a render command does not exist for the given criteria, create one and get it's index
-            if (renderCommandIndex == -1)
+            if (!renderCommandIndex)
             {
                 auto rc = RenderCommand(shaderIndex, meshRenderableIndex, textureIndex);
                 renderCommandIndex = this->addRenderCommand(rc);
             }
 
             // Add this actor's slot index to the actorIndexes container of it's RenderCommand
-            int indexOfActorInRenderCommand = this->renderCommands->at(renderCommandIndex).addActorIndex(slotIndex);
+			size_t indexOfActorInRenderCommand = this->renderCommands->at(renderCommandIndex.value()).addActorIndex(slotIndex);
 
             // Now add the renderCommandIndex AND indexOfActorInRenderCommandActorIndexes to the actor's 
             // std::optional<std::pair<int, int>> renderCommand member, which is used to quickly remove the 
             // actor from the render command if it is ever removed from the stage
-            actor->addRenderCommand(std::pair<int, int>(renderCommandIndex, indexOfActorInRenderCommand));
+            actor->addRenderCommand(std::pair<size_t, size_t>(renderCommandIndex.value(), indexOfActorInRenderCommand));
 
         }
     }
 
-    Actor& Stage::getActor(std::string name)
+    Actor* Stage::getActor(std::string name)
     {
         for (auto& a : this->actors) 
         {
             if (a.getName() == name) 
             {
-                return a;
+                return &a;
             }
         }
+		return nullptr;
     }
 
-    Actor& Stage::getActor(int index) 
+    Actor* Stage::getActor(size_t index) 
     {
-        return this->actors.at(index);
+		if (this->actors.size() == 0 || !(index <= (this->actors.size() - 1)))
+		{
+			return nullptr;
+		}
+        return &this->actors.at(index);
     }
 
     void Stage::removeActor(std::string name) 
@@ -208,7 +214,7 @@ namespace usls::scene::stage
         }
     }
 
-    void Stage::removeActor(int index)
+    void Stage::removeActor(size_t index)
     {
         Actor& a = this->actors.at(index);
 
@@ -222,23 +228,23 @@ namespace usls::scene::stage
         this->actorFreeSlots.push_back(index);
     }
 
-    int Stage::addRenderCommand(RenderCommand rc) 
+    size_t Stage::addRenderCommand(RenderCommand rc) 
     {
         this->renderCommands->push_back(rc);
-        int renderCommandIndex = this->renderCommands->size() - 1;
+        size_t renderCommandIndex = this->renderCommands->size() - 1;
 
         // loop through render commands and sort order saving indexes
         // within this->renderCommandsOrder
 
-        std::vector<std::pair<int, int>> toSort;
+        std::vector<std::pair<size_t, size_t>> toSort;
 
-        for (unsigned int i = 0; i < this->renderCommands->size(); i++) 
+        for (size_t i = 0; i < this->renderCommands->size(); i++) 
         {
             std::string cmdString = std::to_string(this->renderCommands->at(i).getShaderIndex()) +
                 std::to_string(this->renderCommands->at(i).getMeshIndex()) +
                 std::to_string(this->renderCommands->at(i).getTextureIndex());
 
-            toSort.push_back(std::pair<int, int>(i, std::stoi(cmdString)));
+            toSort.push_back(std::pair<size_t, size_t>(i, std::stoi(cmdString)));
         }
 
         std::sort(toSort.begin(), toSort.end(), [](auto &left, auto &right) {
@@ -256,7 +262,7 @@ namespace usls::scene::stage
 
     }
 
-    int Stage::renderCommandExists(int sI, int mI, int tI)
+    std::optional<size_t> Stage::renderCommandExists(size_t sI, size_t mI, size_t tI)
     {
         for (unsigned int i = 0; i < this->renderCommands->size(); i++)
         {
@@ -267,7 +273,7 @@ namespace usls::scene::stage
                 return i;
             }
         }
-        return -1;
+        return std::nullopt;
     }
 
     const bool Stage::hasActorWithName(std::string name) const
@@ -311,12 +317,12 @@ namespace usls::scene::stage
 
     }
 
-    RenderCommand& Stage::getRenderCommand(int index)
+    RenderCommand& Stage::getRenderCommand(size_t index)
     {
         return this->renderCommands->at(index);
     }
 
-    const std::optional<std::vector<int>>& Stage::getRenderCommandsOrder() const
+    const std::optional<std::vector<size_t>>& Stage::getRenderCommandsOrder() const
     {
         return this->renderCommandsOrder;
     }

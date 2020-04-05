@@ -35,11 +35,11 @@ namespace usls::scene
         std::cout << "\n";
 
         std::cout << "> Animations\n";
-        for (int i = 0; i < this->aiScene->mNumAnimations; i++)
+        for (unsigned int i = 0; i < this->aiScene->mNumAnimations; i++)
         {
             std::cout << "  > " << this->aiScene->mAnimations[i]->mName.C_Str() << " - TPS: " << this->aiScene->mAnimations[i]->mTicksPerSecond << " - DUR: " << this->aiScene->mAnimations[i]->mDuration << "\n";
 
-            for (int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
+            for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
             {
                 std::cout << "      > " << this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str() << "\n";
             }
@@ -82,8 +82,8 @@ namespace usls::scene
         {
             this->processTransformable(node);
 
-            this->currentMeshIndex = -1;
-            this->currentMeshTextureIndex = -1;
+			this->currentMeshIndex.reset();
+            this->currentMeshTextureIndex.reset();
 
             auto actor = Actor(actorName, this->currentTransform);
 
@@ -91,16 +91,12 @@ namespace usls::scene
             {
                 this->processMesh(node);
 
-                actor.setMeshIndex(this->currentMeshIndex);
+                actor.setMeshIndex(this->currentMeshIndex.value());
 
                 if (!this->headless)
                 {
                     actor.setShaderIndex(this->findShaderId.value()(actorName));
-
-                    if (this->currentMeshTextureIndex != -1)
-                    {
-                        actor.setTextureIndex(this->currentMeshTextureIndex);
-                    }
+                    actor.setTextureIndex(this->currentMeshTextureIndex.value());
                 }
             }
 
@@ -127,7 +123,7 @@ namespace usls::scene
         glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
 
         Rotation rotation;
-        rotation.angle = rotationAngle * (180 / 3.124); // convert radian to degree
+        rotation.angle = rotationAngle * (180 / 3.124f); // convert radian to degree
         rotation.axis = rotationAxis;
 
         this->currentTransform = Transform(translation, rotation, scale);
@@ -142,7 +138,7 @@ namespace usls::scene
         if (mesh->HasBones())
         {
             std::cout << "      > Bones\n";
-            for (int i = 0; i < mesh->mNumBones; i++)
+            for (unsigned int i = 0; i < mesh->mNumBones; i++)
             {
                 std::cout << "          > " << mesh->mBones[i]->mName.C_Str() << "\n";
             }
@@ -217,9 +213,8 @@ namespace usls::scene
             meshIndex++;
         }
         // ...otherwise create a new mesh, save it within meshes and save the new index
-        if (this->currentMeshIndex == -1)
+        if (!this->currentMeshIndex)
         {
-            // Did not locate an existing mesh, so create one
             this->currentMeshIndex = App::get().getScene()->addMesh(Mesh(mesh->mName.C_Str(), vertices, indices));
         }
 
@@ -231,9 +226,10 @@ namespace usls::scene
             aiString str;
             material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
 
-            // if mesh does not contain a texture, exit
+            // if mesh does not contain a texture, use default texture
             if (str.length == 0)
             {
+				this->currentMeshTextureIndex = 0;
                 return;
             }
 
@@ -249,7 +245,7 @@ namespace usls::scene
                 meshTextureIndex++;
             }
             // ...otherwise create a new texture
-            if (this->currentMeshTextureIndex == -1)
+            if (!this->currentMeshTextureIndex)
             {
                 this->currentMeshTextureIndex = App::get().getGPU()->loadTexture("diffuse", (this->currentAssetDirectory + "/" + str.C_Str()));
             }

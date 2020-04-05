@@ -55,7 +55,7 @@ namespace usls
         void                clearScene();
         const double        time() const;
         const InputState&   getInputState() const;
-        const glm::vec2&    getScreenSize() const;
+        const glm::ivec2&   getScreenSize() const;
         void                execute();
         void                close();
 

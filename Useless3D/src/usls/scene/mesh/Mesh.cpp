@@ -18,7 +18,7 @@ namespace usls::scene::mesh
         
     }
 
-    void Mesh::setMeshRenderableIndex(int index)
+    void Mesh::setMeshRenderableIndex(size_t index)
     {
         this->meshRenderableIndex = index;
     }
@@ -43,7 +43,7 @@ namespace usls::scene::mesh
         return this->meshRenderableIndex.has_value();
     }
 
-    const std::optional<int>& Mesh::getMeshRenderableIndex() const
+    const std::optional<size_t>& Mesh::getMeshRenderableIndex() const
     {
         return this->meshRenderableIndex;
     }
