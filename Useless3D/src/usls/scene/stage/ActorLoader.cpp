@@ -15,7 +15,9 @@ namespace usls
     {
         this->aiScene = this->aiImporter.ReadFile(this->currentActorFile, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-        if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
+        //if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
+        //if (!this->aiScene || !this->aiScene->mRootNode)
+        if (this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
         {
             std::string errorMessage = this->aiImporter.GetErrorString();
             std::cout << "ERROR::ASSIMP::" << errorMessage << "\n";
@@ -26,14 +28,32 @@ namespace usls
 
     void ActorLoader::execute()
     {
+        std::cout << "> Nodes\n";
+
         this->processNode(this->aiScene->mRootNode);
+        
+        std::cout << "\n";
+
+        std::cout << "> Animations\n";
+        for (int i = 0; i < this->aiScene->mNumAnimations; i++)
+        {
+            std::cout << "  > " << this->aiScene->mAnimations[i]->mName.C_Str() << " - TPS: " << this->aiScene->mAnimations[i]->mTicksPerSecond << " - DUR: " << this->aiScene->mAnimations[i]->mDuration << "\n";
+
+            for (int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
+            {
+                std::cout << "      > " << this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str() << "\n";
+            }
+        }
+
+        
+
     }
 
     void ActorLoader::processNode(aiNode* node)
     {
         // For debugging
-        //std::cout << "node:";
-        //std::cout << node->mName.C_Str();
+        std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
+        
         //std::cout << " parent:";
         //if (node->mParent != NULL) {
         //    std::cout << node->mParent->mName.C_Str();
@@ -118,6 +138,15 @@ namespace usls
         aiMesh* mesh = this->aiScene->mMeshes[node->mMeshes[0]];
         //std::cout << mesh->mName.C_Str();
         //std::cout << "\n";
+
+        if (mesh->HasBones())
+        {
+            std::cout << "      > Bones\n";
+            for (int i = 0; i < mesh->mNumBones; i++)
+            {
+                std::cout << "          > " << mesh->mBones[i]->mName.C_Str() << "\n";
+            }
+        }
 
         // process mesh
         std::vector<MeshVertex> vertices;
