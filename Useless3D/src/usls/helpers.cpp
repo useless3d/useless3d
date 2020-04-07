@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include "usls/helpers.h"
 
@@ -26,5 +27,17 @@ namespace usls
         }
         return s;
     }
+
+	bool sin_vector(std::string needle, std::vector<std::string> haystack)
+	{
+		if (std::find(haystack.begin(), haystack.end(), needle) != haystack.end())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 }

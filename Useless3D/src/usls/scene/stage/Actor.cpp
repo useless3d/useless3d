@@ -25,6 +25,11 @@ namespace usls::scene::stage
         this->textureIndex = i;
     }
 
+	void Actor::setArmatureIndex(size_t i)
+	{
+		this->armatureIndex = i;
+	}
+
     Transform& Actor::getTransform()
     {
         return this->transform;

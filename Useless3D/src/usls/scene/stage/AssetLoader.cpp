@@ -76,14 +76,22 @@ namespace usls::scene
             exit(EXIT_FAILURE);
         }
 
-        std::string actorName = this->generateUniqueActorName(node->mName.C_Str());
+        
+		std::string nodeName = node->mName.C_Str();
 
-        if (actorName != "RootNode")
+        if (nodeName != "RootNode")
         {
+			// is this an armature?
+
+
+			std::string actorName = this->generateUniqueActorName(node->mName.C_Str());
+
             this->processTransformable(node);
 
 			this->currentMeshIndex.reset();
             this->currentMeshTextureIndex.reset();
+
+			
 
             auto actor = Actor(actorName, this->currentTransform);
 
@@ -125,6 +133,8 @@ namespace usls::scene
         Rotation rotation;
         rotation.angle = rotationAngle * (180 / 3.124f); // convert radian to degree
         rotation.axis = rotationAxis;
+
+		std::cout << "	> position:" << translation.x << "," << translation.y << "," << translation.z << "\n";
 
         this->currentTransform = Transform(translation, rotation, scale);
     }
