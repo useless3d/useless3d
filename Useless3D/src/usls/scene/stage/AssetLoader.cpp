@@ -42,6 +42,14 @@ namespace usls::scene
             for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
             {
                 std::cout << "      > " << this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str() << "\n";
+
+				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
+				{
+					const aiVector3D& scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
+					std::cout << "			> (" << scale.x << "," << scale.y << "," << scale.z << ")\n";
+
+				}
+
             }
         }
 
@@ -134,7 +142,8 @@ namespace usls::scene
         rotation.angle = rotationAngle * (180 / 3.124f); // convert radian to degree
         rotation.axis = rotationAxis;
 
-		std::cout << "	> position:" << translation.x << "," << translation.y << "," << translation.z << "\n";
+		//std::cout << "	> position:" << translation.x << "," << translation.y << "," << translation.z << "\n";
+		std::cout << "	> scale:" << scale.x << "," << scale.y << "," << scale.z << "\n";
 
         this->currentTransform = Transform(translation, rotation, scale);
     }
