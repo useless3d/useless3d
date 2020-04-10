@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "usls/scene/armature/Animation.h"
+#include "usls/scene/armature/Bone.h"
+
 
 namespace usls::scene::armature
 {
@@ -11,7 +12,8 @@ namespace usls::scene::armature
 	{
 	private:
 		std::string name;
-		std::vector<Animation> animations;
+		size_t animationIndex;
+		std::vector<Bone> bones;
 
 	public:
 		Armature(std::string name);

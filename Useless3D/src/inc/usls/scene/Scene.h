@@ -6,10 +6,13 @@
 
 #include "usls/scene/mesh/Mesh.h"
 #include "usls/scene/stage/Stage.h"
+#include "usls/scene/armature/animation/Animation.h"
 
 
 using namespace usls::scene::stage;
 using namespace usls::scene::mesh;
+using namespace usls::scene::armature::animation;
+
 
 namespace usls::scene 
 {
@@ -19,6 +22,7 @@ namespace usls::scene
 		const bool							headless;
 		std::vector<Stage>					stages;
 		std::vector<Mesh>					meshes;
+		std::vector<Animation>				animations;
 
 
 	protected:
