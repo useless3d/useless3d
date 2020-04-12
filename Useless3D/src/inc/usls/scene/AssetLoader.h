@@ -11,11 +11,12 @@
 
 #include "usls/scene/mesh/Mesh.h"
 #include "usls/scene/stage/Stage.h"
-#include "usls/scene/transform/Transform.h"
+
 #include "usls/scene/Shader.h"
+#include "usls/scene/stage/Transform.h"
 
 using namespace usls::scene::stage;
-using namespace usls::scene::transform;
+
 
 namespace usls::scene 
 {

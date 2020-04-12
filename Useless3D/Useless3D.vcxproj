@@ -194,11 +194,10 @@
     <ClInclude Include="src\inc\usls\scene\mesh\Mesh.h" />
     <ClInclude Include="src\inc\usls\scene\stage\Actor.h" />
     <ClInclude Include="src\inc\usls\scene\mesh\Renderable.h" />
-    <ClInclude Include="src\inc\usls\scene\transform\Rotation.h" />
     <ClInclude Include="src\inc\usls\scene\Scene.h" />
     <ClInclude Include="src\inc\usls\scene\Shader.h" />
     <ClInclude Include="src\inc\usls\scene\mesh\Texture.h" />
-    <ClInclude Include="src\inc\usls\scene\transform\Transform.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\Transform.h" />
     <ClInclude Include="src\inc\usls\scene\mesh\Vertex.h" />
     <ClInclude Include="src\inc\usls\Window.h" />
     <ClInclude Include="src\inc\usls\scene\stage\Stage.h" />

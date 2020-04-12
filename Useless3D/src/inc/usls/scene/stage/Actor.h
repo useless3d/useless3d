@@ -6,18 +6,17 @@
 #include "glm/glm.hpp"
 
 #include "usls/scene/mesh/Mesh.h"
-#include "usls/scene/transform/Transform.h"
+#include "usls/scene/stage/Transform.h"
 
-using namespace usls::scene::transform;
 
 namespace usls::scene::stage
 {
     class Actor
     {
     private:
-        bool                    deleted;
-        std::string             name;
-        Transform               transform;
+        bool						deleted;
+        std::string					name;
+        Transform					transform;
 
         std::optional<size_t>		shaderIndex;
         std::optional<size_t>		meshIndex;

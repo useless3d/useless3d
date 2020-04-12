@@ -1,8 +1,9 @@
 #include <iostream>
 
+#include "glm/gtc/quaternion.hpp"
+
 #include "usls/App.h"
 #include "usls/scene/AssetLoader.h"
-#include "usls/scene/transform/Rotation.h"
 #include "usls/scene/mesh/Vertex.h"
 
 namespace usls::scene
@@ -130,17 +131,12 @@ namespace usls::scene
     {
         aiVector3D aiScale;
         aiVector3D aiPosition;
-        aiVector3D aiRotationAxis;
-        float rotationAngle;
-        node->mTransformation.Decompose(aiScale, aiRotationAxis, rotationAngle, aiPosition);
+		aiQuaternion aiRotation;
+        node->mTransformation.Decompose(aiScale, aiRotation, aiPosition);
 
         glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
         glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);
-        glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
-
-        Rotation rotation;
-        rotation.angle = rotationAngle * (180 / 3.124f); // convert radian to degree
-        rotation.axis = rotationAxis;
+		glm::quat rotation = glm::quat(aiRotation.w, aiRotation.x, aiRotation.y, aiRotation.z);
 
 		//std::cout << "	> position:" << translation.x << "," << translation.y << "," << translation.z << "\n";
 		std::cout << "	> scale:" << scale.x << "," << scale.y << "," << scale.z << "\n";

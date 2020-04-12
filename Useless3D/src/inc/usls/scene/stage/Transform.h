@@ -1,28 +1,31 @@
 #pragma once
 
 #include "glm/glm.hpp"
+#include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
 
-#include "usls/scene/transform/Rotation.h"
 
-namespace usls::scene::transform
+
+namespace usls::scene::stage
 {
 
 	class Transform
 	{
 	private:
 		glm::vec3	translation;
-		Rotation	rotation;
+		glm::quat	rotation;
 		glm::vec3	scale;
 
 	public:
 		Transform();
-		Transform(glm::vec3 t, Rotation r, glm::vec3 s);
+		Transform(glm::vec3 t, glm::quat r, glm::vec3 s);
 
 		void		setTranslation(glm::vec3 translation);
 		void		setRotation(float angle, glm::vec3 axis);
+		void		setRotation(glm::quat rotation);
 		void		setScale(glm::vec3 scale);
 		glm::vec3   getTranslation();
-		Rotation    getRotation();
+		glm::quat   getRotation();
 		glm::vec3   getScale();
 		const glm::mat4   getMatrix() const;
 		void        print();
