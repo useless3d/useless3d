@@ -179,8 +179,9 @@
     <ClInclude Include="src\inc\BootScene.h" />
     <ClInclude Include="src\inc\usls\App.h" />
     <ClInclude Include="src\inc\usls\GPU.h" />
-    <ClInclude Include="src\inc\usls\scene\armature\Animation.h" />
+    <ClInclude Include="src\inc\usls\scene\armature\animation\Animation.h" />
     <ClInclude Include="src\inc\usls\scene\armature\Armature.h" />
+    <ClInclude Include="src\inc\usls\scene\armature\animation\Bone.h" />
     <ClInclude Include="src\inc\usls\scene\armature\Bone.h" />
     <ClInclude Include="src\inc\usls\scene\AssetLoader.h" />
     <ClInclude Include="src\inc\usls\scene\stage\Camera.h" />
