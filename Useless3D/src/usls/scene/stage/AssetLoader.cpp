@@ -5,19 +5,21 @@
 #include "usls/App.h"
 #include "usls/scene/AssetLoader.h"
 #include "usls/scene/mesh/Vertex.h"
+#include "usls/helpers.h"
+
 
 namespace usls::scene
 {
-	AssetLoader::AssetLoader(Stage* stage, std::string actorFile) :
+	AssetLoader::AssetLoader(Stage* stage, std::string assetFile) :
         headless(App::get().config.HEADLESS),
         currentStage(stage),
-        currentActorFile(actorFile),
-        currentAssetDirectory(actorFile.substr(0, actorFile.find_last_of('/'))) 
+        currentAssetFile(assetFile),
+        currentAssetDirectory(assetFile.substr(0, assetFile.find_last_of('/')))
     {
-        this->aiScene = this->aiImporter.ReadFile(this->currentActorFile, aiProcess_Triangulate | aiProcess_FlipUVs);
+        this->aiScene = this->aiImporter.ReadFile(this->currentAssetFile, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-        if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
-        //if (!this->aiScene || !this->aiScene->mRootNode)
+        //if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
+        if (!this->aiScene || !this->aiScene->mRootNode)
         //if (this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
         {
             std::string errorMessage = this->aiImporter.GetErrorString();
@@ -27,38 +29,140 @@ namespace usls::scene
         }
     }
 
-    void AssetLoader::execute()
+	void AssetLoader::loadArmature()
+	{
+		//std::cout << "> Nodes\n";
+
+		this->processArmatureNode(this->aiScene->mRootNode);
+
+		//std::cout << "\n---------\n";
+		//for (auto& b : this->currentArmature->getBones())
+		//{
+		//	std::cout << "name: " << b.name << "\n";
+		//	std::cout << "children: ";
+		//	for (auto& c : b.children)
+		//	{
+		//		std::cout << c << ",";
+		//	}
+		//	std::cout << "\n";
+		//}
+
+		// Obtain parent and child indexes for each bone using their
+		// boneNames (done so that these indexes can be used at runtime instead
+		// of loops and string comparisons)
+		for (auto& b : this->currentArmature->getBones())
+		{
+			std::cout << b.name << "-" << b.parentName << "\n";
+			// get index of parent
+			b.parent = this->currentArmature->getBoneIndex(b.parentName);
+
+			// get indexes of all children
+			for (auto& c : b.childNames)
+			{
+				b.children.push_back(this->currentArmature->getBoneIndex(c));
+			}
+		}
+
+
+		std::cout << "\n---------\n";
+		size_t i = 0;
+		for (auto& b : this->currentArmature->getBones())
+		{
+			std::cout << "name: " << b.name << " " << i << "\n";
+			std::cout << "parent:" << b.parent << "\n";
+			std::cout << "children: ";
+			for (auto& c : b.children)
+			{
+				std::cout << c << ",";
+			}
+			std::cout << "\n";
+			i++;
+		}
+
+
+		//std::cout << "> Animations\n";
+		//for (unsigned int i = 0; i < this->aiScene->mNumAnimations; i++)
+		//{
+		//	std::cout << "  > " << this->aiScene->mAnimations[i]->mName.C_Str() << " - TPS: " << this->aiScene->mAnimations[i]->mTicksPerSecond << " - DUR: " << this->aiScene->mAnimations[i]->mDuration << "\n";
+
+		//	for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
+		//	{
+		//		std::cout << "      > " << this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str() << "\n";
+
+		//		for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
+		//		{
+		//			const aiVector3D& scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
+		//			std::cout << "			> (" << scale.x << "," << scale.y << "," << scale.z << ")\n";
+
+		//		}
+
+		//	}
+		//}
+
+
+	}
+
+    void AssetLoader::loadActors()
     {
-        std::cout << "> Nodes\n";
-
-        this->processNode(this->aiScene->mRootNode);
-        
-        std::cout << "\n";
-
-        std::cout << "> Animations\n";
-        for (unsigned int i = 0; i < this->aiScene->mNumAnimations; i++)
-        {
-            std::cout << "  > " << this->aiScene->mAnimations[i]->mName.C_Str() << " - TPS: " << this->aiScene->mAnimations[i]->mTicksPerSecond << " - DUR: " << this->aiScene->mAnimations[i]->mDuration << "\n";
-
-            for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
-            {
-                std::cout << "      > " << this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str() << "\n";
-
-				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
-				{
-					const aiVector3D& scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
-					std::cout << "			> (" << scale.x << "," << scale.y << "," << scale.z << ")\n";
-
-				}
-
-            }
-        }
-
-        
-
+        this->processActorNode(this->aiScene->mRootNode);
     }
 
-    void AssetLoader::processNode(aiNode* node)
+	void AssetLoader::processArmatureNode(aiNode* node)
+	{
+		// For debugging
+		std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
+
+		if (node->mNumMeshes != 0)
+		{
+			std::string nodeName = node->mName.C_Str();
+			std::cout << "AssetLoader ERROR: attempting to load armature from file that also contains mesh data (this is not supported)\n";
+			std::cin.get();
+			exit(EXIT_FAILURE);
+		}
+
+		std::string nodeName = node->mName.C_Str();
+
+		if (nodeName != "RootNode" && !string_contains("_end", nodeName))
+		{
+			std::string boneName = node->mName.C_Str();
+
+			std::string nodeParentName = node->mParent->mName.C_Str();
+
+			if (nodeParentName == "RootNode")
+			{
+				this->currentArmature = usls::scene::armature::Armature(boneName);
+			}
+			
+			this->processTransformable(node);
+
+
+			usls::scene::armature::Bone bone;
+			bone.name = boneName;
+			bone.parentName = nodeParentName == "RootNode" ? boneName : node->mParent->mName.C_Str();
+			bone.currentTransform = this->currentTransform;
+
+			for (unsigned int i = 0; i < node->mNumChildren; i++)
+			{
+				std::string childName = node->mChildren[i]->mName.C_Str();
+				if (!string_contains("_end", childName))
+				{
+					bone.childNames.push_back(childName);
+				}
+				
+			}
+
+			this->currentArmature->addBone(bone);
+			
+		}
+
+		// Do the same for each of its children
+		for (unsigned int i = 0; i < node->mNumChildren; i++)
+		{
+			this->processArmatureNode(node->mChildren[i]);
+		}
+	}
+
+    void AssetLoader::processActorNode(aiNode* node)
     {
         // For debugging
         std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
@@ -123,7 +227,7 @@ namespace usls::scene
         // Do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
-            this->processNode(node->mChildren[i]);
+            this->processActorNode(node->mChildren[i]);
         }
     }
 
@@ -139,7 +243,7 @@ namespace usls::scene
 		glm::quat rotation = glm::quat(aiRotation.w, aiRotation.x, aiRotation.y, aiRotation.z);
 
 		//std::cout << "	> position:" << translation.x << "," << translation.y << "," << translation.z << "\n";
-		std::cout << "	> scale:" << scale.x << "," << scale.y << "," << scale.z << "\n";
+		//std::cout << "	> scale:" << scale.x << "," << scale.y << "," << scale.z << "\n";
 
         this->currentTransform = Transform(translation, rotation, scale);
     }
@@ -276,7 +380,7 @@ namespace usls::scene
             return name;
         }
 
-        std::string message = "While attempting to load object: " + name + " from file: " + this->currentActorFile
+        std::string message = "While attempting to load object: " + name + " from file: " + this->currentAssetFile
             + " an existing actor contained this name. The following name has been used instead: ";
 
         int uniqueNumber = 0;

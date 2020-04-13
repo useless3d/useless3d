@@ -40,4 +40,13 @@ namespace usls
 		}
 	}
 
+	bool string_contains(std::string needle, std::string haystack)
+	{
+		if (haystack.find(needle) != std::string::npos)
+		{
+			return true;
+		}
+		return false;
+	}
+
 }

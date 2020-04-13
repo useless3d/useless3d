@@ -15,8 +15,16 @@ namespace usls::scene::armature
 		size_t animationIndex;
 		std::vector<Bone> bones;
 
+		
+
 	public:
 		Armature(std::string name);
+
+		void addBone(Bone b);
+
+		std::vector<Bone>& getBones();
+
+		size_t getBoneIndex(std::string boneName);
 
 	};
 }

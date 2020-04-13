@@ -68,6 +68,12 @@ namespace usls::scene::stage
         );
     }
 
+	void Stage::loadArmature(std::string filename)
+	{
+		auto loader = AssetLoader(this, filename);
+		loader.loadArmature();
+	}
+
 	void Stage::loadActor(std::string filename)
 	{
 		this->loadActors(filename);
@@ -93,7 +99,7 @@ namespace usls::scene::stage
         }
 
         auto loader = AssetLoader(this, filename);
-        loader.execute();
+        loader.loadActors();
     }
 
     void Stage::loadActors(std::string filename, int shaderIndex)
@@ -102,7 +108,7 @@ namespace usls::scene::stage
         loader.findShaderId = [&](std::string actorName) {
             return shaderIndex;
         };
-        loader.execute();
+        loader.loadActors();
     }
 
     void Stage::loadActors(std::string filename,
@@ -125,7 +131,7 @@ namespace usls::scene::stage
             return 0; // if no shader assoc found, use default shader
 
         };
-        loader.execute();
+        loader.loadActors();
     }
 
     const size_t Stage::getActorSize() const

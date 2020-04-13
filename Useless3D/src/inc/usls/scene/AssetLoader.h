@@ -14,6 +14,7 @@
 
 #include "usls/scene/Shader.h"
 #include "usls/scene/stage/Transform.h"
+#include "usls/scene/armature/Armature.h"
 
 using namespace usls::scene::stage;
 
@@ -29,23 +30,28 @@ namespace usls::scene
 
 		bool					headless;
 		Stage*					currentStage;
-		std::string				currentActorFile;
+		std::string				currentAssetFile;
 		std::string				currentAssetDirectory;
 		Transform				currentTransform;
 		std::optional<size_t>   currentMeshIndex;
 		std::optional<size_t>   currentMeshTextureIndex;
+		std::optional<armature::Armature> currentArmature;
 
-		void					processNode(aiNode* node);
+
+
+		void					processArmatureNode(aiNode* node);
+		void					processActorNode(aiNode* node);
 		void					processTransformable(aiNode* node);
 		void					processMesh(aiNode* node);
 		std::string				generateUniqueActorName(std::string name);
 
 	public:
-								AssetLoader(Stage* stage, std::string actorFile);
+								AssetLoader(Stage* stage, std::string assetFile);
 
 		std::optional<std::function<int(std::string actorName)>>	findShaderId;
 
-		void					execute();
+		void					loadActors();
+		void					loadArmature();
 
 
 	};

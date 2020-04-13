@@ -67,7 +67,6 @@ namespace usls::scene::stage
     {
         glm::mat4 m = glm::mat4(1.0f);
         m = glm::translate(m, this->translation);
-        //m = glm::rotate(m, glm::radians(this->rotation.angle), this->rotation.axis);
 		m = m * glm::toMat4(this->rotation);
         m = glm::scale(m, this->scale);
         return m;
