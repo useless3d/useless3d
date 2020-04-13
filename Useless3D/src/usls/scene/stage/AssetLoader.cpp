@@ -31,21 +31,7 @@ namespace usls::scene
 
 	void AssetLoader::loadArmature()
 	{
-		//std::cout << "> Nodes\n";
-
 		this->processArmatureNode(this->aiScene->mRootNode);
-
-		//std::cout << "\n---------\n";
-		//for (auto& b : this->currentArmature->getBones())
-		//{
-		//	std::cout << "name: " << b.name << "\n";
-		//	std::cout << "children: ";
-		//	for (auto& c : b.children)
-		//	{
-		//		std::cout << c << ",";
-		//	}
-		//	std::cout << "\n";
-		//}
 
 		// Obtain parent and child indexes for each bone using their
 		// boneNames (done so that these indexes can be used at runtime instead
@@ -64,20 +50,20 @@ namespace usls::scene
 		}
 
 
-		std::cout << "\n---------\n";
-		size_t i = 0;
-		for (auto& b : this->currentArmature->getBones())
-		{
-			std::cout << "name: " << b.name << " " << i << "\n";
-			std::cout << "parent:" << b.parent << "\n";
-			std::cout << "children: ";
-			for (auto& c : b.children)
-			{
-				std::cout << c << ",";
-			}
-			std::cout << "\n";
-			i++;
-		}
+		//std::cout << "\n---------\n";
+		//size_t i = 0;
+		//for (auto& b : this->currentArmature->getBones())
+		//{
+		//	std::cout << "name: " << b.name << " " << i << "\n";
+		//	std::cout << "parent:" << b.parent << "\n";
+		//	std::cout << "children: ";
+		//	for (auto& c : b.children)
+		//	{
+		//		std::cout << c << ",";
+		//	}
+		//	std::cout << "\n";
+		//	i++;
+		//}
 
 
 		//std::cout << "> Animations\n";
