@@ -12,6 +12,7 @@
 #include "usls/scene/mesh/Vertex.h"
 #include "usls/scene/mesh/Texture.h"
 #include "usls/scene/mesh/Renderable.h"
+#include "usls/scene/mesh/Bone.h"
 
 
 namespace usls::scene::mesh
@@ -25,10 +26,13 @@ namespace usls::scene::mesh
 		std::vector<unsigned int>           indices;
 		std::optional<size_t>               meshRenderableIndex;
 
+		std::vector<Bone>					bones;
+
 	public:
 		Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 
 		void                                setMeshRenderableIndex(size_t index);
+		void								setBones(std::vector<Bone>& bones);
 		const std::optional<size_t>&        getMeshRenderableIndex() const;
 
 		const std::string                   getName() const;

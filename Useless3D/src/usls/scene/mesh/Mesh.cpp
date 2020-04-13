@@ -48,4 +48,9 @@ namespace usls::scene::mesh
         return this->meshRenderableIndex;
     }
 
+	void Mesh::setBones(std::vector<Bone>& bones)
+	{
+		this->bones = bones;
+	}
+
 }

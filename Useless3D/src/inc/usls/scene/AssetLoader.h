@@ -43,7 +43,9 @@ namespace usls::scene
 		void					processActorNode(aiNode* node);
 		void					processTransformable(aiNode* node);
 		void					processMesh(aiNode* node);
+		
 		std::string				generateUniqueActorName(std::string name);
+		glm::mat4				aiMatrix4x4ToGlm(const aiMatrix4x4 &from);
 
 	public:
 								AssetLoader(Stage* stage, std::string assetFile);

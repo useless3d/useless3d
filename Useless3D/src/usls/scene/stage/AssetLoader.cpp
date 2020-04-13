@@ -299,16 +299,27 @@ namespace usls::scene
 
     void AssetLoader::processMesh(aiNode* node)
     {
-        aiMesh* mesh = this->aiScene->mMeshes[node->mMeshes[0]];
+        aiMesh* aiMesh = this->aiScene->mMeshes[node->mMeshes[0]];
         //std::cout << mesh->mName.C_Str();
         //std::cout << "\n";
 
-        if (mesh->HasBones())
+		// if mesh has bones, process bones
+		std::vector<mesh::Bone> bones;
+        if (aiMesh->HasBones())
         {
-            std::cout << "      > Bones\n";
-            for (unsigned int i = 0; i < mesh->mNumBones; i++)
+            for (unsigned int i = 0; i < aiMesh->mNumBones; i++)
             {
-                std::cout << "          > " << mesh->mBones[i]->mName.C_Str() << "\n";
+				auto b = mesh::Bone();
+				b.name = aiMesh->mBones[i]->mName.C_Str();
+				b.offsetMatrix = this->aiMatrix4x4ToGlm(aiMesh->mBones[i]->mOffsetMatrix);
+
+				for (unsigned int j = 0; j < aiMesh->mBones[i]->mNumWeights; j++)
+				{
+					b.vertexWeights.push_back(std::pair<size_t, float>
+						((size_t)aiMesh->mBones[i]->mWeights[j].mVertexId, aiMesh->mBones[i]->mWeights[j].mWeight));
+				}
+                
+				bones.push_back(b);
             }
         }
 
@@ -317,31 +328,31 @@ namespace usls::scene
         std::vector<unsigned int> indices;
 
         // Walk through each of the mesh's vertices
-        for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+        for (unsigned int i = 0; i < aiMesh->mNumVertices; i++)
         {
             Vertex vertex;
             glm::vec3 vector;
 
             // position
-            vector.x = mesh->mVertices[i].x;
-            vector.y = mesh->mVertices[i].y;
-            vector.z = mesh->mVertices[i].z;
+            vector.x = aiMesh->mVertices[i].x;
+            vector.y = aiMesh->mVertices[i].y;
+            vector.z = aiMesh->mVertices[i].z;
             vertex.position = vector;
 
             // normal
-            vector.x = mesh->mNormals[i].x;
-            vector.y = mesh->mNormals[i].y;
-            vector.z = mesh->mNormals[i].z;
+            vector.x = aiMesh->mNormals[i].x;
+            vector.y = aiMesh->mNormals[i].y;
+            vector.z = aiMesh->mNormals[i].z;
             vertex.normal = vector;
 
             // texture coordinates
-            if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
+            if (aiMesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
             {
                 glm::vec2 vec;
                 // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
                 // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
-                vec.x = mesh->mTextureCoords[0][i].x;
-                vec.y = mesh->mTextureCoords[0][i].y;
+                vec.x = aiMesh->mTextureCoords[0][i].x;
+                vec.y = aiMesh->mTextureCoords[0][i].y;
                 vertex.textureCoordinates = vec;
             }
             else
@@ -354,9 +365,9 @@ namespace usls::scene
         }
 
         // now walk through each of the mesh's faces (a face is a mesh's triangle) and retrieve the corresponding vertex indices.
-        for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+        for (unsigned int i = 0; i < aiMesh->mNumFaces; i++)
         {
-            aiFace face = mesh->mFaces[i];
+            aiFace face = aiMesh->mFaces[i];
 
             // retrieve all indices of the face and store them in the indices vector
             for (unsigned int j = 0; j < face.mNumIndices; j++)
@@ -383,14 +394,17 @@ namespace usls::scene
         // ...otherwise create a new mesh, save it within meshes and save the new index
         if (!this->currentMeshIndex)
         {
-            this->currentMeshIndex = App::get().getScene()->addMesh(Mesh(mesh->mName.C_Str(), vertices, indices));
+			auto mesh = Mesh(aiMesh->mName.C_Str(), vertices, indices);
+			mesh.setBones(bones);
+
+            this->currentMeshIndex = App::get().getScene()->addMesh(mesh);
         }
 
 
         if (!this->headless)
         {
             // process materials
-            aiMaterial* material = this->aiScene->mMaterials[mesh->mMaterialIndex];
+            aiMaterial* material = this->aiScene->mMaterials[aiMesh->mMaterialIndex];
             aiString str;
             material->GetTexture(aiTextureType_DIFFUSE, 0, &str);
 
@@ -444,5 +458,16 @@ namespace usls::scene
 
         return newName;
     }
+
+	glm::mat4 AssetLoader::aiMatrix4x4ToGlm(const aiMatrix4x4 &from)
+	{
+		glm::mat4 to;
+		//the a,b,c,d in assimp is the row ; the 1,2,3,4 is the column
+		to[0][0] = from.a1; to[1][0] = from.a2; to[2][0] = from.a3; to[3][0] = from.a4;
+		to[0][1] = from.b1; to[1][1] = from.b2; to[2][1] = from.b3; to[3][1] = from.b4;
+		to[0][2] = from.c1; to[1][2] = from.c2; to[2][2] = from.c3; to[3][2] = from.c4;
+		to[0][3] = from.d1; to[1][3] = from.d2; to[2][3] = from.d3; to[3][3] = from.d4;
+		return to;
+	}
 
 }
