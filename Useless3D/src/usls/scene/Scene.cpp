@@ -21,6 +21,18 @@ namespace usls::scene
         App::get().getGPU()->wipe();
     }
 
+	size_t Scene::addArmature(Armature a)
+	{
+		this->armatures.push_back(a);
+		return this->armatures.size() - 1;
+	}
+
+	size_t Scene::addAnimation(Animation a)
+	{
+		this->animations.push_back(a);
+		return this->animations.size() - 1;
+	}
+
     size_t Scene::addShader(std::string name, std::string vertName, std::string fragName)
     {
         return App::get().getGPU()->loadShader(name, vertName, fragName);
@@ -41,6 +53,16 @@ namespace usls::scene
     {
         return this->meshes;
     }
+
+	const std::vector<Armature>& Scene::getArmatures() const
+	{
+		return this->armatures;
+	}
+
+	const std::vector<Animation>& Scene::getAnimations() const
+	{
+		return this->animations;
+	}
 
 	size_t Scene::addMesh(Mesh m)
     {

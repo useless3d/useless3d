@@ -11,20 +11,21 @@ namespace usls::scene::armature
 	class Armature
 	{
 	private:
-		std::string name;
-		size_t animationIndex;
-		std::vector<Bone> bones;
+		std::string											name;
+		std::vector<Bone>									bones;
+		std::vector<std::pair<std::string, size_t>>			animations;
 
 		
 
 	public:
-		Armature(std::string name);
-
-		void addBone(Bone b);
-
-		std::vector<Bone>& getBones();
-
-		size_t getBoneIndex(std::string boneName);
+															Armature(std::string name);
+		void												addBone(Bone b);
+		void												addAnimation(std::string name, size_t index);
+		std::vector<Bone>&									getBones();
+		const std::vector<Bone>&							getBones() const;
+		const std::string&									getName() const;
+		const std::vector<std::pair<std::string, size_t>>&	getAnimations() const;
+		size_t												getBoneIndex(std::string boneName);
 
 	};
 }

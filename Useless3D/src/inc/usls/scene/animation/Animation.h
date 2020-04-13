@@ -3,9 +3,9 @@
 #include <vector>
 #include <string>
 
-#include "usls/scene/armature/animation/Channel.h"
+#include "usls/scene/animation/Channel.h"
 
-namespace usls::scene::armature::animation
+namespace usls::scene::animation
 {
 	struct Animation
 	{

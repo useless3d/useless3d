@@ -29,16 +29,16 @@ namespace usls::scene
         }
     }
 
-	void AssetLoader::loadArmature()
+	size_t AssetLoader::loadArmature()
 	{
 		this->processArmatureNode(this->aiScene->mRootNode);
 
 		// Obtain parent and child indexes for each bone using their
 		// boneNames (done so that these indexes can be used at runtime instead
 		// of loops and string comparisons)
-		for (auto& b : this->currentArmature->getBones())
+		for (auto& b : this->currentArmature->getBones()) // ignore intellisense error for getBones()
 		{
-			std::cout << b.name << "-" << b.parentName << "\n";
+			//std::cout << b.name << "-" << b.parentName << "\n";
 			// get index of parent
 			b.parent = this->currentArmature->getBoneIndex(b.parentName);
 
@@ -48,6 +48,15 @@ namespace usls::scene
 				b.children.push_back(this->currentArmature->getBoneIndex(c));
 			}
 		}
+
+		this->processAnimations();
+
+		// Add armature to app scene
+		auto armIndex = App::get().getScene()->addArmature(this->currentArmature.value());
+
+		// return armature index of scene's armatures container
+		return armIndex;
+
 
 
 		//std::cout << "\n---------\n";
@@ -93,10 +102,64 @@ namespace usls::scene
         this->processActorNode(this->aiScene->mRootNode);
     }
 
+	void AssetLoader::processAnimations()
+	{
+		for (unsigned int i = 0; i < this->aiScene->mNumAnimations; i++)
+		{
+			// create a new animation
+			auto a = Animation();
+			a.name = this->aiScene->mAnimations[i]->mName.C_Str();
+			a.duration = this->aiScene->mAnimations[i]->mDuration;
+			a.tps = this->aiScene->mAnimations[i]->mTicksPerSecond;
+
+			// add all channels to animation
+
+			for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
+			{
+				auto c = Channel();
+				c.name = this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str();
+				
+				// positions
+				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++)
+				{
+					auto position = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
+					c.positions.push_back(glm::vec3(position.x, position.y, position.z));
+				}
+
+				// rotations
+				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++)
+				{
+					auto rotation = this->aiScene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
+					c.rotations.push_back(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
+				}
+
+				// scalings
+				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
+				{
+					auto scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
+					c.scalings.push_back(glm::vec3(scale.x, scale.y, scale.z));
+				}
+
+				// add channel to animation
+				a.channels.push_back(c);
+			}
+
+			// add animation to scene's animations container, retrieving index
+			auto ai = App::get().getScene()->addAnimation(a);
+
+			// obtain this animation name relative to the armature
+			auto name = explode_string(a.name, '|')[1];
+
+			// add this animation name/index to the armature's animations vector
+			this->currentArmature->addAnimation(name, ai);
+
+		}
+	}
+
 	void AssetLoader::processArmatureNode(aiNode* node)
 	{
 		// For debugging
-		std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
+		//std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
 
 		if (node->mNumMeshes != 0)
 		{

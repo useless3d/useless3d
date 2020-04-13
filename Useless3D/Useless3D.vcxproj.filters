@@ -152,16 +152,16 @@
     <ClInclude Include="src\inc\usls\scene\AssetLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\armature\animation\Animation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\inc\usls\scene\armature\Bone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\usls\scene\stage\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\inc\usls\scene\armature\animation\Channel.h">
+    <ClInclude Include="src\inc\usls\scene\animation\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\usls\scene\animation\Channel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

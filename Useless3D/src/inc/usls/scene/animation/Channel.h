@@ -8,7 +8,7 @@
 
 
 
-namespace usls::scene::armature::animation
+namespace usls::scene::animation
 {
 	struct Channel
 	{

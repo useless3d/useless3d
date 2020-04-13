@@ -36,6 +36,58 @@ void ExampleScene1::load()
     //stage2.loadActors("data/models/bin/maps/005/005.fbx");
     
 
+/*
+	// debugging of loaded armatures / animations
+	for (auto& a : usls::App::get().getScene()->getArmatures())
+	{
+		std::cout << "Armature: " << a.getName() << "\n";
+		std::cout << "	Bones:\n";
+		for (auto& b : a.getBones())
+		{
+			std::cout << "		> " << b.name << "\n";
+			for (auto& c : b.childNames)
+			{
+				std::cout << "			>" << c << "\n";
+			}
+		}
+
+		std::cout << "	Animations:\n";
+		for (auto& am : a.getAnimations())
+		{
+			std::cout << "		>" << am.first << "-" << am.second << "\n";
+			
+		}
+
+	}
+
+	std::cout << "Animations:\n";
+	for (auto& a : usls::App::get().getScene()->getAnimations())
+	{
+		std::cout << "	> " << a.name << " - " << a.duration << " - " << a.tps << "\n";
+
+		for (auto& c : a.channels)
+		{
+			std::cout << "		> " << c.name << "\n";
+			std::cout << "			> Positions:\n";
+			for (auto& pos : c.positions)
+			{
+				std::cout << "				> (" << pos.x << "," << pos.y << "," << pos.z << ")\n";
+			}
+			std::cout << "			> Rotations:\n";
+			for (auto& rot : c.rotations)
+			{
+				std::cout << "				> (" << rot.w << "," << rot.x << "," << rot.y << "," << rot.z << ")\n";
+			}
+			std::cout << "			> Scalings:\n";
+			for (auto& scale : c.scalings)
+			{
+				std::cout << "				> (" << scale.x << "," << scale.y << "," << scale.z << ")\n";
+			}
+		}
+
+	}
+	*/
+
 }
 
 

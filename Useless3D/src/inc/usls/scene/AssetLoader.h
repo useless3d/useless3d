@@ -38,7 +38,7 @@ namespace usls::scene
 		std::optional<armature::Armature> currentArmature;
 
 
-
+		void					processAnimations();
 		void					processArmatureNode(aiNode* node);
 		void					processActorNode(aiNode* node);
 		void					processTransformable(aiNode* node);
@@ -51,7 +51,7 @@ namespace usls::scene
 		std::optional<std::function<int(std::string actorName)>>	findShaderId;
 
 		void					loadActors();
-		void					loadArmature();
+		size_t					loadArmature();
 
 
 	};
