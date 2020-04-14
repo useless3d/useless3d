@@ -18,6 +18,6 @@ namespace usls::scene::armature
 		std::vector<std::string>						childNames;
 		size_t											parent; // index of parent in containing armature
 		std::vector<size_t>								children; // indexes of children in containing armature
-		usls::scene::stage::Transform					currentTransform;
+		usls::scene::stage::Transform					worldTransform;
 	};
 }

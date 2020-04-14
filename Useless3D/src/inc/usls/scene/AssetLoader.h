@@ -15,6 +15,7 @@
 #include "usls/scene/Shader.h"
 #include "usls/scene/stage/Transform.h"
 #include "usls/scene/armature/Armature.h"
+#include "usls/scene/mesh/VertexBoneData.h"
 
 using namespace usls::scene::stage;
 
@@ -37,8 +38,8 @@ namespace usls::scene
 		std::optional<size_t>   currentMeshTextureIndex;
 		std::optional<armature::Armature> currentArmature;
 		std::optional<size_t>	currentArmatureIndex;
-
 		std::vector<std::string> processedNodes;
+		std::vector<mesh::VertexBoneData> currentMeshBones;
 
 
 		void					processAnimations();

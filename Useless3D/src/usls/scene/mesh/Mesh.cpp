@@ -10,13 +10,43 @@
 namespace usls::scene::mesh
 {
 
-    Mesh::Mesh(std::string name, std::vector<Vertex> vertices, std::vector<unsigned int> indices) :
-        name(name),
-        vertices(vertices),
-        indices(indices)
-    {
-        
-    }
+    Mesh::Mesh(std::string name) :
+        name(name)
+    {}
+
+	void Mesh::addVertexWeight(unsigned int vertexIndex, unsigned int boneIndex, float weight)
+	{
+		// I'm not a fan of this...seems complex for just adding something to a raw array...why not just use a vector?
+		for (unsigned int i = 0; i < (sizeof(this->vertexWeights[vertexIndex].ids) / sizeof(this->vertexWeights[vertexIndex].ids[0])); i++)
+		{
+			if (this->vertexWeights[vertexIndex].weights[i] == 0.0)
+			{
+				this->vertexWeights[vertexIndex].ids[i] = boneIndex;
+				this->vertexWeights[vertexIndex].weights[i] = weight;
+				return;
+			}
+		}		
+	}
+
+	void Mesh::resizeVertexWeights(size_t size)
+	{
+		this->vertexWeights.resize(size);
+	}
+
+	void Mesh::setVertices(std::vector<Vertex>& vertices)
+	{
+		this->vertices = vertices;
+	}
+
+	void Mesh::setIndices(std::vector<unsigned int>& indices)
+	{
+		this->indices = indices;
+	}
+
+	void Mesh::setBones(std::vector<Bone>& bones)
+	{
+		this->bones = bones;
+	}
 
     void Mesh::setMeshRenderableIndex(size_t index)
     {
@@ -47,10 +77,5 @@ namespace usls::scene::mesh
     {
         return this->meshRenderableIndex;
     }
-
-	void Mesh::setBones(std::vector<Bone>& bones)
-	{
-		this->bones = bones;
-	}
 
 }

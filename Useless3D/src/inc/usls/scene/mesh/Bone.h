@@ -10,6 +10,6 @@ namespace usls::scene::mesh
 	{
 		std::string name;
 		glm::mat4 offsetMatrix;
-		std::vector<std::pair<size_t, float>> vertexWeights;
+		glm::mat4 finalMatrix;
 	};
 }

@@ -16,7 +16,7 @@ namespace usls::scene
         currentAssetFile(assetFile),
         currentAssetDirectory(assetFile.substr(0, assetFile.find_last_of('/')))
     {
-        this->aiScene = this->aiImporter.ReadFile(this->currentAssetFile, aiProcess_Triangulate | aiProcess_FlipUVs);
+        this->aiScene = this->aiImporter.ReadFile(this->currentAssetFile, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
 
         //if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
         if (!this->aiScene || !this->aiScene->mRootNode)
@@ -120,7 +120,7 @@ namespace usls::scene
 			usls::scene::armature::Bone bone;
 			bone.name = boneName;
 			bone.parentName = nodeParentName == "RootNode" ? boneName : node->mParent->mName.C_Str();
-			bone.currentTransform = this->currentTransform;
+			bone.worldTransform = this->currentTransform;
 
 			for (unsigned int i = 0; i < node->mNumChildren; i++)
 			{
@@ -272,35 +272,13 @@ namespace usls::scene
     void AssetLoader::processMesh(aiNode* node)
     {
         aiMesh* aiMesh = this->aiScene->mMeshes[node->mMeshes[0]];
-        //std::cout << mesh->mName.C_Str();
-        //std::cout << "\n";
-
-		// if mesh has bones, process bones
-		std::vector<mesh::Bone> bones;
-        if (aiMesh->HasBones())
-        {
-            for (unsigned int i = 0; i < aiMesh->mNumBones; i++)
-            {
-				auto b = mesh::Bone();
-				b.name = aiMesh->mBones[i]->mName.C_Str();
-				b.offsetMatrix = this->aiMatrix4x4ToGlm(aiMesh->mBones[i]->mOffsetMatrix);
-
-				for (unsigned int j = 0; j < aiMesh->mBones[i]->mNumWeights; j++)
-				{
-					b.vertexWeights.push_back(std::pair<size_t, float>
-						((size_t)aiMesh->mBones[i]->mWeights[j].mVertexId, aiMesh->mBones[i]->mWeights[j].mWeight));
-				}
-                
-				bones.push_back(b);
-            }
-        }
+		auto mesh = Mesh(aiMesh->mName.C_Str());
 
         // process mesh
-        std::vector<Vertex> vertices;
-        std::vector<unsigned int> indices;
 
-        // Walk through each of the mesh's vertices
-        for (unsigned int i = 0; i < aiMesh->mNumVertices; i++)
+        // walk through each of the mesh's vertices
+		std::vector<Vertex> vertices;
+		for (unsigned int i = 0; i < aiMesh->mNumVertices; i++)
         {
             Vertex vertex;
             glm::vec3 vector;
@@ -333,10 +311,13 @@ namespace usls::scene
             }
 
             vertices.push_back(vertex);
-
         }
 
+		mesh.setVertices(vertices);
+
+
         // now walk through each of the mesh's faces (a face is a mesh's triangle) and retrieve the corresponding vertex indices.
+		std::vector<unsigned int> indices;
         for (unsigned int i = 0; i < aiMesh->mNumFaces; i++)
         {
             aiFace face = aiMesh->mFaces[i];
@@ -347,6 +328,33 @@ namespace usls::scene
                 indices.push_back(face.mIndices[j]);
             }
         }
+
+		mesh.setIndices(indices);
+
+
+
+		// if mesh has bones, process bones
+		std::vector<mesh::Bone> bones;
+		mesh.resizeVertexWeights(vertices.size());
+		if (aiMesh->HasBones())
+		{
+			for (unsigned int i = 0; i < aiMesh->mNumBones; i++)
+			{
+				auto b = mesh::Bone();
+				b.name = aiMesh->mBones[i]->mName.C_Str();
+				b.offsetMatrix = this->aiMatrix4x4ToGlm(aiMesh->mBones[i]->mOffsetMatrix);
+				bones.push_back(b);
+
+				for (unsigned int j = 0; j < aiMesh->mBones[i]->mNumWeights; j++)
+				{
+					mesh.addVertexWeight(aiMesh->mBones[i]->mWeights[j].mVertexId, i, aiMesh->mBones[i]->mWeights[j].mWeight);
+				}				
+			}
+		}
+
+		mesh.setBones(bones);
+
+
 
         // Does the exact same mesh exist? If so use the index of that mesh.
 
@@ -363,11 +371,11 @@ namespace usls::scene
             }
             meshIndex++;
         }
-        // ...otherwise create a new mesh, save it within meshes and save the new index
+        // ...otherwise, save it within scene->meshes and save the new index
         if (!this->currentMeshIndex)
         {
-			auto mesh = Mesh(aiMesh->mName.C_Str(), vertices, indices);
-			mesh.setBones(bones);
+			//auto mesh = Mesh(aiMesh->mName.C_Str(), vertices, indices);
+			//mesh.setBones(bones);
 
             this->currentMeshIndex = App::get().getScene()->addMesh(mesh);
         }

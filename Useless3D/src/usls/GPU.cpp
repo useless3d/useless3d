@@ -154,13 +154,21 @@ namespace usls
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(mesh::Vertex), (void*)0);
 
-        // Assign vertex positions to location = 1
+        // Assign vertex normals to location = 1
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(mesh::Vertex), (void*)offsetof(mesh::Vertex, normal));
 
         // Assign vertex texture coordinates to location = 2
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(mesh::Vertex), (void*)offsetof(mesh::Vertex, textureCoordinates));
+
+		// Assign vertex bone ids to location = 3
+		glEnableVertexAttribArray(3);
+		glVertexAttribIPointer(3, 4, GL_INT, sizeof(mesh::Vertex), (void*)offsetof(mesh::Vertex, weights.ids));
+
+		// Assign vertex weights to location = 4
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(mesh::Vertex), (void*)offsetof(mesh::Vertex, weights.weights));
 
         // Unbind the vertex array to prevent accidental operations
         glBindVertexArray(0);
