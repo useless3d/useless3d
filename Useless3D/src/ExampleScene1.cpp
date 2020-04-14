@@ -20,7 +20,6 @@ void ExampleScene1::load()
     //stage.getCamera()->setPosition(0.0f, 4.0f, 8.0f);
     //stage.getCamera()->setPosition(0.0f, 10.0f, 22.0f);
     stage.getCamera()->setLookAt(0.0f, 0.0f, 0.0f);
-	//stage.loadArmature("data/models/bin/characters/low_poly/armature.fbx"); // add actors to this stage, use default shader for all meshes in this file
     stage.loadActor("data/models/bin/characters/low_poly/both.fbx"); // add actors to this stage, use default shader for all meshes in this file
 	//stage.loadActors("data/models/bin/maps/stress/001.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //stage.loadActors("data/models/bin/maps/004/004.fbx"); // add actors to this stage, use default shader for all meshes in this file

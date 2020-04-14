@@ -36,6 +36,9 @@ namespace usls::scene
 		std::optional<size_t>   currentMeshIndex;
 		std::optional<size_t>   currentMeshTextureIndex;
 		std::optional<armature::Armature> currentArmature;
+		std::optional<size_t>	currentArmatureIndex;
+
+		std::vector<std::string> processedNodes;
 
 
 		void					processAnimations();
@@ -43,6 +46,7 @@ namespace usls::scene
 		void					processActorNode(aiNode* node);
 		void					processTransformable(aiNode* node);
 		void					processMesh(aiNode* node);
+		bool					isRootArmatureNode(aiNode* node);
 		
 		std::string				generateUniqueActorName(std::string name);
 		glm::mat4				aiMatrix4x4ToGlm(const aiMatrix4x4 &from);
@@ -53,7 +57,7 @@ namespace usls::scene
 		std::optional<std::function<int(std::string actorName)>>	findShaderId;
 
 		void					loadActors();
-		size_t					loadArmature();
+
 
 
 	};

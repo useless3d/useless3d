@@ -32,8 +32,6 @@ namespace usls::scene::stage
     public:
 													Stage(bool headless);
 
-		void										loadArmature(std::string filename);
-
 		void										loadActor(std::string filename);
 		void										loadActor(std::string filename, int shaderIndex);
 		void										loadActor(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);

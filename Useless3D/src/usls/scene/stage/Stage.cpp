@@ -68,12 +68,6 @@ namespace usls::scene::stage
         );
     }
 
-	void Stage::loadArmature(std::string filename)
-	{
-		auto loader = AssetLoader(this, filename);
-		loader.loadArmature();
-	}
-
 	void Stage::loadActor(std::string filename)
 	{
 		this->loadActors(filename);

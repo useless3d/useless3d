@@ -29,74 +29,6 @@ namespace usls::scene
         }
     }
 
-	size_t AssetLoader::loadArmature()
-	{
-		this->processArmatureNode(this->aiScene->mRootNode);
-
-		// Obtain parent and child indexes for each bone using their
-		// boneNames (done so that these indexes can be used at runtime instead
-		// of loops and string comparisons)
-		for (auto& b : this->currentArmature->getBones()) // ignore intellisense error for getBones()
-		{
-			//std::cout << b.name << "-" << b.parentName << "\n";
-			// get index of parent
-			b.parent = this->currentArmature->getBoneIndex(b.parentName);
-
-			// get indexes of all children
-			for (auto& c : b.childNames)
-			{
-				b.children.push_back(this->currentArmature->getBoneIndex(c));
-			}
-		}
-
-		this->processAnimations();
-
-		// Add armature to app scene
-		auto armIndex = App::get().getScene()->addArmature(this->currentArmature.value());
-
-		// return armature index of scene's armatures container
-		return armIndex;
-
-
-
-		//std::cout << "\n---------\n";
-		//size_t i = 0;
-		//for (auto& b : this->currentArmature->getBones())
-		//{
-		//	std::cout << "name: " << b.name << " " << i << "\n";
-		//	std::cout << "parent:" << b.parent << "\n";
-		//	std::cout << "children: ";
-		//	for (auto& c : b.children)
-		//	{
-		//		std::cout << c << ",";
-		//	}
-		//	std::cout << "\n";
-		//	i++;
-		//}
-
-
-		//std::cout << "> Animations\n";
-		//for (unsigned int i = 0; i < this->aiScene->mNumAnimations; i++)
-		//{
-		//	std::cout << "  > " << this->aiScene->mAnimations[i]->mName.C_Str() << " - TPS: " << this->aiScene->mAnimations[i]->mTicksPerSecond << " - DUR: " << this->aiScene->mAnimations[i]->mDuration << "\n";
-
-		//	for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
-		//	{
-		//		std::cout << "      > " << this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str() << "\n";
-
-		//		for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
-		//		{
-		//			const aiVector3D& scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
-		//			std::cout << "			> (" << scale.x << "," << scale.y << "," << scale.z << ")\n";
-
-		//		}
-
-		//	}
-		//}
-
-
-	}
-
     void AssetLoader::loadActors()
     {
         this->processActorNode(this->aiScene->mRootNode);
@@ -204,6 +136,8 @@ namespace usls::scene
 			
 		}
 
+		this->processedNodes.push_back(nodeName);
+
 		// Do the same for each of its children
 		for (unsigned int i = 0; i < node->mNumChildren; i++)
 		{
@@ -211,19 +145,27 @@ namespace usls::scene
 		}
 	}
 
+	bool AssetLoader::isRootArmatureNode(aiNode* node)
+	{
+		// if this node has children, and no mesh, assume that it is an armature
+		// (this is very naive, but should work for the time being so we can move forward
+		// with skeletal animation implementation. This method can be revised in the future
+		// to be more accurate)
+		std::string nodeName = node->mParent->mName.C_Str();
+		if (nodeName == "RootNode" && node->mNumChildren > 0 && node->mNumMeshes == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
     void AssetLoader::processActorNode(aiNode* node)
     {
-        // For debugging
-        std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
-        
-        //std::cout << " parent:";
-        //if (node->mParent != NULL) {
-        //    std::cout << node->mParent->mName.C_Str();
-        //    std::cout << "\n";
-        //}
-        //else {
-        //    std::cout << "ROOT\n";
-        //}
+        //std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
+
 
         // If node has more than one mesh, display an error and exit (as I cannot think of a reason
         // why a node would have more than one mesh at this time, therefore if we ever receive
@@ -241,36 +183,66 @@ namespace usls::scene
         
 		std::string nodeName = node->mName.C_Str();
 
-        if (nodeName != "RootNode")
+        if (nodeName != "RootNode" && !sin_vector(nodeName, this->processedNodes))
         {
-			// is this an armature?
+			
+			if (this->isRootArmatureNode(node))
+			{
+				this->processArmatureNode(node);
+				this->processAnimations();
 
+				// Obtain parent and child indexes for each bone using their
+				// boneNames (done so that these indexes can be used at runtime instead
+				// of loops and string comparisons)
+				for (auto& b : this->currentArmature->getBones()) // ignore intellisense error for getBones()
+				{
+					//std::cout << b.name << "-" << b.parentName << "\n";
+					// get index of parent
+					b.parent = this->currentArmature->getBoneIndex(b.parentName);
 
-			std::string actorName = this->generateUniqueActorName(node->mName.C_Str());
+					// get indexes of all children
+					for (auto& c : b.childNames)
+					{
+						b.children.push_back(this->currentArmature->getBoneIndex(c));
+					}
+				}
 
-            this->processTransformable(node);
+				// Add armature to app scene
+				this->currentArmatureIndex = App::get().getScene()->addArmature(this->currentArmature.value());
 
-			this->currentMeshIndex.reset();
-            this->currentMeshTextureIndex.reset();
+			}
+			else
+			{
+				std::string actorName = this->generateUniqueActorName(node->mName.C_Str());
+
+				this->processTransformable(node);
+
+				this->currentMeshIndex.reset();
+				this->currentMeshTextureIndex.reset();
+
+				auto actor = Actor(actorName, this->currentTransform);
+
+				if (node->mNumMeshes == 1)
+				{
+					this->processMesh(node);
+
+					actor.setMeshIndex(this->currentMeshIndex.value());
+					if (this->currentArmatureIndex)
+					{
+						actor.setArmatureIndex(this->currentArmatureIndex.value());
+					}
+
+					if (!this->headless)
+					{
+						actor.setShaderIndex(this->findShaderId.value()(actorName));
+						actor.setTextureIndex(this->currentMeshTextureIndex.value());
+					}
+				}
+
+				this->currentStage->addActor(actor);
+			}
 
 			
-
-            auto actor = Actor(actorName, this->currentTransform);
-
-            if (node->mNumMeshes == 1)
-            {
-                this->processMesh(node);
-
-                actor.setMeshIndex(this->currentMeshIndex.value());
-
-                if (!this->headless)
-                {
-                    actor.setShaderIndex(this->findShaderId.value()(actorName));
-                    actor.setTextureIndex(this->currentMeshTextureIndex.value());
-                }
-            }
-
-            this->currentStage->addActor(actor);
         }
 
         // Do the same for each of its children
