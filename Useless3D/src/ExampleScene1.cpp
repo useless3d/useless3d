@@ -44,21 +44,24 @@ void ExampleScene1::loop()
 {
     // Application logic, move things around, swap scenes, etc
 
-	//std::cout << "-------------\n";
-	for (auto& arm : this->getArmatures())
-	{
-		int i = 0;
-		for (auto& bone : arm.getBones())
-		{
-			i++;
-			if (i == 15) {
-				auto t = bone.worldTransform.getTranslation();
+	//auto& stage = this->getStage(0);
+	//
 
-				std::cout << bone.name << ":	" << t.x << "," << t.y << "," << t.z << "\n";
-			}
-			
-		}
-	}
+	////std::cout << "-------------\n";
+	//for (auto& arm : this->getArmatures())
+	//{
+	//	int i = 0;
+	//	for (auto& bone : arm.getBones())
+	//	{
+	//		i++;
+	//		if (i == 15) {
+	//			auto t = bone.worldTransform.getTranslation();
+	//			stage.getActor("character")->getTransform().setTranslation(t);
+	//			//std::cout << bone.name << ":	" << t.x << "," << t.y << "," << t.z << "\n";
+	//		}
+	//		
+	//	}
+	//}
 
 
 
