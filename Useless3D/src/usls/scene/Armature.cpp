@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtx/matrix_decompose.hpp>
+
 #include "usls/App.h"
 #include "usls/scene/armature/Armature.h"
 
@@ -37,12 +40,75 @@ namespace usls::scene::armature
 
 		glm::vec3 returnVal = start + (float)factor * delta;
 
-		std::cout << "(" << returnVal.x << "," << returnVal.y << "," << returnVal.z << ")\n";
+		//std::cout << "(" << returnVal.x << "," << returnVal.y << "," << returnVal.z << ")\n";
 
 		return returnVal;
 	}
 
-	void Armature::updateBone(size_t index, double time)
+	glm::quat Armature::calcRotation(const double& time, const usls::scene::animation::Channel& channel)
+	{
+		if (channel.rotationKeys.size() == 1)
+		{
+			return channel.rotationKeys[0].second;
+		}
+
+		size_t currentKeyIndex = 0;
+		for (size_t i = 0; i < channel.rotationKeys.size() - 1; i++)
+		{
+			if (time < channel.rotationKeys[i + 1].first)
+			{
+				currentKeyIndex = i;
+			}
+		}
+
+		size_t nextKeyIndex = currentKeyIndex + 1;
+
+		double deltaTime = channel.rotationKeys[nextKeyIndex].first - channel.rotationKeys[currentKeyIndex].first;
+		double factor = time - channel.rotationKeys[currentKeyIndex].first / deltaTime;
+
+		glm::quat start = channel.rotationKeys[currentKeyIndex].second;
+		glm::quat end = channel.rotationKeys[nextKeyIndex].second;
+		glm::quat delta = glm::slerp(start, end, (float)factor);
+		delta = glm::normalize(delta);
+		
+		//std::cout << "(" << delta.x << "," << delta.y << "," << delta.z << "," << delta.w <<  ")\n";
+
+		return delta;
+	}
+
+	glm::vec3 Armature::calcScale(const double& time, const usls::scene::animation::Channel& channel)
+	{
+		if (channel.scalingKeys.size() == 1)
+		{
+			return channel.scalingKeys[0].second;
+		}
+
+		size_t currentKeyIndex = 0;
+		for (size_t i = 0; i < channel.scalingKeys.size() - 1; i++)
+		{
+			if (time < channel.scalingKeys[i + 1].first)
+			{
+				currentKeyIndex = i;
+			}
+		}
+
+		size_t nextKeyIndex = currentKeyIndex + 1;
+
+		double deltaTime = channel.scalingKeys[nextKeyIndex].first - channel.scalingKeys[currentKeyIndex].first;
+		double factor = time - channel.scalingKeys[currentKeyIndex].first / deltaTime;
+
+		glm::vec3 start = channel.scalingKeys[currentKeyIndex].second;
+		glm::vec3 end = channel.scalingKeys[nextKeyIndex].second;
+		glm::vec3 delta = end - start;
+
+		glm::vec3 returnVal = start + (float)factor * delta;
+
+		//std::cout << "(" << returnVal.x << "," << returnVal.y << "," << returnVal.z << ")\n";
+
+		return returnVal;
+	}
+
+	void Armature::updateBone(size_t index, double time, glm::mat4 parentMatrix)
 	{
 		auto& bone = this->bones[index];
 		usls::scene::animation::Channel channel;
@@ -56,11 +122,28 @@ namespace usls::scene::armature
 			}
 		}
 
-		bone.worldTransform.setTranslation(this->calcTranslation(time, channel));
+		auto boneMatrix = glm::mat4(1.0f);
+		boneMatrix = glm::translate(boneMatrix, this->calcTranslation(time, channel));
+		boneMatrix = boneMatrix * glm::toMat4(this->calcRotation(time, channel));
+		boneMatrix = glm::scale(boneMatrix, this->calcScale(time, channel));
+		boneMatrix = parentMatrix * boneMatrix;
+
+		// Decompose matrix so we can save it's independant values to the bone's transform
+		// (so it's position, rotation, scale can be referenced later for things such as parenting)
+		glm::vec3 scale;
+		glm::quat rotation; 
+		glm::vec3 translation;
+		glm::vec3 skew;
+		glm::vec4 perspective;
+		glm::decompose(boneMatrix, scale, rotation, translation, skew, perspective);
+
+		bone.worldTransform.setTranslation(translation);
+		bone.worldTransform.setRotation(glm::conjugate(rotation)); // decompose returns rotation conjugate, so this is compensated for
+		bone.worldTransform.setScale(scale);
 
 		for (auto& c : bone.children)
 		{
-			this->updateBone(c, time);
+			this->updateBone(c, time, boneMatrix);
 		}
 	}
 
@@ -69,7 +152,7 @@ namespace usls::scene::armature
 		double timeInTicks = runTime * this->currentAnimation->tps;
 		double animationTime = fmod(timeInTicks, this->currentAnimation->duration);
 
-		this->updateBone(0, animationTime);
+		this->updateBone(0, animationTime, glm::mat4(1.0f));
 
 	}
 

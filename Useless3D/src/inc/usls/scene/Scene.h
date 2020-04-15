@@ -47,7 +47,7 @@ namespace usls::scene
 		size_t								addArmature(Armature a);
 
 		Armature&							getArmature(size_t index);
-		const std::vector<Armature>&		getArmatures() const;
+		std::vector<Armature>&				getArmatures();
 		const std::vector<Animation>&		getAnimations() const;
 		Animation&							getAnimation(size_t index);
 

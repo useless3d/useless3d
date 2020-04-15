@@ -43,12 +43,32 @@ void ExampleScene1::load()
 void ExampleScene1::loop()
 {
     // Application logic, move things around, swap scenes, etc
-    auto& stage = this->getStage(0);
 
-    if (usls::App::get().getInputState().keySpace) 
-    {
-        usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
-    }
+	//std::cout << "-------------\n";
+	for (auto& arm : this->getArmatures())
+	{
+		int i = 0;
+		for (auto& bone : arm.getBones())
+		{
+			i++;
+			if (i == 15) {
+				auto t = bone.worldTransform.getTranslation();
+
+				std::cout << bone.name << ":	" << t.x << "," << t.y << "," << t.z << "\n";
+			}
+			
+		}
+	}
+
+
+
+
+    //auto& stage = this->getStage(0);
+
+    //if (usls::App::get().getInputState().keySpace) 
+    //{
+    //    usls::App::get().setScene(std::move(std::make_unique<BootScene>()));
+    //}
 
     //if (usls::App::get().getInputState().keyD) 
     //{

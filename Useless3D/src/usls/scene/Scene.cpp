@@ -54,7 +54,7 @@ namespace usls::scene
         return this->meshes;
     }
 
-	const std::vector<Armature>& Scene::getArmatures() const
+	std::vector<Armature>& Scene::getArmatures()
 	{
 		return this->armatures;
 	}
