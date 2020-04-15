@@ -174,6 +174,9 @@ namespace usls
                     
                     if (this->scene && this->scene.value()->loaded) 
                     {
+						// update animations
+						this->scene.value()->updateAnimations(this->currentTime);
+
                         // call user defined loop method (where logic is performed (ie movement and such))
                         this->scene.value()->loop();
                     }

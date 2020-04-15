@@ -39,6 +39,8 @@ namespace usls::scene::stage
         void										loadActors(std::string filename, int shaderIndex);
         void										loadActors(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
 
+		void										updateActorAnimations(double runTime);
+
         void										addActor(Actor a);
         void										removeActor(std::string name);
         void										removeActor(size_t index);

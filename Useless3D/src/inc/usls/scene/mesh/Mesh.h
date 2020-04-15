@@ -44,6 +44,8 @@ namespace usls::scene::mesh
 		const std::vector<Vertex>&			getVertices() const;
 		const std::vector<unsigned int>&	getIndices() const;
 		const bool                          isRenderable() const;
+		const bool                          hasBones() const;
+
 
 	};
     

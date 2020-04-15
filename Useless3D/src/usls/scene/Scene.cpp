@@ -79,23 +79,31 @@ namespace usls::scene
         return this->meshes.at(index);
     }
 
+	Armature& Scene::getArmature(size_t index)
+	{
+		return this->armatures.at(index);
+	}
+
+	Animation& Scene::getAnimation(size_t index)
+	{
+		return this->animations.at(index);
+	}
+
+	void Scene::updateAnimations(double runTime)
+	{
+		for (auto& s : this->stages)
+		{
+			s.updateActorAnimations(runTime);
+		}
+	}
 
     void Scene::draw()
     {
         GPU& gpu = App::get().getGPU().value();
 
-        //int i = 0;
-        //for (auto& mt : gpu.getTextures())
-        //{
-        //    std::cout << "i:" << i << " " << mt.path << "\n";
-        //    i++;
-        //}
-
         for (auto& s : this->stages)
         {
-            //s.printRenderCommands();
-
-            
+            //s.printRenderCommands();            
 
             // should always have a camera if we've made it this far
             s.getCamera()->update();

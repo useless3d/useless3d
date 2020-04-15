@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "usls/App.h"
 #include "usls/scene/stage/Actor.h"
 
 namespace usls::scene::stage
@@ -74,5 +75,28 @@ namespace usls::scene::stage
     {
         this->renderCommand = cmd;
     }
+
+	const bool Actor::isAnimated() const
+	{
+		if (this->armatureIndex) 
+		{
+			return true;
+		}
+		return false;
+	}
+
+	const size_t Actor::getArmatureIndex() const
+	{
+		return this->armatureIndex.value();
+	}
+
+	void Actor::animate(std::string animationName)
+	{
+		if (this->armatureIndex)
+		{
+			App::get().getScene()->getArmature(this->armatureIndex.value())
+				.setCurrentAnimation(animationName);
+		}
+	}
 
 }

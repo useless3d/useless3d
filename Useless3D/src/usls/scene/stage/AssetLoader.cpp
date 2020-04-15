@@ -55,21 +55,24 @@ namespace usls::scene
 				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++)
 				{
 					auto position = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
-					c.positions.push_back(glm::vec3(position.x, position.y, position.z));
+					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+					c.positionKeys.push_back(std::pair<double, glm::vec3>(time, glm::vec3(position.x, position.y, position.z)));
 				}
 
 				// rotations
 				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++)
 				{
 					auto rotation = this->aiScene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
-					c.rotations.push_back(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
+					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+					c.rotationKeys.push_back(std::pair<double, glm::quat>(time, glm::quat(rotation.w, rotation.x, rotation.y, rotation.z)));
 				}
 
 				// scalings
 				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
 				{
 					auto scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
-					c.scalings.push_back(glm::vec3(scale.x, scale.y, scale.z));
+					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+					c.scalingKeys.push_back(std::pair<double, glm::vec3>(time, glm::vec3(scale.x, scale.y, scale.z)));
 				}
 
 				// add channel to animation

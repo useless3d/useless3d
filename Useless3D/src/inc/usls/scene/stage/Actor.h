@@ -41,6 +41,10 @@ namespace usls::scene::stage
         const std::pair<size_t, size_t>&		getRenderCommand() const;
         void									setDeleted(bool d);
         const bool								isDeleted() const;
+		const bool								isAnimated() const;
+		const size_t							getArmatureIndex() const;
+
+		void									animate(std::string animationName);
 
         Transform&								getTransform();
 

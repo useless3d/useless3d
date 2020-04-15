@@ -128,6 +128,18 @@ namespace usls::scene::stage
         loader.loadActors();
     }
 
+	void Stage::updateActorAnimations(double runTime)
+	{
+		for (auto& a : this->actors)
+		{
+			if (!a.isDeleted() && a.isAnimated())
+			{
+				auto& arm = App::get().getScene()->getArmature(a.getArmatureIndex());
+				arm.updateCurrentAnimation(runTime);
+			}
+		}
+	}
+
     const size_t Stage::getActorSize() const
     {
         return this->actors.size();

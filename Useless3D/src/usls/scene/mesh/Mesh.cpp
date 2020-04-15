@@ -14,6 +14,15 @@ namespace usls::scene::mesh
         name(name)
     {}
 
+	const bool Mesh::hasBones() const
+	{
+		if (this->bones.size() > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	void Mesh::addVertexWeight(unsigned int vertexIndex, unsigned int boneIndex, float weight)
 	{
 		// I'm not a fan of this...seems complex for just adding something to a raw array...why not just use a vector?

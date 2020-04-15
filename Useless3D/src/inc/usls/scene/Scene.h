@@ -46,10 +46,12 @@ namespace usls::scene
 		size_t								addAnimation(Animation a);
 		size_t								addArmature(Armature a);
 
+		Armature&							getArmature(size_t index);
 		const std::vector<Armature>&		getArmatures() const;
 		const std::vector<Animation>&		getAnimations() const;
+		Animation&							getAnimation(size_t index);
 
-
+		void								updateAnimations(double runTime);
 		void								draw();
 
 		virtual void						load() = 0;
