@@ -90,12 +90,21 @@ namespace usls::scene::stage
 		return this->armatureIndex.value();
 	}
 
+	usls::scene::armature::Armature& Actor::getArmature()
+	{
+		return App::get().getScene()->getArmature(this->armatureIndex.value());
+	}
+
+	usls::scene::mesh::Mesh& Actor::getMesh()
+	{
+		return App::get().getScene()->getMesh(this->meshIndex.value());
+	}
+
 	void Actor::animate(std::string animationName)
 	{
 		if (this->armatureIndex)
 		{
-			App::get().getScene()->getArmature(this->armatureIndex.value())
-				.setCurrentAnimation(animationName);
+			this->getArmature().setCurrentAnimation(animationName);
 		}
 	}
 

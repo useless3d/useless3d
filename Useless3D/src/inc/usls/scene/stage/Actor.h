@@ -5,6 +5,7 @@
 
 #include "glm/glm.hpp"
 
+#include "usls/scene/armature/Armature.h"
 #include "usls/scene/mesh/Mesh.h"
 #include "usls/scene/stage/Transform.h"
 
@@ -43,6 +44,8 @@ namespace usls::scene::stage
         const bool								isDeleted() const;
 		const bool								isAnimated() const;
 		const size_t							getArmatureIndex() const;
+		usls::scene::armature::Armature&		getArmature();
+		usls::scene::mesh::Mesh&				getMesh();
 
 		void									animate(std::string animationName);
 

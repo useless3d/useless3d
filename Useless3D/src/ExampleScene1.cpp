@@ -21,6 +21,9 @@ void ExampleScene1::load()
     //stage.getCamera()->setPosition(0.0f, 10.0f, 22.0f);
     stage.getCamera()->setLookAt(0.0f, 0.0f, 0.0f);
     stage.loadActor("data/models/bin/characters/low_poly/both.fbx"); // add actors to this stage, use default shader for all meshes in this file
+	//stage.loadActor("data/models/bin/characters/low_poly/both.fbx"); // add actors to this stage, use default shader for all meshes in this file
+	//stage.loadActor("data/models/bin/characters/low_poly/both.fbx"); // add actors to this stage, use default shader for all meshes in this file
+	//stage.loadActor("data/models/bin/characters/low_poly/both.fbx"); // add actors to this stage, use default shader for all meshes in this file
 	//stage.loadActors("data/models/bin/maps/stress/001.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //stage.loadActors("data/models/bin/maps/004/004.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //stage.loadActors("data/models/bin/maps/004/004.fbx", myShaderIndex); // add actors to this stage, use given shader id for all meshes in this file
@@ -36,6 +39,9 @@ void ExampleScene1::load()
     
 
 	stage.getActor("character")->animate("walk_002");
+	//stage.getActor("character0")->animate("walk_002");
+	//stage.getActor("character1")->animate("walk_002");
+	//stage.getActor("character2")->animate("walk_002");
 
 }
 

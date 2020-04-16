@@ -128,6 +128,8 @@ namespace usls::scene::armature
 		boneMatrix = glm::scale(boneMatrix, this->calcScale(time, channel));
 		boneMatrix = parentMatrix * boneMatrix;
 
+		bone.matrixBeforeDecompose = boneMatrix;
+
 		// Decompose matrix so we can save it's independant values to the bone's transform
 		// (so it's position, rotation, scale can be referenced later for things such as parenting)
 		glm::vec3 scale;

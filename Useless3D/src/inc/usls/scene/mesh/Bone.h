@@ -10,6 +10,5 @@ namespace usls::scene::mesh
 	{
 		std::string name;
 		glm::mat4 offsetMatrix;
-		glm::mat4 finalMatrix;
 	};
 }

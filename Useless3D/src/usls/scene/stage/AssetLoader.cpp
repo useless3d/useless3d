@@ -186,6 +186,11 @@ namespace usls::scene
         
 		std::string nodeName = node->mName.C_Str();
 
+		if (nodeName == "RootNode")
+		{
+			this->currentGlobalInverseMatrix = glm::inverse(this->aiMatrix4x4ToGlm(node->mTransformation));
+		}
+
         if (nodeName != "RootNode" && !sin_vector(nodeName, this->processedNodes))
         {
 			
@@ -377,8 +382,7 @@ namespace usls::scene
         // ...otherwise, save it within scene->meshes and save the new index
         if (!this->currentMeshIndex)
         {
-			//auto mesh = Mesh(aiMesh->mName.C_Str(), vertices, indices);
-			//mesh.setBones(bones);
+			mesh.setGlobalInverseMatrix(this->currentGlobalInverseMatrix);
 
             this->currentMeshIndex = App::get().getScene()->addMesh(mesh);
         }

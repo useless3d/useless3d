@@ -250,7 +250,7 @@ namespace usls
         glUseProgram(this->shaders.at(shaderIndex).id);
     }
 
-    void GPU::setShaderBool(const std::string &name, bool value) const
+    void GPU::setShaderBool(const std::string& name, bool value) const
     {
         glUniform1i(glGetUniformLocation(
             this->shaders.at(this->activeShaderIndex).id, 
@@ -258,7 +258,7 @@ namespace usls
             (int)value);
     }
 
-    void GPU::setShaderInt(const std::string &name, int value) const
+    void GPU::setShaderInt(const std::string& name, int value) const
     {
         glUniform1i(glGetUniformLocation(
             this->shaders.at(this->activeShaderIndex).id, 
@@ -266,7 +266,7 @@ namespace usls
             value);
     }
 
-    void GPU::setShaderFloat(const std::string &name, float value) const
+    void GPU::setShaderFloat(const std::string& name, float value) const
     {
         glUniform1f(glGetUniformLocation(
             this->shaders.at(this->activeShaderIndex).id, 
@@ -274,8 +274,12 @@ namespace usls
             value);
     }
 
-    void GPU::setShaderMat4(const std::string &name, glm::mat4 value) const
+    void GPU::setShaderMat4(const std::string& name, glm::mat4 value) const
     {
+		auto yep = glGetUniformLocation(
+			this->shaders.at(this->activeShaderIndex).id,
+			name.c_str());
+
         glUniformMatrix4fv(glGetUniformLocation(
             this->shaders.at(this->activeShaderIndex).id, 
             name.c_str()), 

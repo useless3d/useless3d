@@ -19,5 +19,6 @@ namespace usls::scene::armature
 		size_t											parent; // index of parent in containing armature
 		std::vector<size_t>								children; // indexes of children in containing armature
 		usls::scene::stage::Transform					worldTransform;
+		glm::mat4										matrixBeforeDecompose;
 	};
 }

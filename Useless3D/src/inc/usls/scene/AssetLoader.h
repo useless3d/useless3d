@@ -40,6 +40,7 @@ namespace usls::scene
 		std::optional<size_t>	currentArmatureIndex;
 		std::vector<std::string> processedNodes;
 		std::vector<mesh::VertexBoneData> currentMeshBones;
+		glm::mat4				currentGlobalInverseMatrix;
 
 
 		void					processAnimations();

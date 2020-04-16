@@ -14,6 +14,21 @@ namespace usls::scene::mesh
         name(name)
     {}
 
+	Bone& Mesh::getBone(size_t index)
+	{
+		return this->bones.at(index);
+	}
+
+	glm::mat4 Mesh::getGlobalInverseMatrix()
+	{
+		return this->globalInverseMatrix;
+	}
+
+	void Mesh::setGlobalInverseMatrix(glm::mat4 gim)
+	{
+		this->globalInverseMatrix = gim;
+	}
+
 	const bool Mesh::hasBones() const
 	{
 		if (this->bones.size() > 0)

@@ -27,6 +27,7 @@ namespace usls::scene::mesh
 		std::vector<Bone>					bones;
 		std::vector<VertexBoneData>			vertexWeights;
 		std::optional<size_t>               meshRenderableIndex;
+		glm::mat4							globalInverseMatrix;
 
 	public:
 		Mesh(std::string name);
@@ -39,6 +40,7 @@ namespace usls::scene::mesh
 		void								setIndices(std::vector<unsigned int>& indices);
 		void								setBones(std::vector<Bone>& bones);
 		const std::optional<size_t>&        getMeshRenderableIndex() const;
+		
 
 		const std::string                   getName() const;
 		const std::vector<Vertex>&			getVertices() const;
@@ -46,6 +48,9 @@ namespace usls::scene::mesh
 		const bool                          isRenderable() const;
 		const bool                          hasBones() const;
 
+		void								setGlobalInverseMatrix(glm::mat4 gim);
+		glm::mat4							getGlobalInverseMatrix();
+		Bone&								getBone(size_t index);
 
 	};
     

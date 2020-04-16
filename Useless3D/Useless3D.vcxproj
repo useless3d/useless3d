@@ -208,6 +208,8 @@
     <None Include="src\config.ini" />
     <None Include="src\usls\scene\shaders\default.frag" />
     <None Include="src\usls\scene\shaders\default.vert" />
+    <None Include="src\usls\scene\shaders\skinned.frag" />
+    <None Include="src\usls\scene\shaders\skinned.vert" />
     <None Include="src\usls\scene\shaders\test1.frag" />
     <None Include="src\usls\scene\shaders\test1.vert" />
   </ItemGroup>

@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <glm/gtx/string_cast.hpp>
+
 #include "usls/App.h"
 #include "usls/scene/Scene.h"
 #include "usls/scene/mesh/Vertex.h"
@@ -137,10 +139,32 @@ namespace usls::scene
 
                     if (!a->isDeleted())
                     {
-                        gpu.setShaderMat4("mvp",
-                            s.getCamera()->getProjectionMatrix() *
-                            s.getCamera()->getViewMatrix() *
-                            a->getTransform().getMatrix());
+                        gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getTransform().getMatrix());
+
+						// If this actor is animated, send the bone transforms of it's armature to the shader
+						if (a->isAnimated())
+						{
+							auto& mesh = a->getMesh();
+
+							size_t boneIndex = 0;
+							for (auto& bone : a->getArmature().getBones())
+							{
+								if (boneIndex > 0) // armature root bone is the armature object itself, whereas the mesh bones start at the first bone of the armature
+								{
+									glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.worldTransform.getMatrix() * mesh.getBone(boneIndex - 1).offsetMatrix;
+									//glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.matrixBeforeDecompose * mesh.getBone(boneIndex - 1).offsetMatrix;
+
+									std::string uName = "bones[" + std::to_string(boneIndex - 1) + "]";
+									std::cout << uName << ":" << glm::to_string(meshBoneTransform) << "\n";
+									gpu.setShaderMat4(uName, meshBoneTransform);
+								}
+								
+
+								boneIndex++;
+							}
+
+
+						}
 
                         gpu.drawMeshRenderable();
                     }
