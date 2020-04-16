@@ -151,11 +151,12 @@ namespace usls::scene
 							{
 								if (boneIndex > 0) // armature root bone is the armature object itself, whereas the mesh bones start at the first bone of the armature
 								{
-									glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.worldTransform.getMatrix() * mesh.getBone(boneIndex - 1).offsetMatrix;
-									//glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.matrixBeforeDecompose * mesh.getBone(boneIndex - 1).offsetMatrix;
+									//glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.worldTransform.getMatrix() * mesh.getBone(boneIndex - 1).offsetMatrix;
+									glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.matrixBeforeDecompose * mesh.getBone(boneIndex - 1).offsetMatrix;
+									//glm::mat4 meshBoneTransform = bone.matrixBeforeDecompose * mesh.getBone(boneIndex - 1).offsetMatrix;
 
 									std::string uName = "bones[" + std::to_string(boneIndex - 1) + "]";
-									std::cout << uName << ":" << glm::to_string(meshBoneTransform) << "\n";
+									//std::cout << uName << ":" << glm::to_string(meshBoneTransform) << "\n";
 									gpu.setShaderMat4(uName, meshBoneTransform);
 								}
 								

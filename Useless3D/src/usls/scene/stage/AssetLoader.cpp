@@ -343,7 +343,7 @@ namespace usls::scene
 
 		// if mesh has bones, process bones
 		std::vector<mesh::Bone> bones;
-		mesh.resizeVertexWeights(vertices.size());
+		//mesh.resizeVertexWeights(vertices.size());
 		if (aiMesh->HasBones())
 		{
 			for (unsigned int i = 0; i < aiMesh->mNumBones; i++)
