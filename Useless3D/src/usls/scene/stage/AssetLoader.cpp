@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <glm/gtx/string_cast.hpp>
 #include "glm/gtc/quaternion.hpp"
 
 #include "usls/App.h"
@@ -271,8 +272,15 @@ namespace usls::scene
         glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);
 		glm::quat rotation = glm::quat(aiRotation.w, aiRotation.x, aiRotation.y, aiRotation.z);
 
-		//std::cout << "	> position:" << translation.x << "," << translation.y << "," << translation.z << "\n";
-		//std::cout << "	> scale:" << scale.x << "," << scale.y << "," << scale.z << "\n";
+		aiVector3D aiRotationAxis;
+		float rotationAngle;
+		node->mTransformation.Decompose(aiScale, aiRotationAxis, rotationAngle, aiPosition);
+		glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
+		float angle = rotationAngle * (180 / 3.124); // convert radian to degree
+
+		std::string name = node->mName.C_Str();
+		std::cout << name << ":" << angle << ":" << glm::to_string(rotationAxis) << "\n";
+		
 
         this->currentTransform = Transform(translation, rotation, scale);
     }

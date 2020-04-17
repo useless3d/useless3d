@@ -26,6 +26,7 @@ namespace usls::scene::armature
 			if (time < channel.positionKeys[i + 1].first)
 			{
 				currentKeyIndex = i;
+				break;
 			}
 		}
 
@@ -39,8 +40,6 @@ namespace usls::scene::armature
 		glm::vec3 delta = end - start;
 
 		glm::vec3 returnVal = start + (float)factor * delta;
-
-		//std::cout << "(" << returnVal.x << "," << returnVal.y << "," << returnVal.z << ")\n";
 
 		return returnVal;
 	}
@@ -58,6 +57,7 @@ namespace usls::scene::armature
 			if (time < channel.rotationKeys[i + 1].first)
 			{
 				currentKeyIndex = i;
+				break;
 			}
 		}
 
@@ -70,8 +70,6 @@ namespace usls::scene::armature
 		glm::quat end = channel.rotationKeys[nextKeyIndex].second;
 		glm::quat delta = glm::slerp(start, end, (float)factor);
 		delta = glm::normalize(delta);
-		
-		//std::cout << "(" << delta.x << "," << delta.y << "," << delta.z << "," << delta.w <<  ")\n";
 
 		return delta;
 	}
@@ -89,6 +87,7 @@ namespace usls::scene::armature
 			if (time < channel.scalingKeys[i + 1].first)
 			{
 				currentKeyIndex = i;
+				break;
 			}
 		}
 
@@ -102,8 +101,6 @@ namespace usls::scene::armature
 		glm::vec3 delta = end - start;
 
 		glm::vec3 returnVal = start + (float)factor * delta;
-
-		//std::cout << "(" << returnVal.x << "," << returnVal.y << "," << returnVal.z << ")\n";
 
 		return returnVal;
 	}
