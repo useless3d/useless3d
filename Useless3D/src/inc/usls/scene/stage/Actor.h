@@ -18,13 +18,12 @@ namespace usls::scene::stage
         bool						deleted;
         std::string					name;
         Transform					transform;
-
+		std::optional<usls::scene::armature::Armature>	armature;
+		std::optional<std::pair<size_t, size_t>>		renderCommand;
         std::optional<size_t>		shaderIndex;
         std::optional<size_t>		meshIndex;
-        std::optional<size_t>		textureIndex;
-		std::optional<size_t>		armatureIndex;
-        
-        std::optional<std::pair<size_t, size_t>> renderCommand;
+        std::optional<size_t>		textureIndex; 
+
 
     public:
         Actor(std::string name, Transform t);
@@ -32,8 +31,6 @@ namespace usls::scene::stage
         void									setMeshIndex(size_t i);
         void									setShaderIndex(size_t i);
         void									setTextureIndex(size_t i);
-		void									setArmatureIndex(size_t i);
-
         const std::string						getName() const;
         const std::optional<size_t>&			getShaderIndex() const;
         const std::optional<size_t>&			getMeshIndex() const;
@@ -43,12 +40,10 @@ namespace usls::scene::stage
         void									setDeleted(bool d);
         const bool								isDeleted() const;
 		const bool								isAnimated() const;
-		const size_t							getArmatureIndex() const;
+		void									setArmature(usls::scene::armature::Armature& arm);
 		usls::scene::armature::Armature&		getArmature();
 		usls::scene::mesh::Mesh&				getMesh();
-
 		void									animate(std::string animationName);
-
         Transform&								getTransform();
 
     };

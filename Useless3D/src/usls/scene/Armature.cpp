@@ -181,6 +181,11 @@ namespace usls::scene::armature
 		this->bones.push_back(b);
 	}
 
+	Bone& Armature::getRootBone()
+	{
+		return this->bones[0];
+	}
+
 	std::vector<Bone>& Armature::getBones()
 	{
 		return this->bones;

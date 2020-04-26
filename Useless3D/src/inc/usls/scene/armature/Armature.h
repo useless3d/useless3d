@@ -32,6 +32,7 @@ namespace usls::scene::armature
 															Armature(std::string name);
 		void												addBone(Bone b);
 		void												addAnimation(std::string name, size_t index);
+		Bone&												getRootBone();
 		std::vector<Bone>&									getBones();
 		const std::vector<Bone>&							getBones() const;
 		const std::string&									getName() const;

@@ -23,12 +23,6 @@ namespace usls::scene
         App::get().getGPU()->wipe();
     }
 
-	size_t Scene::addArmature(Armature a)
-	{
-		this->armatures.push_back(a);
-		return this->armatures.size() - 1;
-	}
-
 	size_t Scene::addAnimation(Animation a)
 	{
 		this->animations.push_back(a);
@@ -56,11 +50,6 @@ namespace usls::scene
         return this->meshes;
     }
 
-	std::vector<Armature>& Scene::getArmatures()
-	{
-		return this->armatures;
-	}
-
 	const std::vector<Animation>& Scene::getAnimations() const
 	{
 		return this->animations;
@@ -80,11 +69,6 @@ namespace usls::scene
     {
         return this->meshes.at(index);
     }
-
-	Armature& Scene::getArmature(size_t index)
-	{
-		return this->armatures.at(index);
-	}
 
 	Animation& Scene::getAnimation(size_t index)
 	{

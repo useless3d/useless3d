@@ -24,7 +24,6 @@ namespace usls::scene
 		const bool							headless;
 		std::vector<Stage>					stages;
 		std::vector<Mesh>					meshes;
-		std::vector<Armature>				armatures;
 		std::vector<Animation>				animations;
 
 
@@ -35,25 +34,17 @@ namespace usls::scene
 
 
 	public:
-		Scene();
-		~Scene();
-
+											Scene();
+											~Scene();
 		bool								loaded;
 		const std::vector<Mesh>&			getMeshes() const;
 		size_t								addMesh(Mesh m);
 		Mesh&								getMesh(size_t index);
-
 		size_t								addAnimation(Animation a);
-		size_t								addArmature(Armature a);
-
-		Armature&							getArmature(size_t index);
-		std::vector<Armature>&				getArmatures();
 		const std::vector<Animation>&		getAnimations() const;
 		Animation&							getAnimation(size_t index);
-
 		void								updateAnimations(double runTime);
 		void								draw();
-
 		virtual void						load() = 0;
 		virtual void						loop() = 0;
 

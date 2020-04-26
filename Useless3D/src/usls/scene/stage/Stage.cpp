@@ -134,8 +134,7 @@ namespace usls::scene::stage
 		{
 			if (!a.isDeleted() && a.isAnimated())
 			{
-				auto& arm = App::get().getScene()->getArmature(a.getArmatureIndex());
-				arm.updateCurrentAnimation(runTime);
+				a.getArmature().updateCurrentAnimation(runTime);
 			}
 		}
 	}

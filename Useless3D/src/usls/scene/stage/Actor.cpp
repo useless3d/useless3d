@@ -26,11 +26,6 @@ namespace usls::scene::stage
         this->textureIndex = i;
     }
 
-	void Actor::setArmatureIndex(size_t i)
-	{
-		this->armatureIndex = i;
-	}
-
     Transform& Actor::getTransform()
     {
         return this->transform;
@@ -78,21 +73,21 @@ namespace usls::scene::stage
 
 	const bool Actor::isAnimated() const
 	{
-		if (this->armatureIndex) 
+		if (this->armature) 
 		{
 			return true;
 		}
 		return false;
 	}
 
-	const size_t Actor::getArmatureIndex() const
+	void Actor::setArmature(usls::scene::armature::Armature& arm)
 	{
-		return this->armatureIndex.value();
+		this->armature = arm;
 	}
 
 	usls::scene::armature::Armature& Actor::getArmature()
 	{
-		return App::get().getScene()->getArmature(this->armatureIndex.value());
+		return this->armature.value();
 	}
 
 	usls::scene::mesh::Mesh& Actor::getMesh()
@@ -102,7 +97,7 @@ namespace usls::scene::stage
 
 	void Actor::animate(std::string animationName)
 	{
-		if (this->armatureIndex)
+		if (this->armature)
 		{
 			this->getArmature().setCurrentAnimation(animationName);
 		}

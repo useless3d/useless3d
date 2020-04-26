@@ -94,23 +94,11 @@ namespace usls::scene
 
 	void AssetLoader::processArmatureNode(aiNode* node)
 	{
-		// For debugging
-		//std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
-
-		if (node->mNumMeshes != 0)
-		{
-			std::string nodeName = node->mName.C_Str();
-			std::cout << "AssetLoader ERROR: attempting to load armature from file that also contains mesh data (this is not supported)\n";
-			std::cin.get();
-			exit(EXIT_FAILURE);
-		}
-
 		std::string nodeName = node->mName.C_Str();
 
 		if (nodeName != "RootNode" && !string_contains("_end", nodeName))
 		{
 			std::string boneName = node->mName.C_Str();
-
 			std::string nodeParentName = node->mParent->mName.C_Str();
 
 			if (nodeParentName == "RootNode")
@@ -216,9 +204,6 @@ namespace usls::scene
 					}
 				}
 
-				// Add armature to app scene
-				this->currentArmatureIndex = App::get().getScene()->addArmature(this->currentArmature.value());
-
 			}
 			else
 			{
@@ -236,9 +221,9 @@ namespace usls::scene
 					this->processMesh(node);
 
 					actor.setMeshIndex(this->currentMeshIndex.value());
-					if (this->currentArmatureIndex)
+					if (this->currentArmature)
 					{
-						actor.setArmatureIndex(this->currentArmatureIndex.value());
+						actor.setArmature(this->currentArmature.value());
 					}
 
 					if (!this->headless)
