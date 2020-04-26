@@ -2,6 +2,7 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 #include "usls/App.h"
 #include "usls/scene/armature/Armature.h"
@@ -125,20 +126,7 @@ namespace usls::scene::armature
 		boneMatrix = glm::scale(boneMatrix, this->calcScale(time, channel));
 		boneMatrix = parentMatrix * boneMatrix;
 
-		bone.matrixBeforeDecompose = boneMatrix;
-
-		// Decompose matrix so we can save it's independant values to the bone's transform
-		// (so it's position, rotation, scale can be referenced later for things such as parenting)
-		glm::vec3 scale;
-		glm::quat rotation; 
-		glm::vec3 translation;
-		glm::vec3 skew;
-		glm::vec4 perspective;
-		glm::decompose(boneMatrix, scale, rotation, translation, skew, perspective);
-
-		bone.worldTransform.setTranslation(translation);
-		bone.worldTransform.setRotation(glm::conjugate(rotation)); // decompose returns rotation conjugate, so this is compensated for
-		bone.worldTransform.setScale(scale);
+		bone.matrix = boneMatrix;
 
 		for (auto& c : bone.children)
 		{
@@ -151,14 +139,18 @@ namespace usls::scene::armature
 		double timeInTicks = runTime * this->currentAnimation->tps;
 		double animationTime = fmod(timeInTicks, this->currentAnimation->duration);
 
-		this->updateBone(0, animationTime, glm::mat4(1.0f));
-
+		this->updateBone(0, animationTime, this->transform.getMatrix());
 	}
 
 	void Armature::setCurrentAnimation(std::string animationName)
 	{
 		this->currentAnimationName = animationName;
 		this->currentAnimation = &App::get().getScene()->getAnimation(this->getAnimationIndex(this->currentAnimationName));
+	}
+
+	usls::scene::stage::Transform& Armature::getTransform() 
+	{
+		return this->transform;
 	}
 
 	const std::vector<std::pair<std::string, size_t>>& Armature::getAnimations() const

@@ -28,6 +28,10 @@ namespace usls::scene::stage
 
     Transform& Actor::getTransform()
     {
+		if (this->isAnimated())
+		{
+			return this->armature->getTransform();
+		}
         return this->transform;
     }
 

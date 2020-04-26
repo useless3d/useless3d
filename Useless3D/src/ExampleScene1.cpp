@@ -52,7 +52,13 @@ void ExampleScene1::loop()
     // Application logic, move things around, swap scenes, etc
 
 	//auto& stage = this->getStage(0);
-	//
+
+	if (usls::App::get().getInputState().keyA)
+	{
+		auto& stage = this->getStage(0);
+		stage.getActor("character")->getTransform().setTranslation(glm::vec3(1.0f, 0.0f, 0.0f));
+	}
+	
 
 	////std::cout << "-------------\n";
 	//for (auto& arm : this->getArmatures())

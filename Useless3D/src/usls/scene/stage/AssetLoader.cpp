@@ -106,13 +106,13 @@ namespace usls::scene
 				this->currentArmature = usls::scene::armature::Armature(boneName);
 			}
 			
-			this->processTransformable(node);
+			//this->processTransformable(node);
 
 
 			usls::scene::armature::Bone bone;
 			bone.name = boneName;
 			bone.parentName = nodeParentName == "RootNode" ? boneName : node->mParent->mName.C_Str();
-			bone.worldTransform = this->currentTransform;
+			//bone.worldTransform = this->currentTransform;
 
 			for (unsigned int i = 0; i < node->mNumChildren; i++)
 			{
@@ -264,7 +264,7 @@ namespace usls::scene
 		float angle = rotationAngle * (180 / 3.124); // convert radian to degree
 
 		std::string name = node->mName.C_Str();
-		std::cout << name << ":" << angle << ":" << glm::to_string(rotationAxis) << "\n";
+		//std::cout << name << ":" << angle << ":" << glm::to_string(rotationAxis) << "\n";
 		
 
         this->currentTransform = Transform(translation, rotation, scale);
