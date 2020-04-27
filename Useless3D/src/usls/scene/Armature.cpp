@@ -148,6 +148,8 @@ namespace usls::scene::armature
 	{
 		this->currentAnimationName = animationName;
 		this->currentAnimation = &App::get().getScene()->getAnimation(this->getAnimationIndex(this->currentAnimationName));
+		this->currentAnimationUpdateRate = 1.0 / this->currentAnimation->tps;
+		this->previousRunTime = 0.0;
 	}
 
 	usls::scene::stage::Transform& Armature::getTransform() 

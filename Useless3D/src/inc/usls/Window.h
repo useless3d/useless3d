@@ -47,8 +47,6 @@ namespace usls
         void			swapBuffers();
         //void			vsync();
 
-        void printAddress();
-
     };
     
     

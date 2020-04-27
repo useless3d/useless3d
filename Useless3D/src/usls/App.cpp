@@ -123,12 +123,8 @@ namespace usls
         this->deltaTime = 1 / this->config.LOGIC_TICK;
         this->currentTime = this->time();
 
-        //this->window.value()->printAddress();
-
         while (true)
         {
-            this->displayAverageFrameTime();            
-
             if (this->shouldClose || (!this->config.HEADLESS && this->window.value()->shouldClose())) 
             {
                 break;
@@ -142,9 +138,11 @@ namespace usls
 
             this->newTime = this->time();
             this->frameTime = this->newTime - this->currentTime;
+			
 
             if (this->frameTime >= (1 / this->config.MAX_RENDER_FPS)) // cap max fps
             {
+				this->displayAverageFrameTime();
 
                 this->currentTime = this->newTime;
 

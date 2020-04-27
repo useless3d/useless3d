@@ -67,8 +67,6 @@ namespace usls
                 glViewport(0, 0, this->screenSize.x, this->screenSize.y);
             }
 
-            this->printAddress();
-
         }
 
 
@@ -84,13 +82,6 @@ namespace usls
     void Window::setTitle(std::string title)
     {
         glfwSetWindowTitle(this->glfwWindow, title.c_str());
-    }
-
-    void Window::printAddress() {
-        //std::cout << &this->glfwWindow << "\n"; // address of pointer itself
-        //std::cout << this->glfwWindow << "\n"; // address pointed to
-        //std::cout << (this->glfwWindow == NULL) << "\n";
-        //std::cout << (GLADloadproc)glfwGetProcAddress << "\n";
     }
 
     void Window::setCallbacks() 
