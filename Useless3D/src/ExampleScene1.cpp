@@ -92,14 +92,15 @@ void ExampleScene1::loop()
     //    stage.removeActor("crate.013");
     //}
 
-    //if (usls::App::get().getInputState().keyA)
-    //{
-    //    auto actorCopy = stage.getActor("crate");
-    //    actorCopy.getTransform().setTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
-    //    actorCopy.getTransform().setScale(glm::vec3(2.0f, 2.0f, 2.0f));
-    //    stage.addActor(actorCopy);
+    if (usls::App::get().getInputState().keyA)
+    {
+		auto& stage = this->getStage(0);
+        auto actorCopy = *stage.getActor("t_01");
+        actorCopy.getTransform().setTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
+        //actorCopy->getTransform().setScale(glm::vec3(2.0f, 2.0f, 2.0f));
+        stage.addActor(actorCopy);
 
-    //    stage.printRenderCommands();
-    //}
+        //stage.printRenderCommands();
+    }
 
 }

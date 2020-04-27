@@ -224,6 +224,16 @@ namespace usls::scene
 					if (this->currentArmature)
 					{
 						actor.setArmature(this->currentArmature.value());
+
+						// set activeBones mapping
+						std::vector<size_t> activeBones;
+						for (auto& meshBone : App::get().getScene()->getMesh(this->currentMeshIndex.value()).getBones())
+						{
+							activeBones.push_back(actor.getArmature().getBoneIndex(meshBone.name));
+						}
+
+						actor.setActiveBones(activeBones);
+
 					}
 
 					if (!this->headless)

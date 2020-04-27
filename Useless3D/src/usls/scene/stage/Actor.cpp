@@ -11,6 +11,16 @@ namespace usls::scene::stage
         transform(t) 
     {}
 
+	void Actor::setActiveBones(std::vector<size_t> activeBones)
+	{
+		this->activeBones = activeBones;
+	}
+
+	const std::optional<std::vector<size_t>>& Actor::getActiveBones() const
+	{
+		return this->activeBones;
+	}
+
     void Actor::setMeshIndex(size_t i)
     {
         this->meshIndex = i;

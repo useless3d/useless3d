@@ -25,33 +25,28 @@ namespace usls::scene::mesh
 		std::vector<Vertex>					vertices;
 		std::vector<unsigned int>           indices;
 		std::vector<Bone>					bones;
-		//std::vector<VertexBoneData>			vertexWeights;
 		std::optional<size_t>               meshRenderableIndex;
 		glm::mat4							globalInverseMatrix;
 
+
 	public:
-		Mesh(std::string name);
-
-		//void								resizeVertexWeights(size_t size);
+											Mesh(std::string name);
 		void								addVertexWeight(unsigned int vertexIndex, unsigned int boneIndex, float weight);
-
 		void                                setMeshRenderableIndex(size_t index);
 		void								setVertices(std::vector<Vertex>& vertices);
 		void								setIndices(std::vector<unsigned int>& indices);
 		void								setBones(std::vector<Bone>& bones);
 		const std::optional<size_t>&        getMeshRenderableIndex() const;
-		
-
 		const std::string                   getName() const;
 		const std::vector<Vertex>&			getVertices() const;
 		const std::vector<unsigned int>&	getIndices() const;
 		const bool                          isRenderable() const;
 		const bool                          hasBones() const;
-
 		void								setGlobalInverseMatrix(glm::mat4 gim);
 		glm::mat4							getGlobalInverseMatrix();
 		Bone&								getBone(size_t index);
-		std::optional<Bone>					getBone(std::string boneName);
+		Bone*								getBone(std::string boneName);
+		const std::vector<Bone>&			getBones() const;
 
 	};
     

@@ -148,8 +148,6 @@ namespace usls::scene::armature
 	{
 		this->currentAnimationName = animationName;
 		this->currentAnimation = &App::get().getScene()->getAnimation(this->getAnimationIndex(this->currentAnimationName));
-		this->currentAnimationUpdateRate = 1.0 / this->currentAnimation->tps;
-		this->previousRunTime = 0.0;
 	}
 
 	usls::scene::stage::Transform& Armature::getTransform() 
@@ -190,6 +188,21 @@ namespace usls::scene::armature
 	const std::vector<Bone>& Armature::getBones() const
 	{
 		return this->bones;
+	}
+
+	Bone* Armature::getBone(std::string boneName)
+	{
+		for (auto& b : this->bones)
+		{
+			if (b.name == boneName)
+				return &b;
+		}
+		return nullptr;
+	}
+
+	Bone& Armature::getBone(size_t index)
+	{
+		return this->bones.at(index);
 	}
 
 	size_t Armature::getAnimationIndex(std::string animationName)

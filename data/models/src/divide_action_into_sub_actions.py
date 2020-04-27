@@ -5,11 +5,12 @@ base_action_name = "bend"
 
 # Define the name, start, and end frame of each sub animation
 sub_actions = [
-    ("sub_bend_001", 0, 15)
+    ("sub_bend_001", 0, 14)
     ,("sub_bend_002", 15, 29)
 ]
 
 for a in sub_actions:
+	print("processing: " + a[0])
     new_action = bpy.data.actions.get(base_action_name).copy()
     new_action.name = a[0]
     for fc in new_action.fcurves:

@@ -36,6 +36,8 @@ namespace usls::scene::armature
 		Bone&												getRootBone();
 		std::vector<Bone>&									getBones();
 		const std::vector<Bone>&							getBones() const;
+		Bone&												getBone(size_t index);
+		Bone*												getBone(std::string boneName);
 		const std::string&									getName() const;
 		const std::vector<std::pair<std::string, size_t>>&	getAnimations() const;
 		size_t												getBoneIndex(std::string boneName);
