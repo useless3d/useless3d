@@ -51,6 +51,7 @@ namespace usls::scene::mesh
 		void								setGlobalInverseMatrix(glm::mat4 gim);
 		glm::mat4							getGlobalInverseMatrix();
 		Bone&								getBone(size_t index);
+		std::optional<Bone>					getBone(std::string boneName);
 
 	};
     

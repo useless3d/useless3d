@@ -14,6 +14,16 @@ namespace usls::scene::mesh
         name(name)
     {}
 
+	std::optional<Bone> Mesh::getBone(std::string boneName)
+	{
+		for (auto& b : this->bones)
+		{
+			if (b.name == boneName)
+				return b;
+		}
+		return std::nullopt;
+	}
+
 	Bone& Mesh::getBone(size_t index)
 	{
 		return this->bones.at(index);

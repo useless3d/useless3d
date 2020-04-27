@@ -129,18 +129,22 @@ namespace usls::scene
 							gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix());
 
 							auto& mesh = a->getMesh();
-
+							
 							size_t boneIndex = 0;
 							for (auto& bone : a->getArmature().getBones())
 							{
-								if (boneIndex > 0) // armature root bone is the armature object itself, whereas the mesh bones start at the first bone of the armature
-								{
-									glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.matrix * mesh.getBone(boneIndex - 1).offsetMatrix;
+								auto meshBone = mesh.getBone(bone.name);
 
-									std::string uName = "bones[" + std::to_string(boneIndex - 1) + "]";
+								if (meshBone)
+								{
+									glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * bone.matrix * meshBone->offsetMatrix;
+
+									std::string uName = "bones[" + std::to_string(boneIndex) + "]";
 									gpu.setShaderMat4(uName, meshBoneTransform);
+
+									boneIndex++;
 								}
-								boneIndex++;
+								
 							}
 
 						}

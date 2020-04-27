@@ -64,6 +64,8 @@ namespace usls::scene::armature
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
+		//std::cout << "T:" << channel.rotationKeys.size() << "	N:" << nextKeyIndex << "\n";
+
 		double deltaTime = channel.rotationKeys[nextKeyIndex].first - channel.rotationKeys[currentKeyIndex].first;
 		double factor = time - channel.rotationKeys[currentKeyIndex].first / deltaTime;
 

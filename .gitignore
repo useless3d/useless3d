@@ -7,3 +7,4 @@ data/models/bin/maps/stress/*
 !data/models/bin/maps/stress/readme.md
 data/models/src/maps/stress/*
 !data/models/src/maps/stress/readme.md
+data/models/bin/characters/t_01/*
