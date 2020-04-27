@@ -87,7 +87,7 @@ namespace usls
 
     void App::displayAverageFrameTime()
     {
-        if (this->time() - this->lastDisplayTime >= 1.0 && this->averageFrameTimeArrayFull) 
+        if (this->time() - this->lastDisplayTime >= 1.0) 
         {    
             this->lastDisplayTime = this->time();
 
@@ -97,25 +97,14 @@ namespace usls
                 average += v;
             }
 
-            average = average / 100.0;
+            average = average / this->averageFrameTimeArray.size();
             
             this->window.value()->setTitle("FrameTime: " + std::to_string(average) + " | FPS: " + std::to_string(1000 / (average * 1000)));
+
+			this->averageFrameTimeArray.clear();
         }
 
-        this->averageFrameTimeArray[this->currentAverageFrameTimeArrayIndex] = this->frameTime;
-
-        if (this->currentAverageFrameTimeArrayIndex == 99)
-        {
-            if (!this->averageFrameTimeArrayFull)
-            {
-                this->averageFrameTimeArrayFull = true;
-            }
-            this->currentAverageFrameTimeArrayIndex = 0;
-
-            return;
-        }
-        
-        this->currentAverageFrameTimeArrayIndex++;
+        this->averageFrameTimeArray.push_back(this->frameTime);
     }
 
     void App::execute()

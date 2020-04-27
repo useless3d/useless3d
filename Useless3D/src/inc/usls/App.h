@@ -35,9 +35,7 @@ namespace usls
         double			    frameTime = 0.0;
         double			    accumulator = 0.0;        
         
-        double              averageFrameTimeArray[100];
-        bool                averageFrameTimeArrayFull = false;
-        unsigned int        currentAverageFrameTimeArrayIndex = 0;
+        std::vector<double> averageFrameTimeArray;
         double              lastDisplayTime = 0.0;
         void                displayAverageFrameTime();
     

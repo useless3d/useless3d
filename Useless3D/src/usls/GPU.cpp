@@ -276,10 +276,6 @@ namespace usls
 
     void GPU::setShaderMat4(const std::string& name, glm::mat4 value) const
     {
-		auto yep = glGetUniformLocation(
-			this->shaders.at(this->activeShaderIndex).id,
-			name.c_str());
-
         glUniformMatrix4fv(glGetUniformLocation(
             this->shaders.at(this->activeShaderIndex).id, 
             name.c_str()), 

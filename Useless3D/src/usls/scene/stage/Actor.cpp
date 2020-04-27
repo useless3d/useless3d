@@ -11,12 +11,12 @@ namespace usls::scene::stage
         transform(t) 
     {}
 
-	void Actor::setActiveBones(std::vector<size_t> activeBones)
+	void Actor::setActiveBones(std::vector<std::pair<size_t, std::string>> activeBones)
 	{
 		this->activeBones = activeBones;
 	}
 
-	const std::optional<std::vector<size_t>>& Actor::getActiveBones() const
+	const std::optional<std::vector<std::pair<size_t, std::string>>>& Actor::getActiveBones() const
 	{
 		return this->activeBones;
 	}

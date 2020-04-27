@@ -96,7 +96,7 @@ void ExampleScene1::loop()
     {
 		auto& stage = this->getStage(0);
         auto actorCopy = *stage.getActor("t_01");
-        actorCopy.getTransform().setTranslation(glm::vec3(-2.0f, 0.0f, 0.0f));
+        actorCopy.getTransform().setTranslation(glm::vec3(2.0f, 0.0f, 0.0f));
         //actorCopy->getTransform().setScale(glm::vec3(2.0f, 2.0f, 2.0f));
         stage.addActor(actorCopy);
 

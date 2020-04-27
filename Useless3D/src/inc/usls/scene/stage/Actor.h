@@ -19,8 +19,8 @@ namespace usls::scene::stage
         std::string										name;
         Transform										transform;
 		std::optional<usls::scene::armature::Armature>	armature;
-		std::optional<std::vector<size_t>>				activeBones; // the bones from the armature that are actually used by the mesh, 
-																	 // the glue between an armature and a mesh (index is mesh bone index, value is armature bone index)
+		std::optional<std::vector<std::pair<size_t, std::string>>> activeBones; // the bones from the armature that are actually used by the mesh, 
+																				// the glue between an armature and a mesh (index is mesh bone index, value is armature bone index)
 		std::optional<std::pair<size_t, size_t>>		renderCommand;
         std::optional<size_t>							shaderIndex;
         std::optional<size_t>							meshIndex;
@@ -46,8 +46,8 @@ namespace usls::scene::stage
 		usls::scene::mesh::Mesh&						getMesh();
 		void											animate(std::string animationName);
         Transform&										getTransform();
-		const std::optional<std::vector<size_t>>&		getActiveBones() const;
-		void											setActiveBones(std::vector<size_t> activeBones);
+		const std::optional<std::vector<std::pair<size_t, std::string>>>& getActiveBones() const;
+		void											setActiveBones(std::vector<std::pair<size_t, std::string>> activeBones);
 
     };
 }

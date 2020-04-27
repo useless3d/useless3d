@@ -132,12 +132,11 @@ namespace usls::scene
 							auto& armature = a->getArmature();
 							
 							size_t boneIndex = 0;
-							for (auto& armatureBoneIndex : a->getActiveBones().value())
+							for (auto& activeBone : a->getActiveBones().value())
 							{
-								glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * armature.getBone(armatureBoneIndex).matrix * mesh.getBone(boneIndex).offsetMatrix;
+								glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * armature.getBone(activeBone.first).matrix * mesh.getBone(boneIndex).offsetMatrix;
 
-								std::string uName = "bones[" + std::to_string(boneIndex) + "]";
-								gpu.setShaderMat4(uName, meshBoneTransform);
+								gpu.setShaderMat4(activeBone.second, meshBoneTransform);
 
 								boneIndex++;
 							}
