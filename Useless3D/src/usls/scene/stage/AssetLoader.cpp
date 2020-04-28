@@ -56,7 +56,6 @@ namespace usls::scene
 				{
 					auto position = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
 					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
-					//c.positionKeys.push_back(std::pair<double, glm::vec3>(time, glm::vec3(position.x, position.y, position.z)));
 					c.positionKeyTimes.push_back(time);
 					c.positionKeyValues.push_back(glm::vec3(position.x, position.y, position.z));
 				}
@@ -66,7 +65,6 @@ namespace usls::scene
 				{
 					auto rotation = this->aiScene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
 					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
-					//c.rotationKeys.push_back(std::pair<double, glm::quat>(time, glm::quat(rotation.w, rotation.x, rotation.y, rotation.z)));
 					c.rotationKeyTimes.push_back(time);
 					c.rotationKeyValues.push_back(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
 				}
@@ -76,7 +74,6 @@ namespace usls::scene
 				{
 					auto scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
 					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
-					//c.scalingKeys.push_back(std::pair<double, glm::vec3>(time, glm::vec3(scale.x, scale.y, scale.z)));
 					c.scalingKeyTimes.push_back(time);
 					c.scalingKeyValues.push_back(glm::vec3(scale.x, scale.y, scale.z));
 				}
@@ -110,14 +107,10 @@ namespace usls::scene
 			{
 				this->currentArmature = usls::scene::armature::Armature(boneName);
 			}
-			
-			//this->processTransformable(node);
-
 
 			usls::scene::armature::Bone bone;
 			bone.name = boneName;
 			bone.parentName = nodeParentName == "RootNode" ? boneName : node->mParent->mName.C_Str();
-			//bone.worldTransform = this->currentTransform;
 
 			for (unsigned int i = 0; i < node->mNumChildren; i++)
 			{

@@ -77,17 +77,15 @@ namespace usls::scene::armature
 		auto tmpKey = (size_t)(it - channel.positionKeyTimes.begin());
 		auto currentKeyIndex = time > channel.positionKeyTimes[tmpKey] ? 0 : tmpKey - 1;
 
-		auto boneMatrix = glm::mat4(1.0f);
-		boneMatrix = glm::translate(boneMatrix, this->calcTranslation(time, currentKeyIndex, channel));
-		boneMatrix = boneMatrix * glm::toMat4(this->calcRotation(time, currentKeyIndex, channel));
-		boneMatrix = glm::scale(boneMatrix, this->calcScale(time, currentKeyIndex, channel));
-		boneMatrix = parentMatrix * boneMatrix;
-
-		bone.matrix = boneMatrix;
+		bone.matrix = glm::mat4(1.0f);
+		bone.matrix = glm::translate(bone.matrix, this->calcTranslation(time, currentKeyIndex, channel));
+		bone.matrix = bone.matrix * glm::toMat4(this->calcRotation(time, currentKeyIndex, channel));
+		bone.matrix = glm::scale(bone.matrix, this->calcScale(time, currentKeyIndex, channel));
+		bone.matrix = parentMatrix * bone.matrix;
 
 		for (auto& c : bone.children)
 		{
-			this->updateBone(c, time, boneMatrix);
+			this->updateBone(c, time, bone.matrix);
 		}
 	}
 
