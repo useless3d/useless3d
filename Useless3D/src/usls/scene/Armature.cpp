@@ -74,15 +74,12 @@ namespace usls::scene::armature
 
 		// get current key that is to be used to update translation, rotation, and scale
 		size_t currentKeyIndex = 0;
-		if (channel.positionKeys.size() > 1) // key sizes are same for translations, rotations, scale, so we use positionKeys here
+		for (size_t i = 0; i < channel.positionKeys.size() - 1; i++)
 		{
-			for (size_t i = 0; i < channel.positionKeys.size() - 1; i++)
+			if (time < channel.positionKeys[i + 1].first)
 			{
-				if (time < channel.positionKeys[i + 1].first)
-				{
-					currentKeyIndex = i;
-					break;
-				}
+				currentKeyIndex = i;
+				break;
 			}
 		}
 
@@ -104,6 +101,7 @@ namespace usls::scene::armature
 	{
 		double timeInTicks = runTime * this->currentAnimation->tps;
 		double animationTime = fmod(timeInTicks, this->currentAnimation->duration);
+		//std::cout << animationTime << "\n";
 
 		this->updateBone(0, animationTime, this->transform.getMatrix());
 	}
