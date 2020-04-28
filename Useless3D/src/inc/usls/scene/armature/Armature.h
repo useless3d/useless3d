@@ -23,9 +23,9 @@ namespace usls::scene::armature
 		std::string											currentAnimationName;
 		usls::scene::animation::Animation*					currentAnimation;
 		void												updateBone(size_t index, double time, glm::mat4 parentMatrix);
-		glm::vec3											calcTranslation(const double& time, const usls::scene::animation::Channel& channel);
-		glm::quat											calcRotation(const double& time, const usls::scene::animation::Channel& channel);
-		glm::vec3											calcScale(const double& time, const usls::scene::animation::Channel& channel);
+		glm::vec3											calcTranslation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
+		glm::quat											calcRotation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
+		glm::vec3											calcScale(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
 		usls::scene::stage::Transform						transform;
 
 

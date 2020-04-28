@@ -14,22 +14,9 @@ namespace usls::scene::armature
 		name(name)
 	{}
 
-	glm::vec3 Armature::calcTranslation(const double& time, const usls::scene::animation::Channel& channel)
+	glm::vec3 Armature::calcTranslation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
-		if (channel.positionKeys.size() == 1)
-		{
-			return channel.positionKeys[0].second;
-		}
-
-		size_t currentKeyIndex = 0;
-		for (size_t i = 0; i < channel.positionKeys.size() - 1; i++)
-		{
-			if (time < channel.positionKeys[i + 1].first)
-			{
-				currentKeyIndex = i;
-				break;
-			}
-		}
+		// no longer checking for condition where only one key exists...could be an issue in the future
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
@@ -45,22 +32,9 @@ namespace usls::scene::armature
 		return returnVal;
 	}
 
-	glm::quat Armature::calcRotation(const double& time, const usls::scene::animation::Channel& channel)
+	glm::quat Armature::calcRotation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
-		if (channel.rotationKeys.size() == 1)
-		{
-			return channel.rotationKeys[0].second;
-		}
-
-		size_t currentKeyIndex = 0;
-		for (size_t i = 0; i < channel.rotationKeys.size() - 1; i++)
-		{
-			if (time < channel.rotationKeys[i + 1].first)
-			{
-				currentKeyIndex = i;
-				break;
-			}
-		}
+		// no longer checking for condition where only one key exists...could be an issue in the future
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
@@ -75,22 +49,9 @@ namespace usls::scene::armature
 		return delta;
 	}
 
-	glm::vec3 Armature::calcScale(const double& time, const usls::scene::animation::Channel& channel)
+	glm::vec3 Armature::calcScale(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
-		if (channel.scalingKeys.size() == 1)
-		{
-			return channel.scalingKeys[0].second;
-		}
-
-		size_t currentKeyIndex = 0;
-		for (size_t i = 0; i < channel.scalingKeys.size() - 1; i++)
-		{
-			if (time < channel.scalingKeys[i + 1].first)
-			{
-				currentKeyIndex = i;
-				break;
-			}
-		}
+		// no longer checking for condition where only one key exists...could be an issue in the future
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
@@ -111,10 +72,24 @@ namespace usls::scene::armature
 		auto& bone = this->bones[index];
 		auto& channel = this->currentAnimation->channels[bone.name];
 
+		// get current key that is to be used to update translation, rotation, and scale
+		size_t currentKeyIndex = 0;
+		if (channel.positionKeys.size() > 1) // key sizes are same for translations, rotations, scale, so we use positionKeys here
+		{
+			for (size_t i = 0; i < channel.positionKeys.size() - 1; i++)
+			{
+				if (time < channel.positionKeys[i + 1].first)
+				{
+					currentKeyIndex = i;
+					break;
+				}
+			}
+		}
+
 		auto boneMatrix = glm::mat4(1.0f);
-		boneMatrix = glm::translate(boneMatrix, this->calcTranslation(time, channel));
-		boneMatrix = boneMatrix * glm::toMat4(this->calcRotation(time, channel));
-		boneMatrix = glm::scale(boneMatrix, this->calcScale(time, channel));
+		boneMatrix = glm::translate(boneMatrix, this->calcTranslation(time, currentKeyIndex, channel));
+		boneMatrix = boneMatrix * glm::toMat4(this->calcRotation(time, currentKeyIndex, channel));
+		boneMatrix = glm::scale(boneMatrix, this->calcScale(time, currentKeyIndex, channel));
 		boneMatrix = parentMatrix * boneMatrix;
 
 		bone.matrix = boneMatrix;
