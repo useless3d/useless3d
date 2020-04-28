@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <unordered_map>
 #include <string>
 
 #include "usls/scene/animation/Channel.h"
@@ -12,7 +12,7 @@ namespace usls::scene::animation
 		std::string				name;
 		double					duration;
 		double					tps;
-		std::vector<Channel>	channels;
+		std::unordered_map<std::string, Channel> channels;
 	};
 	
 }

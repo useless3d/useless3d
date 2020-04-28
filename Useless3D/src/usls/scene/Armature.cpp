@@ -64,8 +64,6 @@ namespace usls::scene::armature
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		//std::cout << "T:" << channel.rotationKeys.size() << "	N:" << nextKeyIndex << "\n";
-
 		double deltaTime = channel.rotationKeys[nextKeyIndex].first - channel.rotationKeys[currentKeyIndex].first;
 		double factor = time - channel.rotationKeys[currentKeyIndex].first / deltaTime;
 
@@ -111,16 +109,7 @@ namespace usls::scene::armature
 	void Armature::updateBone(size_t index, double time, glm::mat4 parentMatrix)
 	{
 		auto& bone = this->bones[index];
-		usls::scene::animation::Channel channel;
-
-		for (auto& c : this->currentAnimation->channels)
-		{
-			if (c.name == bone.name)
-			{
-				channel = c;
-				break;
-			}
-		}
+		auto& channel = this->currentAnimation->channels[bone.name];
 
 		auto boneMatrix = glm::mat4(1.0f);
 		boneMatrix = glm::translate(boneMatrix, this->calcTranslation(time, channel));

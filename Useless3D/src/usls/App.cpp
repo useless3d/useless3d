@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "usls/App.h"
-
+#include <limits>
 
 namespace usls
 {
@@ -162,7 +162,11 @@ namespace usls
                     if (this->scene && this->scene.value()->loaded) 
                     {
 						// update animations
+						//auto time_a = this->time();
 						this->scene.value()->updateAnimations(this->currentTime);
+						//auto time_b = this->time();
+						//std::cout.precision(10);
+						//std::cout << std::fixed << time_b - time_a << "\n";
 
                         // call user defined loop method (where logic is performed (ie movement and such))
                         this->scene.value()->loop();

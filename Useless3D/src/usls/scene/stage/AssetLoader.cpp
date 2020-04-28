@@ -50,7 +50,6 @@ namespace usls::scene
 			for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
 			{
 				auto c = Channel();
-				c.name = this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str();
 				
 				// positions
 				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++)
@@ -77,7 +76,7 @@ namespace usls::scene
 				}
 
 				// add channel to animation
-				a.channels.push_back(c);
+				a.channels[this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str()] = c;
 			}
 
 			// add animation to scene's animations container, retrieving index
