@@ -1,5 +1,6 @@
 #include <iostream>
 
+#define GLM_FORCE_ALIGNED_GENTYPES
 #include <glm/gtx/string_cast.hpp>
 
 #include "usls/App.h"

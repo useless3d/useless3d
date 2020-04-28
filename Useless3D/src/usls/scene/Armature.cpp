@@ -1,5 +1,6 @@
 #include <iostream>
 
+#define GLM_FORCE_ALIGNED_GENTYPES
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -20,11 +21,11 @@ namespace usls::scene::armature
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		double deltaTime = channel.positionKeys[nextKeyIndex].first - channel.positionKeys[currentKeyIndex].first;
-		double factor = time - channel.positionKeys[currentKeyIndex].first / deltaTime;
+		double deltaTime = channel.positionKeyTimes[nextKeyIndex] - channel.positionKeyTimes[currentKeyIndex];
+		double factor = time - channel.positionKeyTimes[currentKeyIndex] / deltaTime;
 
-		glm::vec3 start = channel.positionKeys[currentKeyIndex].second;
-		glm::vec3 end = channel.positionKeys[nextKeyIndex].second;
+		glm::vec3 start = channel.positionKeyValues[currentKeyIndex];
+		glm::vec3 end = channel.positionKeyValues[nextKeyIndex];
 		glm::vec3 delta = end - start;
 
 		glm::vec3 returnVal = start + (float)factor * delta;
@@ -38,11 +39,11 @@ namespace usls::scene::armature
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		double deltaTime = channel.rotationKeys[nextKeyIndex].first - channel.rotationKeys[currentKeyIndex].first;
-		double factor = time - channel.rotationKeys[currentKeyIndex].first / deltaTime;
+		double deltaTime = channel.rotationKeyTimes[nextKeyIndex] - channel.rotationKeyTimes[currentKeyIndex];
+		double factor = time - channel.rotationKeyTimes[currentKeyIndex] / deltaTime;
 
-		glm::quat start = channel.rotationKeys[currentKeyIndex].second;
-		glm::quat end = channel.rotationKeys[nextKeyIndex].second;
+		glm::quat start = channel.rotationKeyValues[currentKeyIndex];
+		glm::quat end = channel.rotationKeyValues[nextKeyIndex];
 		glm::quat delta = glm::slerp(start, end, (float)factor);
 		delta = glm::normalize(delta);
 
@@ -55,11 +56,11 @@ namespace usls::scene::armature
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		double deltaTime = channel.scalingKeys[nextKeyIndex].first - channel.scalingKeys[currentKeyIndex].first;
-		double factor = time - channel.scalingKeys[currentKeyIndex].first / deltaTime;
+		double deltaTime = channel.scalingKeyTimes[nextKeyIndex] - channel.scalingKeyTimes[currentKeyIndex];
+		double factor = time - channel.scalingKeyTimes[currentKeyIndex] / deltaTime;
 
-		glm::vec3 start = channel.scalingKeys[currentKeyIndex].second;
-		glm::vec3 end = channel.scalingKeys[nextKeyIndex].second;
+		glm::vec3 start = channel.scalingKeyValues[currentKeyIndex];
+		glm::vec3 end = channel.scalingKeyValues[nextKeyIndex];
 		glm::vec3 delta = end - start;
 
 		glm::vec3 returnVal = start + (float)factor * delta;
@@ -72,16 +73,9 @@ namespace usls::scene::armature
 		auto& bone = this->bones[index];
 		auto& channel = this->currentAnimation->channels[bone.name];
 
-		// get current key that is to be used to update translation, rotation, and scale
-		size_t currentKeyIndex = 0;
-		for (size_t i = 0; i < channel.positionKeys.size() - 1; i++)
-		{
-			if (time < channel.positionKeys[i + 1].first)
-			{
-				currentKeyIndex = i;
-				break;
-			}
-		}
+		auto it = std::upper_bound(channel.positionKeyTimes.begin(), channel.positionKeyTimes.end(), time);
+		auto tmpKey = (size_t)(it - channel.positionKeyTimes.begin());
+		auto currentKeyIndex = time > channel.positionKeyTimes[tmpKey] ? 0 : tmpKey - 1;
 
 		auto boneMatrix = glm::mat4(1.0f);
 		boneMatrix = glm::translate(boneMatrix, this->calcTranslation(time, currentKeyIndex, channel));
