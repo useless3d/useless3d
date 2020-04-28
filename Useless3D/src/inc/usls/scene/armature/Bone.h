@@ -13,11 +13,9 @@ namespace usls::scene::armature
 {
 	struct Bone
 	{
-		std::string										name;
-		std::string										parentName;
-		std::vector<std::string>						childNames;
-		size_t											parent; // index of parent in containing armature
-		std::vector<size_t>								children; // indexes of children in containing armature
-		glm::mat4										matrix;
+		std::string		name;
+		std::string		parentName;
+		size_t			parent;
+		glm::mat4		matrix;
 	};
 }

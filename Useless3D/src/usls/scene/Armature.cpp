@@ -82,20 +82,24 @@ namespace usls::scene::armature
 		bone.matrix = bone.matrix * glm::toMat4(this->calcRotation(time, currentKeyIndex, channel));
 		bone.matrix = glm::scale(bone.matrix, this->calcScale(time, currentKeyIndex, channel));
 		bone.matrix = parentMatrix * bone.matrix;
-
-		for (auto& c : bone.children)
-		{
-			this->updateBone(c, time, bone.matrix);
-		}
 	}
 
 	void Armature::updateCurrentAnimation(double runTime)
 	{
 		double timeInTicks = runTime * this->currentAnimation->tps;
 		double animationTime = fmod(timeInTicks, this->currentAnimation->duration);
-		//std::cout << animationTime << "\n";
 
-		this->updateBone(0, animationTime, this->transform.getMatrix());
+		for (size_t i = 0; i < this->bones.size(); i++)
+		{
+			if (i == 0)
+			{
+				this->updateBone(0, animationTime, this->transform.getMatrix());
+			}
+			else
+			{
+				this->updateBone(i, animationTime, this->bones[this->bones[i].parent].matrix);
+			}
+		}
 	}
 
 	void Armature::setCurrentAnimation(std::string animationName)

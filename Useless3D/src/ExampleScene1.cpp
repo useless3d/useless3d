@@ -42,6 +42,19 @@ void ExampleScene1::load()
 	//stage.getActor("character1")->animate("walk_002");
 	//stage.getActor("character2")->animate("walk_002");
 
+
+	auto actorCopy = *stage.getActor("t_01");
+	actorCopy.getTransform().setTranslation(glm::vec3(1.5f, 0.0f, 0.0f));
+	stage.addActor(actorCopy);
+
+	//actorCopy = *stage.getActor("t_01");
+	//actorCopy.getTransform().setTranslation(glm::vec3(-1.5f, 0.0f, 0.0f));
+	//stage.addActor(actorCopy);
+
+	//actorCopy = *stage.getActor("t_01");
+	//actorCopy.getTransform().setTranslation(glm::vec3(3.0f, 0.0f, 0.0f));
+	//stage.addActor(actorCopy);
+
 }
 
 
@@ -92,12 +105,10 @@ void ExampleScene1::loop()
     //    stage.removeActor("crate.013");
     //}
 
-    if (usls::App::get().getInputState().keyA)
+    if (usls::App::get().getInputState().keySpace)
     {
 		auto& stage = this->getStage(0);
-        auto actorCopy = *stage.getActor("t_01");
-        actorCopy.getTransform().setTranslation(glm::vec3(3.0f, 0.0f, 0.0f));
-        stage.addActor(actorCopy);
+		stage.getActor("t_01")->animate("jump_no_gun");
     }
 
 }

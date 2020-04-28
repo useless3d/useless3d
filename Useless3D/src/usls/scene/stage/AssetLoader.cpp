@@ -100,7 +100,7 @@ namespace usls::scene
 
 		if (nodeName != "RootNode" && !string_contains("_end", nodeName))
 		{
-			std::string boneName = node->mName.C_Str();
+			std::string boneName = nodeName;
 			std::string nodeParentName = node->mParent->mName.C_Str();
 
 			if (nodeParentName == "RootNode")
@@ -112,18 +112,7 @@ namespace usls::scene
 			bone.name = boneName;
 			bone.parentName = nodeParentName == "RootNode" ? boneName : node->mParent->mName.C_Str();
 
-			for (unsigned int i = 0; i < node->mNumChildren; i++)
-			{
-				std::string childName = node->mChildren[i]->mName.C_Str();
-				if (!string_contains("_end", childName))
-				{
-					bone.childNames.push_back(childName);
-				}
-				
-			}
-
 			this->currentArmature->addBone(bone);
-			
 		}
 
 		this->processedNodes.push_back(nodeName);
@@ -186,20 +175,13 @@ namespace usls::scene
 				this->processArmatureNode(node);
 				this->processAnimations();
 
-				// Obtain parent and child indexes for each bone using their
+				// Obtain parent indexes for each bone using their
 				// boneNames (done so that these indexes can be used at runtime instead
 				// of loops and string comparisons)
 				for (auto& b : this->currentArmature->getBones()) // ignore intellisense error for getBones()
 				{
-					//std::cout << b.name << "-" << b.parentName << "\n";
 					// get index of parent
 					b.parent = this->currentArmature->getBoneIndex(b.parentName);
-
-					// get indexes of all children
-					for (auto& c : b.childNames)
-					{
-						b.children.push_back(this->currentArmature->getBoneIndex(c));
-					}
 				}
 
 			}
