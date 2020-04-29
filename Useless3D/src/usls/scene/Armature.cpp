@@ -17,54 +17,32 @@ namespace usls::scene::armature
 
 	glm::vec3 Armature::calcTranslation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
-		// no longer checking for condition where only one key exists...could be an issue in the future
-
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
 		double deltaTime = channel.positionKeyTimes[nextKeyIndex] - channel.positionKeyTimes[currentKeyIndex];
-		double factor = time - channel.positionKeyTimes[currentKeyIndex] / deltaTime;
+		float factor = (float)((time - channel.positionKeyTimes[currentKeyIndex]) / deltaTime);
 
-		glm::vec3 start = channel.positionKeyValues[currentKeyIndex];
-		glm::vec3 end = channel.positionKeyValues[nextKeyIndex];
-		glm::vec3 delta = end - start;
-
-		glm::vec3 returnVal = start + (float)factor * delta;
-
-		return returnVal;
+		return channel.positionKeyValues[currentKeyIndex] + factor * (channel.positionKeyValues[nextKeyIndex] - channel.positionKeyValues[currentKeyIndex]);
 	}
 
 	glm::quat Armature::calcRotation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
-		// no longer checking for condition where only one key exists...could be an issue in the future
-
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
 		double deltaTime = channel.rotationKeyTimes[nextKeyIndex] - channel.rotationKeyTimes[currentKeyIndex];
 		float factor = (float)((time - channel.rotationKeyTimes[currentKeyIndex]) / deltaTime);
 
-		glm::quat start = channel.rotationKeyValues[currentKeyIndex];
-		glm::quat end = channel.rotationKeyValues[nextKeyIndex];
-		glm::quat delta = glm::normalize(glm::slerp(start, end, factor));
-
-		return delta;
+		return glm::normalize(glm::slerp(channel.rotationKeyValues[currentKeyIndex], channel.rotationKeyValues[nextKeyIndex], factor));
 	}
 
 	glm::vec3 Armature::calcScale(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
-		// no longer checking for condition where only one key exists...could be an issue in the future
-
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
 		double deltaTime = channel.scalingKeyTimes[nextKeyIndex] - channel.scalingKeyTimes[currentKeyIndex];
-		double factor = time - channel.scalingKeyTimes[currentKeyIndex] / deltaTime;
+		float factor = (float)((time - channel.scalingKeyTimes[currentKeyIndex]) / deltaTime);
 
-		glm::vec3 start = channel.scalingKeyValues[currentKeyIndex];
-		glm::vec3 end = channel.scalingKeyValues[nextKeyIndex];
-		glm::vec3 delta = end - start;
-
-		glm::vec3 returnVal = start + (float)factor * delta;
-
-		return returnVal;
+		return channel.scalingKeyValues[currentKeyIndex] + (float)factor * (channel.scalingKeyValues[nextKeyIndex] - channel.scalingKeyValues[currentKeyIndex]);
 	}
 
 	void Armature::updateBone(size_t index, double time, glm::mat4 parentMatrix)
@@ -75,6 +53,8 @@ namespace usls::scene::armature
 		auto it = std::upper_bound(channel.positionKeyTimes.begin(), channel.positionKeyTimes.end(), time);
 		auto tmpKey = (size_t)(it - channel.positionKeyTimes.begin());
 		auto currentKeyIndex = time > channel.positionKeyTimes[tmpKey] ? 0 : tmpKey - 1;
+
+		// calc* methods no longer check for condition where only one key exists...could be an issue in the future
 
 		bone.matrix = glm::mat4(1.0f);
 		bone.matrix = glm::translate(bone.matrix, this->calcTranslation(time, currentKeyIndex, channel));
