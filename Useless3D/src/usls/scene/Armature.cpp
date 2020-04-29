@@ -39,13 +39,15 @@ namespace usls::scene::armature
 
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		double deltaTime = channel.rotationKeyTimes[nextKeyIndex] - channel.rotationKeyTimes[currentKeyIndex];
-		double factor = time - channel.rotationKeyTimes[currentKeyIndex] / deltaTime;
+		// using deltaTime was causing rotations to twitch/jerk
+		//double deltaTime = channel.rotationKeyTimes[nextKeyIndex] - channel.rotationKeyTimes[currentKeyIndex];
+		//double factor = time - channel.rotationKeyTimes[currentKeyIndex] / deltaTime;
+
+		float factor = (float)(time - channel.rotationKeyTimes[currentKeyIndex]);
 
 		glm::quat start = channel.rotationKeyValues[currentKeyIndex];
 		glm::quat end = channel.rotationKeyValues[nextKeyIndex];
-		glm::quat delta = glm::slerp(start, end, (float)factor);
-		delta = glm::normalize(delta);
+		glm::quat delta = glm::normalize(glm::slerp(start, end, factor));
 
 		return delta;
 	}

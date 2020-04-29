@@ -43,9 +43,9 @@ void ExampleScene1::load()
 	//stage.getActor("character2")->animate("walk_002");
 
 
-	auto actorCopy = *stage.getActor("t_01");
-	actorCopy.getTransform().setTranslation(glm::vec3(1.5f, 0.0f, 0.0f));
-	stage.addActor(actorCopy);
+	//auto actorCopy = *stage.getActor("t_01");
+	//actorCopy.getTransform().setTranslation(glm::vec3(1.5f, 0.0f, 0.0f));
+	//stage.addActor(actorCopy);
 
 	//actorCopy = *stage.getActor("t_01");
 	//actorCopy.getTransform().setTranslation(glm::vec3(-1.5f, 0.0f, 0.0f));

@@ -137,6 +137,8 @@ namespace usls
 
                 this->currentTime = this->newTime;
 
+				
+
                 // prevent spiral of death
                 if (this->frameTime > 0.25)
                 {
@@ -163,6 +165,8 @@ namespace usls
                     
                     if (this->scene && this->scene.value()->loaded) 
                     {
+						//std::cout << this->currentTime << "	";
+
 						// update animations
 						//auto time_a = this->time();
 						this->scene.value()->updateAnimations(this->currentTime);
