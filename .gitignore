@@ -1,5 +1,7 @@
 bin/x64/Debug/*
 !bin/x64/Debug/assimp-vc140-mt.dll
+bin/x64/Release/*
+!bin/x64/Release/assimp-vc140-mt.dll
 .vs/*
 *.blend1
 data/log.txt
