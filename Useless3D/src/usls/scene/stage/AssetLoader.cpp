@@ -35,62 +35,93 @@ namespace usls::scene
         this->processActorNode(this->aiScene->mRootNode);
     }
 
+	std::optional<size_t> AssetLoader::getExistingAnimationIndex(std::string animationName)
+	{
+		size_t i = 0;
+		for (auto& a : App::get().getScene()->getAnimations())
+		{
+			if (a.name == animationName)
+			{
+				return i;
+			}
+			i++;
+		}
+		return std::nullopt;
+	}
+
 	void AssetLoader::processAnimations()
 	{
 		for (unsigned int i = 0; i < this->aiScene->mNumAnimations; i++)
 		{
-			// create a new animation
-			auto a = Animation();
-			a.name = this->aiScene->mAnimations[i]->mName.C_Str();
-			a.duration = this->aiScene->mAnimations[i]->mDuration;
-			a.tps = this->aiScene->mAnimations[i]->mTicksPerSecond;
+			std::string animationName = this->aiScene->mAnimations[i]->mName.C_Str();
 
-			// add all channels to animation
-
-			for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
+			// if an animation exists with the same name, use that animation
+			auto existingAnimationIndex = this->getExistingAnimationIndex(animationName);
+			
+			if (existingAnimationIndex)
 			{
-				auto c = Channel();
-				
-				// positions
-				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++)
-				{
-					auto position = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
-					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
-					c.positionKeyTimes.push_back(time);
-					c.positionKeyValues.push_back(glm::vec3(position.x, position.y, position.z));
-				}
+				// obtain this animation name relative to the armature
+				auto name = explode_string(animationName, '|')[1];
 
-				// rotations
-				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++)
-				{
-					auto rotation = this->aiScene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
-					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
-					c.rotationKeyTimes.push_back(time);
-					c.rotationKeyValues.push_back(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
-				}
-
-				// scalings
-				for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
-				{
-					auto scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
-					auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
-					c.scalingKeyTimes.push_back(time);
-					c.scalingKeyValues.push_back(glm::vec3(scale.x, scale.y, scale.z));
-				}
-
-				// add channel to animation
-				a.channels[this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str()] = c;
+				// add this animation name/index to the armature's animations vector
+				this->currentArmature->addAnimation(name, existingAnimationIndex.value());
 			}
+			// otherwise create a new animation
+			else
+			{
 
-			// add animation to scene's animations container, retrieving index
-			auto ai = App::get().getScene()->addAnimation(a);
+				// create a new animation
+				auto a = Animation();
+				a.name = this->aiScene->mAnimations[i]->mName.C_Str();
+				a.duration = this->aiScene->mAnimations[i]->mDuration;
+				a.tps = this->aiScene->mAnimations[i]->mTicksPerSecond;
 
-			// obtain this animation name relative to the armature
-			auto name = explode_string(a.name, '|')[1];
+				// add all channels to animation
 
-			// add this animation name/index to the armature's animations vector
-			this->currentArmature->addAnimation(name, ai);
+				for (unsigned int j = 0; j < this->aiScene->mAnimations[i]->mNumChannels; j++)
+				{
+					auto c = Channel();
 
+					// positions
+					for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++)
+					{
+						auto position = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
+						auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+						c.positionKeyTimes.push_back(time);
+						c.positionKeyValues.push_back(glm::vec3(position.x, position.y, position.z));
+					}
+
+					// rotations
+					for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++)
+					{
+						auto rotation = this->aiScene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
+						auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+						c.rotationKeyTimes.push_back(time);
+						c.rotationKeyValues.push_back(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
+					}
+
+					// scalings
+					for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
+					{
+						auto scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
+						auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+						c.scalingKeyTimes.push_back(time);
+						c.scalingKeyValues.push_back(glm::vec3(scale.x, scale.y, scale.z));
+					}
+
+					// add channel to animation
+					a.channels[this->aiScene->mAnimations[i]->mChannels[j]->mNodeName.C_Str()] = c;
+				}
+
+				// add animation to scene's animations container, retrieving index
+				auto ai = App::get().getScene()->addAnimation(a);
+
+				// obtain this animation name relative to the armature
+				auto name = explode_string(a.name, '|')[1];
+
+				// add this animation name/index to the armature's animations vector
+				this->currentArmature->addAnimation(name, ai);
+			}
 		}
 	}
 
@@ -143,14 +174,11 @@ namespace usls::scene
 
     void AssetLoader::processActorNode(aiNode* node)
     {
-        //std::cout << "  > " << node->mName.C_Str() << " - Parent: " << (node->mParent != NULL ? node->mParent->mName.C_Str() : "RootNode") << "\n";
-
-
         // If node has more than one mesh, display an error and exit (as I cannot think of a reason
         // why a node would have more than one mesh at this time, therefore if we ever receive
         // an error here we can re-examine our thought process)
-        // Well this answers my question: https://github.com/assimp/assimp/issues/314 however i'm
-        // not implementing support for multiple meshes per node until a reason is brought to light
+        // Well this answers my question: https://github.com/assimp/assimp/issues/314 however I'm
+        // not implementing support for multiple meshes per node until need be
         if (node->mNumMeshes > 1)
         {
             std::string nodeName = node->mName.C_Str();

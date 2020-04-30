@@ -46,6 +46,7 @@ namespace usls::scene
 		bool								isRootArmatureNode(aiNode* node);
 		std::string							generateUniqueActorName(std::string name);
 		glm::mat4							aiMatrix4x4ToGlm(const aiMatrix4x4 &from);
+		std::optional<size_t>				getExistingAnimationIndex(std::string animationName);
 
 	public:
 																	AssetLoader(Stage* stage, std::string assetFile);
