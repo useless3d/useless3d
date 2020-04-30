@@ -19,9 +19,7 @@ namespace usls::scene
     {
         this->aiScene = this->aiImporter.ReadFile(this->currentAssetFile, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
 
-        //if (!this->aiScene || this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !this->aiScene->mRootNode)
         if (!this->aiScene || !this->aiScene->mRootNode)
-        //if (this->aiScene->mFlags & AI_SCENE_FLAGS_INCOMPLETE)
         {
             std::string errorMessage = this->aiImporter.GetErrorString();
             std::cout << "ERROR::ASSIMP::" << errorMessage << "\n";
@@ -63,7 +61,6 @@ namespace usls::scene
 				// obtain this animation name relative to the armature
 				auto name = explode_string(animationName, '|')[1];
 
-				// add this animation name/index to the armature's animations vector
 				this->currentArmature->addAnimation(name, existingAnimationIndex.value());
 			}
 			// otherwise create a new animation
@@ -292,17 +289,7 @@ namespace usls::scene
 
         glm::vec3 scale = glm::vec3(aiScale.x, aiScale.y, aiScale.z);
         glm::vec3 translation = glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z);
-		glm::quat rotation = glm::quat(aiRotation.w, aiRotation.x, aiRotation.y, aiRotation.z);
-
-		aiVector3D aiRotationAxis;
-		float rotationAngle;
-		node->mTransformation.Decompose(aiScale, aiRotationAxis, rotationAngle, aiPosition);
-		glm::vec3 rotationAxis = glm::vec3(aiRotationAxis.x, aiRotationAxis.y, aiRotationAxis.z);
-		float angle = rotationAngle * (180 / 3.124); // convert radian to degree
-
-		std::string name = node->mName.C_Str();
-		//std::cout << name << ":" << angle << ":" << glm::to_string(rotationAxis) << "\n";
-		
+		glm::quat rotation = glm::quat(aiRotation.w, aiRotation.x, aiRotation.y, aiRotation.z);		
 
         this->currentTransform = Transform(translation, rotation, scale);
     }
@@ -311,8 +298,6 @@ namespace usls::scene
     {
         aiMesh* aiMesh = this->aiScene->mMeshes[node->mMeshes[0]];
 		auto mesh = Mesh(aiMesh->mName.C_Str());
-
-        // process mesh
 
         // walk through each of the mesh's vertices
 		std::vector<Vertex> vertices;
@@ -370,10 +355,9 @@ namespace usls::scene
 		mesh.setIndices(indices);
 
 
-
 		// if mesh has bones, process bones
 		std::vector<mesh::Bone> bones;
-		//mesh.resizeVertexWeights(vertices.size());
+
 		if (aiMesh->HasBones())
 		{
 			for (unsigned int i = 0; i < aiMesh->mNumBones; i++)
@@ -393,11 +377,10 @@ namespace usls::scene
 		mesh.setBones(bones);
 
 
-
         // Does the exact same mesh exist? If so use the index of that mesh.
 
         // Loop through each existing mesh and determine if the verticies are the same.
-        // (I can't imagine this will scale well, and a more clever solution should be implemented)
+        // (Probably a better way to do this...hashes maybe?)
         int meshIndex = 0;
         for (auto& m : App::get().getScene()->getMeshes())
         {
@@ -434,7 +417,7 @@ namespace usls::scene
 
             // determine if the texture already exists, if it does use it's index...
             int meshTextureIndex = 0;
-            for (auto& t : App::get().getGPU()->getTextures()) // ignore intellisense error for getTextures(), not sure why it doesn't understand it's legit
+            for (auto& t : App::get().getGPU()->getTextures()) // ignore intellisense error for getTextures()
             {
                 if (t.path == (this->currentAssetDirectory + "/" + str.C_Str()))
                 {

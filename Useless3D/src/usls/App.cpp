@@ -101,7 +101,16 @@ namespace usls
 
             average = average / this->averageFrameTimeArray.size();
             
-            this->window.value()->setTitle("FrameTime: " + std::to_string(average) + " | FPS: " + std::to_string(1000 / (average * 1000)));
+			std::string message = "FrameTime: " + std::to_string(average) + " | FPS: " + std::to_string(1000 / (average * 1000));
+
+			if (!this->config.HEADLESS)
+			{
+				this->window.value()->setTitle(message);
+			}
+			else
+			{
+				std::cout << message << "\n";
+			}
 
 			this->averageFrameTimeArray.clear();
         }
@@ -135,9 +144,7 @@ namespace usls
             {
 				this->displayAverageFrameTime();
 
-                this->currentTime = this->newTime;
-
-				
+                this->currentTime = this->newTime;				
 
                 // prevent spiral of death
                 if (this->frameTime > 0.25)
@@ -145,14 +152,7 @@ namespace usls
                     this->frameTime = 0.25;
                 }
 
-                this->accumulator += this->frameTime;
-
-                // exit if keyEsc pressed (remove this and let user determine this behaviour in their loop)
-                if (this->getInputState().keyEsc)
-                {
-                    this->close();
-                    continue;
-                }
+                this->accumulator += this->frameTime;                
 
                 // process update logic
                 while (this->accumulator >= this->deltaTime)
@@ -165,14 +165,8 @@ namespace usls
                     
                     if (this->scene && this->scene.value()->loaded) 
                     {
-						//std::cout << this->currentTime << "	";
-
 						// update animations
-						//auto time_a = this->time();
 						this->scene.value()->updateAnimations(this->currentTime);
-						//auto time_b = this->time();
-						//std::cout.precision(10);
-						//std::cout << std::fixed << time_b - time_a << "\n";
 
                         // call user defined loop method (where logic is performed (ie movement and such))
                         this->scene.value()->loop();

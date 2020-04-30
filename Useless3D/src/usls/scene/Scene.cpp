@@ -90,6 +90,11 @@ namespace usls::scene
 
         for (auto& s : this->stages)
         {
+			if (!s.isVisible())
+			{
+				continue;
+			}
+
             //s.printRenderCommands();            
 
             // should always have a camera if we've made it this far
@@ -159,7 +164,6 @@ namespace usls::scene
         }
 
 
-        //std::cin.get();
     }
 
 }

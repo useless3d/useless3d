@@ -31,6 +31,11 @@ namespace usls::scene::stage
 
     }
 
+	const bool Stage::isVisible()
+	{
+		return this->visible;
+	}
+
     void Stage::setActorContainerSize(unsigned int size)
     {
         this->actors.reserve(size);
@@ -295,9 +300,6 @@ namespace usls::scene::stage
 
     void Stage::printRenderCommands() const
     {
-
-        //std::cout << this->renderCommands.value().size();
-
         std::cout << "RenderCommands\n";
         std::cout << "----------------------------------\n";
         for (auto& rc : this->renderCommands.value()) 
@@ -306,7 +308,6 @@ namespace usls::scene::stage
             std::cout << "actors:";
             for (auto& a : rc.getActorIndexes()) 
             {
-                //std::cout << a << ",";
                 if (a != -1) 
                 {
                     std::cout << this->actors.at(a).getName() << ",";
@@ -319,7 +320,6 @@ namespace usls::scene::stage
             }
             std::cout << "\n------------------------------\n";
         }
-
     }
 
     RenderCommand& Stage::getRenderCommand(size_t index)

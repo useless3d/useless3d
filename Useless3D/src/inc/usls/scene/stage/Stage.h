@@ -60,6 +60,7 @@ namespace usls::scene::stage
         void										hide();
         void										addPerspectiveCamera(bool fixed, float nearPlane, float farPlane, float fov);
         void										addOrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale);
+		const bool									isVisible();
         
 
 

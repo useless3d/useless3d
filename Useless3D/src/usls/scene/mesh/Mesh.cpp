@@ -55,7 +55,6 @@ namespace usls::scene::mesh
 
 	void Mesh::addVertexWeight(unsigned int vertexIndex, unsigned int boneIndex, float weight)
 	{
-		// I'm not a fan of this...seems complex for just adding something to a raw array...why not just use a vector?
 		for (unsigned int i = 0; i < (sizeof(this->vertices[vertexIndex].weights.ids) / sizeof(this->vertices[vertexIndex].weights.ids[0])); i++)
 		{
 			if (this->vertices[vertexIndex].weights.weights[i] == 0.0f)
@@ -66,11 +65,6 @@ namespace usls::scene::mesh
 			}
 		}		
 	}
-
-	//void Mesh::resizeVertexWeights(size_t size)
-	//{
-	//	this->vertexWeights.resize(size);
-	//}
 
 	void Mesh::setVertices(std::vector<Vertex>& vertices)
 	{
