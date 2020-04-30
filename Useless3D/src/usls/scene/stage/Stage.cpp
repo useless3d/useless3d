@@ -15,10 +15,10 @@ namespace usls::scene::stage
         headless(headless),
         visible(true)
     {
-        // Default actors container to 1000 slots. If more space
+        // set default actors container to 1000 slots. If more space
         // is required, call setActorContainerSize before adding
         // actors to the stage. If this is not done and actors
-        // are added past the reserved limit, will result in
+        // are added past the reserved limit, it will result in
         // undefined behavior (as push_back will reallocate
         // all data to a new block every time push_back is called)
         this->actors.reserve(1000);
@@ -86,12 +86,6 @@ namespace usls::scene::stage
 
     void Stage::loadActors(std::string filename)
     {
-        if (!this->headless)
-        {
-            this->loadActors(filename, 0); // default shader is always index 0
-            return;
-        }
-
         auto loader = AssetLoader(this, filename);
         loader.loadActors();
     }

@@ -20,8 +20,10 @@ namespace usls
         const bool          LOG_ENABLED = true;
         const std::string   LOG_PATH = "data/log.txt";
         const std::string   SHADER_FILE_PATH = "Useless3D/src/usls/scene/shaders";
-        const std::string   DEFAULT_VERTEX_SHADER = "skinned.vert";
-        const std::string   DEFAULT_FRAGMENT_SHADER = "skinned.frag";
+        const std::string   DEFAULT_VERTEX_SHADER = "default.vert";
+        const std::string   DEFAULT_FRAGMENT_SHADER = "default.frag";
+		const std::string   DEFAULT_SKINNED_VERTEX_SHADER = "default_skinned.vert";
+		const std::string   DEFAULT_SKINNED_FRAGMENT_SHADER = "default_skinned.frag";
         const double        LOGIC_TICK = 120.0;
 
         // User defined via config.ini

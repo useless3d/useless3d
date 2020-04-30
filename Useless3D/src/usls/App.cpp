@@ -33,12 +33,12 @@ namespace usls
 			// initialize GPU
 			this->gpu = GPU(this->config.SHADER_FILE_PATH);
 
-			// create default shader
+			// create default shaders
             this->gpu->loadShader("default", this->config.DEFAULT_VERTEX_SHADER, this->config.DEFAULT_FRAGMENT_SHADER);
+			this->gpu->loadShader("default_skinned", this->config.DEFAULT_SKINNED_VERTEX_SHADER, this->config.DEFAULT_SKINNED_FRAGMENT_SHADER);
 
 			// create default texture
 			this->gpu->loadTexture("diffuse", ("data/models/bin/default_texture.jpg"));
-
         }
     }
 

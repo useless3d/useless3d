@@ -24,7 +24,7 @@ void ExampleScene1::load()
     stage.getCamera()->setPosition(0.0f, 3.0f, -5.0f);
     //stage.getCamera()->setPosition(0.0f, 4.0f, 6.0f);
     //stage.getCamera()->setPosition(0.0f, 10.0f, 22.0f);
-    stage.getCamera()->setLookAt(0.0f, 0.0f, 2.0f);
+    stage.getCamera()->setLookAt(0.0f, 0.0f, 0.0f);
 	//stage.loadActor("data/models/bin/characters/animation_test/animation_test.fbx"); // add actors to this stage, use default shader for all meshes in this file
     //stage.loadActor("data/models/bin/characters/low_poly/low_poly_animated.fbx"); // add actors to this stage, use default shader for all meshes in this file
 	//stage.loadActors("data/models/bin/maps/stress/001.fbx"); // add actors to this stage, use default shader for all meshes in this file
@@ -50,44 +50,44 @@ void ExampleScene1::load()
 	//stage.getActor("t_010")->animate("jump_no_gun");
 
 
-	auto actorCopy = *stage.getActor("t_01");
-	actorCopy.getTransform().setTranslation(glm::vec3(1.5f, 0.0f, 0.0f));
-	stage.addActor(actorCopy);
+	//auto actorCopy = *stage.getActor("t_01");
+	//actorCopy.getTransform().setTranslation(glm::vec3(1.5f, 0.0f, 0.0f));
+	//stage.addActor(actorCopy);
 
-	actorCopy = *stage.getActor("t_01");
-	actorCopy.getTransform().setTranslation(glm::vec3(-1.5f, 0.0f, 0.0f));
-	stage.addActor(actorCopy);
+	//actorCopy = *stage.getActor("t_01");
+	//actorCopy.getTransform().setTranslation(glm::vec3(-1.5f, 0.0f, 0.0f));
+	//stage.addActor(actorCopy);
 
-	actorCopy = *stage.getActor("t_01");
-	actorCopy.getTransform().setTranslation(glm::vec3(3.0f, 0.0f, 0.0f));
-	stage.addActor(actorCopy);
+	//actorCopy = *stage.getActor("t_01");
+	//actorCopy.getTransform().setTranslation(glm::vec3(3.0f, 0.0f, 0.0f));
+	//stage.addActor(actorCopy);
 
-	actorCopy = *stage.getActor("t_01");
-	actorCopy.getTransform().setTranslation(glm::vec3(-3.0f, 0.0f, 0.0f));
-	stage.addActor(actorCopy);
+	//actorCopy = *stage.getActor("t_01");
+	//actorCopy.getTransform().setTranslation(glm::vec3(-3.0f, 0.0f, 0.0f));
+	//stage.addActor(actorCopy);
 
-	for (size_t i = 1; i < 20; i++)
-	{
-		actorCopy = *stage.getActor("t_01");
-		actorCopy.getTransform().setTranslation(glm::vec3(0.0f, 0.0f, (float)i * 1.5f));
-		stage.addActor(actorCopy);
+	//for (size_t i = 1; i < 20; i++)
+	//{
+	//	actorCopy = *stage.getActor("t_01");
+	//	actorCopy.getTransform().setTranslation(glm::vec3(0.0f, 0.0f, (float)i * 1.5f));
+	//	stage.addActor(actorCopy);
 
-		actorCopy = *stage.getActor("t_01");
-		actorCopy.getTransform().setTranslation(glm::vec3(1.5f, 0.0f, (float)i * 1.5f));
-		stage.addActor(actorCopy);
+	//	actorCopy = *stage.getActor("t_01");
+	//	actorCopy.getTransform().setTranslation(glm::vec3(1.5f, 0.0f, (float)i * 1.5f));
+	//	stage.addActor(actorCopy);
 
-		actorCopy = *stage.getActor("t_01");
-		actorCopy.getTransform().setTranslation(glm::vec3(-1.5f, 0.0f, (float)i *  1.5f));
-		stage.addActor(actorCopy);
+	//	actorCopy = *stage.getActor("t_01");
+	//	actorCopy.getTransform().setTranslation(glm::vec3(-1.5f, 0.0f, (float)i *  1.5f));
+	//	stage.addActor(actorCopy);
 
-		actorCopy = *stage.getActor("t_01");
-		actorCopy.getTransform().setTranslation(glm::vec3(3.0f, 0.0f, (float)i * 1.5f));
-		stage.addActor(actorCopy);
+	//	actorCopy = *stage.getActor("t_01");
+	//	actorCopy.getTransform().setTranslation(glm::vec3(3.0f, 0.0f, (float)i * 1.5f));
+	//	stage.addActor(actorCopy);
 
-		actorCopy = *stage.getActor("t_01");
-		actorCopy.getTransform().setTranslation(glm::vec3(-3.0f, 0.0f, (float)i * 1.5f));
-		stage.addActor(actorCopy);
-	}
+	//	actorCopy = *stage.getActor("t_01");
+	//	actorCopy.getTransform().setTranslation(glm::vec3(-3.0f, 0.0f, (float)i * 1.5f));
+	//	stage.addActor(actorCopy);
+	//}
 
 }
 

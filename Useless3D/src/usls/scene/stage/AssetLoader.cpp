@@ -248,8 +248,25 @@ namespace usls::scene
 
 					if (!this->headless)
 					{
-						actor.setShaderIndex(this->findShaderId.value()(actorName));
 						actor.setTextureIndex(this->currentMeshTextureIndex.value());
+
+						// if findShaderId lambda is not defined, then use one of the default shaders
+						// as this means the user did not explicitly pass a shader index to be used
+						if (!findShaderId)
+						{
+							if (!this->currentArmature)
+							{
+								actor.setShaderIndex(0); // actor does not have an armature so use default (non-skinned) shader
+							}
+							else
+							{
+								actor.setShaderIndex(1); // actor has an armature so it's a skinned mesh, use default skinned shader
+							}
+						}
+						else
+						{
+							actor.setShaderIndex(this->findShaderId.value()(actorName));
+						}						
 					}
 				}
 
