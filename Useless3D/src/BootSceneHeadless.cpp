@@ -15,7 +15,7 @@ void BootSceneHeadless::load()
 	stage.loadActor("data/models/bin/characters/t_01/t_01.fbx");
 	auto skinnedActor = stage.getActor("t_01");
 	skinnedActor->animate("run_no_gun");
-	skinnedActor->getTransform().setTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+	skinnedActor->translate(glm::vec3(0.0f, 0.0f, 0.0f));
 
     std::cout << "Loaded Actors:" << stage.getActorSize() << "\n";
 

@@ -127,7 +127,7 @@ namespace usls::scene
                 {
                     Actor* a = s.getActor(ai);
 
-                    if (!a->isDeleted())
+                    if (!a->isDeleted() && a->isVisible())
                     {
 						// If this actor is animated, send the bone transforms of it's armature to the shader
 						if (a->isAnimated())
@@ -150,7 +150,7 @@ namespace usls::scene
 						}
 						else
 						{
-							gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getTransform().getMatrix());
+							gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getWorldMatrix());
 						}
 
                         gpu.drawMeshRenderable();

@@ -63,7 +63,7 @@ namespace usls::scene::armature
 		bone.matrix = parentMatrix * bone.matrix;
 	}
 
-	void Armature::updateCurrentAnimation(double runTime)
+	void Armature::updateCurrentAnimation(double runTime, std::optional<glm::mat4> parentMatrix)
 	{
 		double timeInTicks = runTime * this->currentAnimation->tps;
 		double animationTime = fmod(timeInTicks, this->currentAnimation->duration);
@@ -72,7 +72,14 @@ namespace usls::scene::armature
 		{
 			if (i == 0)
 			{
-				this->updateBone(0, (float)animationTime, this->transform.getMatrix());
+				if (!parentMatrix)
+				{
+					this->updateBone(0, (float)animationTime, this->transform.getMatrix());
+				}
+				else
+				{
+					this->updateBone(0, (float)animationTime, parentMatrix.value() * this->transform.getMatrix());
+				}
 			}
 			else
 			{

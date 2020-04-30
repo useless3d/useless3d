@@ -8,8 +8,72 @@ namespace usls::scene::stage
     Actor::Actor(std::string name, Transform t) :
         name(name),
         deleted(false),
+		visible(true),
         transform(t) 
     {}
+
+	std::optional<glm::mat4> Actor::getParentMatrix()
+	{
+		if (!this->parentActor)
+		{
+			return std::nullopt;
+		}
+
+		if (!this->parentActorBone)
+		{
+			return this->parentActor.value()->getTransform().getMatrix();
+		}
+
+		return this->parentActorBone.value()->matrix;
+	}
+
+	glm::mat4 Actor::getWorldMatrix()
+	{
+		// if this actor has no parent, simply return the matrix of it's transform
+		if (!this->parentActor)
+		{
+			return this->getTransform().getMatrix();
+		}
+
+		// if this actor is parented to another actor (an not a bone of that actor)
+		if (!this->parentActorBone)
+		{
+			return this->parentActor.value()->getTransform().getMatrix() * this->getTransform().getMatrix();
+		}
+
+		return this->parentActorBone.value()->matrix * this->getTransform().getMatrix();
+
+	}
+
+	void Actor::translate(glm::vec3 translation)
+	{
+		this->getTransform().setTranslation(translation);
+	}
+
+	void Actor::rotate(float angle, glm::vec3 axis)
+	{
+		this->getTransform().setRotation(angle, axis);
+	}
+
+	void Actor::scale(glm::vec3 scale)
+	{
+		this->getTransform().setScale(scale);
+	}
+
+	void Actor::setParentActor(Actor* a)
+	{
+		this->parentActor = a;
+	}
+
+	void Actor::setParentActorBone(usls::scene::armature::Bone* b)
+	{
+		this->parentActorBone = b;
+	}
+
+	void Actor::addChildActor(Actor* a)
+	{
+		this->childActors.push_back(a);
+	}
 
 	void Actor::setActiveBones(std::vector<std::pair<size_t, std::string>> activeBones)
 	{
@@ -54,6 +118,16 @@ namespace usls::scene::stage
     {
         this->deleted = d;
     }
+
+	const bool Actor::isVisible() const
+	{
+		return this->visible;
+	}
+
+	void Actor::setVisible(bool v)
+	{
+		this->visible = v;
+	}
 
     const std::pair<size_t, size_t>& Actor::getRenderCommand() const
     {

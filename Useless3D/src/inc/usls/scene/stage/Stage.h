@@ -62,6 +62,8 @@ namespace usls::scene::stage
         void										addOrthographicCamera(bool fixed, float nearPlane, float farPlane, float scale);
 		const bool									isVisible();
         
+		void										parentActorToActor(std::string childName, std::string parentName);
+		void										parentActorToActorBone(std::string childName, std::string parentName, std::string parentBoneName);
 
 
     };

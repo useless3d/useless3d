@@ -31,6 +31,25 @@ namespace usls::scene::stage
 
     }
 
+	void Stage::parentActorToActorBone(std::string childName, std::string parentName, std::string parentBoneName)
+	{
+		auto childActor = this->getActor(childName);
+		auto parentActor = this->getActor(parentName);
+
+		childActor->setParentActor(parentActor);
+		childActor->setParentActorBone(parentActor->getArmature().getBone(parentBoneName));
+		parentActor->addChildActor(childActor);
+	}
+
+	void Stage::parentActorToActor(std::string childName, std::string parentName)
+	{
+		auto childActor = this->getActor(childName);
+		auto parentActor = this->getActor(parentName);
+
+		childActor->setParentActor(parentActor);
+		parentActor->addChildActor(childActor);
+	}
+
 	const bool Stage::isVisible()
 	{
 		return this->visible;
@@ -133,7 +152,7 @@ namespace usls::scene::stage
 		{
 			if (!a.isDeleted() && a.isAnimated())
 			{
-				a.getArmature().updateCurrentAnimation(runTime);
+				a.getArmature().updateCurrentAnimation(runTime, a.getParentMatrix());
 			}
 		}
 	}

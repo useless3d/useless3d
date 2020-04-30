@@ -16,15 +16,23 @@ namespace usls::scene::stage
     {
     private:
         bool											deleted;
+		bool											visible;
         std::string										name;
         Transform										transform;
+		
+		std::optional<Actor*>							parentActor;
+		std::optional<usls::scene::armature::Bone*>		parentActorBone;
+		std::vector<Actor*>								childActors;
+
 		std::optional<usls::scene::armature::Armature>	armature;
 		std::optional<std::vector<std::pair<size_t, std::string>>> activeBones; // the bones from the armature that are actually used by the mesh, 
 																				// the glue between an armature and a mesh (index is mesh bone index, value is armature bone index)
 		std::optional<std::pair<size_t, size_t>>		renderCommand;
         std::optional<size_t>							shaderIndex;
         std::optional<size_t>							meshIndex;
-        std::optional<size_t>							textureIndex; 
+        std::optional<size_t>							textureIndex;
+
+		Transform&										getTransform();
 
 
     public:
@@ -40,14 +48,26 @@ namespace usls::scene::stage
         const std::pair<size_t, size_t>&				getRenderCommand() const;
         void											setDeleted(bool d);
         const bool										isDeleted() const;
+		void											setVisible(bool v);
+		const bool										isVisible() const;
 		const bool										isAnimated() const;
 		void											setArmature(usls::scene::armature::Armature& arm);
 		usls::scene::armature::Armature&				getArmature();
 		usls::scene::mesh::Mesh&						getMesh();
 		void											animate(std::string animationName);
-        Transform&										getTransform();
 		const std::optional<std::vector<std::pair<size_t, std::string>>>& getActiveBones() const;
 		void											setActiveBones(std::vector<std::pair<size_t, std::string>> activeBones);
+
+		void											setParentActor(Actor* a);
+		void											setParentActorBone(usls::scene::armature::Bone* b);
+		void											addChildActor(Actor* a);
+
+		void											translate(glm::vec3 translation);
+		void											rotate(float angle, glm::vec3 axis);
+		void											scale(glm::vec3 scale);
+
+		std::optional<glm::mat4>						getParentMatrix();
+		glm::mat4										getWorldMatrix();
 
     };
 }

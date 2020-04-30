@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <optional>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
@@ -42,7 +43,7 @@ namespace usls::scene::armature
 		const std::vector<std::pair<std::string, size_t>>&	getAnimations() const;
 		size_t												getBoneIndex(std::string boneName);
 		void												setCurrentAnimation(std::string animationName);
-		void												updateCurrentAnimation(double runTime);
+		void												updateCurrentAnimation(double runTime, std::optional<glm::mat4> parentMatrix);
 		size_t												getAnimationIndex(std::string animationName);
 		usls::scene::stage::Transform&						getTransform();
 
