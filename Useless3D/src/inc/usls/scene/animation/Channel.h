@@ -11,9 +11,9 @@ namespace usls::scene::animation
 {
 	struct Channel
 	{
-		std::vector<double> positionKeyTimes;
-		std::vector<double> rotationKeyTimes;
-		std::vector<double> scalingKeyTimes;
+		std::vector<float> positionKeyTimes;
+		std::vector<float> rotationKeyTimes;
+		std::vector<float> scalingKeyTimes;
 		std::vector<glm::vec3> positionKeyValues;
 		std::vector<glm::quat> rotationKeyValues;
 		std::vector<glm::vec3> scalingKeyValues;

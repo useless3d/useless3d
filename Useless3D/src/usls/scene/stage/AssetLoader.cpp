@@ -86,7 +86,7 @@ namespace usls::scene
 					for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumPositionKeys; k++)
 					{
 						auto position = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mValue;
-						auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+						auto time = (float)this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
 						c.positionKeyTimes.push_back(time);
 						c.positionKeyValues.push_back(glm::vec3(position.x, position.y, position.z));
 					}
@@ -95,7 +95,7 @@ namespace usls::scene
 					for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumRotationKeys; k++)
 					{
 						auto rotation = this->aiScene->mAnimations[i]->mChannels[j]->mRotationKeys[k].mValue;
-						auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+						auto time = (float)this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
 						c.rotationKeyTimes.push_back(time);
 						c.rotationKeyValues.push_back(glm::quat(rotation.w, rotation.x, rotation.y, rotation.z));
 					}
@@ -104,7 +104,7 @@ namespace usls::scene
 					for (unsigned int k = 0; k < this->aiScene->mAnimations[i]->mChannels[j]->mNumScalingKeys; k++)
 					{
 						auto scale = this->aiScene->mAnimations[i]->mChannels[j]->mScalingKeys[k].mValue;
-						auto time = this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
+						auto time = (float)this->aiScene->mAnimations[i]->mChannels[j]->mPositionKeys[k].mTime;
 						c.scalingKeyTimes.push_back(time);
 						c.scalingKeyValues.push_back(glm::vec3(scale.x, scale.y, scale.z));
 					}

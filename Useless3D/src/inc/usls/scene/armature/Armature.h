@@ -22,10 +22,10 @@ namespace usls::scene::armature
 		std::vector<std::pair<std::string, size_t>>			animations;
 		std::string											currentAnimationName;
 		usls::scene::animation::Animation*					currentAnimation;
-		void												updateBone(size_t index, double time, glm::mat4 parentMatrix);
-		glm::vec3											calcTranslation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
-		glm::quat											calcRotation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
-		glm::vec3											calcScale(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
+		void												updateBone(size_t index, float time, glm::mat4 parentMatrix);
+		glm::vec3											calcTranslation(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
+		glm::quat											calcRotation(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
+		glm::vec3											calcScale(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
 		usls::scene::stage::Transform						transform;
 
 

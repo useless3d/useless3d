@@ -15,37 +15,37 @@ namespace usls::scene::armature
 		name(name)
 	{}
 
-	glm::vec3 Armature::calcTranslation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
+	glm::vec3 Armature::calcTranslation(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		double deltaTime = channel.positionKeyTimes[nextKeyIndex] - channel.positionKeyTimes[currentKeyIndex];
-		float factor = (float)((time - channel.positionKeyTimes[currentKeyIndex]) / deltaTime);
+		float deltaTime = channel.positionKeyTimes[nextKeyIndex] - channel.positionKeyTimes[currentKeyIndex];
+		float factor = ((time - channel.positionKeyTimes[currentKeyIndex]) / deltaTime);
 
 		return channel.positionKeyValues[currentKeyIndex] + factor * (channel.positionKeyValues[nextKeyIndex] - channel.positionKeyValues[currentKeyIndex]);
 	}
 
-	glm::quat Armature::calcRotation(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
+	glm::quat Armature::calcRotation(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		double deltaTime = channel.rotationKeyTimes[nextKeyIndex] - channel.rotationKeyTimes[currentKeyIndex];
-		float factor = (float)((time - channel.rotationKeyTimes[currentKeyIndex]) / deltaTime);
+		float deltaTime = channel.rotationKeyTimes[nextKeyIndex] - channel.rotationKeyTimes[currentKeyIndex];
+		float factor = ((time - channel.rotationKeyTimes[currentKeyIndex]) / deltaTime);
 
 		return glm::normalize(glm::slerp(channel.rotationKeyValues[currentKeyIndex], channel.rotationKeyValues[nextKeyIndex], factor));
 	}
 
-	glm::vec3 Armature::calcScale(const double& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
+	glm::vec3 Armature::calcScale(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel)
 	{
 		size_t nextKeyIndex = currentKeyIndex + 1;
 
-		double deltaTime = channel.scalingKeyTimes[nextKeyIndex] - channel.scalingKeyTimes[currentKeyIndex];
-		float factor = (float)((time - channel.scalingKeyTimes[currentKeyIndex]) / deltaTime);
+		float deltaTime = channel.scalingKeyTimes[nextKeyIndex] - channel.scalingKeyTimes[currentKeyIndex];
+		float factor = ((time - channel.scalingKeyTimes[currentKeyIndex]) / deltaTime);
 
-		return channel.scalingKeyValues[currentKeyIndex] + (float)factor * (channel.scalingKeyValues[nextKeyIndex] - channel.scalingKeyValues[currentKeyIndex]);
+		return channel.scalingKeyValues[currentKeyIndex] + factor * (channel.scalingKeyValues[nextKeyIndex] - channel.scalingKeyValues[currentKeyIndex]);
 	}
 
-	void Armature::updateBone(size_t index, double time, glm::mat4 parentMatrix)
+	void Armature::updateBone(size_t index, float time, glm::mat4 parentMatrix)
 	{
 		auto& bone = this->bones[index];
 		auto& channel = this->currentAnimation->channels[bone.name];
@@ -72,11 +72,11 @@ namespace usls::scene::armature
 		{
 			if (i == 0)
 			{
-				this->updateBone(0, animationTime, this->transform.getMatrix());
+				this->updateBone(0, (float)animationTime, this->transform.getMatrix());
 			}
 			else
 			{
-				this->updateBone(i, animationTime, this->bones[this->bones[i].parent].matrix);
+				this->updateBone(i, (float)animationTime, this->bones[this->bones[i].parent].matrix);
 			}
 		}
 	}
