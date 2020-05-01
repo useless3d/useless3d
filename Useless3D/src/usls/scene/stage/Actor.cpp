@@ -12,6 +12,19 @@ namespace usls::scene::stage
         transform(t) 
     {}
 
+	Actor Actor::cleanCopy(std::string newName)
+	{
+		auto newActor = *this;
+		newActor.setName(newName);
+
+		// Clear parents and children
+		newActor.parentActor = std::nullopt;
+		newActor.parentActorBone = std::nullopt;
+		newActor.childActors.clear();
+
+		return newActor;
+	}
+
 	void Actor::setName(std::string newName)
 	{
 		this->name = newName;

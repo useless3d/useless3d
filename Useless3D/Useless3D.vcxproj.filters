@@ -81,6 +81,9 @@
     <ClCompile Include="src\usls\scene\stage\AssetLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ExampleScene2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\usls\inc\Ini.h">
@@ -168,6 +171,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\usls\scene\mesh\VertexBoneData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\ExampleScene2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

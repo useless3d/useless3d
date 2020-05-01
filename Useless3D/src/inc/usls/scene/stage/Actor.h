@@ -37,6 +37,7 @@ namespace usls::scene::stage
 
     public:
 														Actor(std::string name, Transform t);
+		Actor											cleanCopy(std::string newName);
         void											setMeshIndex(size_t i);
         void											setShaderIndex(size_t i);
         void											setTextureIndex(size_t i);
