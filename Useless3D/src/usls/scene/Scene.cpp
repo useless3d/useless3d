@@ -60,7 +60,7 @@ namespace usls::scene
     {
         if (!this->headless)
         {
-            m.setMeshRenderableIndex(App::get().getGPU()->loadMesh(m)); // Since this is not headless mode, send mesh to the GPU
+            m.setMeshRenderableIndex(App::get().getGPU()->loadMesh(m));
         }
         this->meshes.push_back(m);
         return this->meshes.size() - 1;
@@ -119,8 +119,6 @@ namespace usls::scene
                 {
                     gpu.useTexture(rc.getTextureIndex());
                 }
-
-                //std::cout << "S:" << gpu.getActiveShaderIndex() << " M:" << gpu.getActiveMeshRenderableIndex() << " T:" << gpu.getActiveTextureIndex() << "\n";
 
                 // gpu state has been set, now draw all actors which use this gpu state
                 for (auto& ai : rc.getActorIndexes())

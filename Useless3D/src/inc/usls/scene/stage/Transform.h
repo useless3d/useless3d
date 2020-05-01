@@ -5,30 +5,28 @@
 #include "glm/gtx/quaternion.hpp"
 
 
-
 namespace usls::scene::stage
 {
-
 	class Transform
 	{
 	private:
-		glm::vec3	translation;
-		glm::quat	rotation;
-		glm::vec3	scale;
+		glm::vec3			translation;
+		glm::quat			rotation;
+		glm::vec3			scale;
 
 	public:
-		Transform();
-		Transform(glm::vec3 t, glm::quat r, glm::vec3 s);
+							Transform();
+							Transform(glm::vec3 t, glm::quat r, glm::vec3 s);
+		void				setTranslation(glm::vec3 translation);
+		void				setRotation(float angle, glm::vec3 axis);
+		void				setRotation(glm::quat rotation);
+		void				setScale(glm::vec3 scale);
+		glm::vec3			getTranslation();
+		glm::quat			getRotation();
+		glm::vec3			getScale();
+		const glm::mat4		getMatrix() const;
+		void				print();
 
-		void		setTranslation(glm::vec3 translation);
-		void		setRotation(float angle, glm::vec3 axis);
-		void		setRotation(glm::quat rotation);
-		void		setScale(glm::vec3 scale);
-		glm::vec3   getTranslation();
-		glm::quat   getRotation();
-		glm::vec3   getScale();
-		const glm::mat4   getMatrix() const;
-		void        print();
 	};
 	
     

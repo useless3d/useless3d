@@ -19,11 +19,9 @@ namespace usls::scene::stage
 		bool											visible;
         std::string										name;
         Transform										transform;
-		
 		std::optional<Actor*>							parentActor;
 		std::optional<usls::scene::armature::Bone*>		parentActorBone;
 		std::vector<Actor*>								childActors;
-
 		std::optional<usls::scene::armature::Armature>	armature;
 		std::optional<std::vector<std::pair<size_t, std::string>>> activeBones; // the bones from the armature that are actually used by the mesh, 
 																				// the glue between an armature and a mesh (index is mesh bone index, value is armature bone index)
@@ -31,9 +29,7 @@ namespace usls::scene::stage
         std::optional<size_t>							shaderIndex;
         std::optional<size_t>							meshIndex;
         std::optional<size_t>							textureIndex;
-
 		Transform&										getTransform();
-
 
     public:
 														Actor(std::string name, Transform t);
@@ -59,15 +55,12 @@ namespace usls::scene::stage
 		void											animate(std::string animationName);
 		const std::optional<std::vector<std::pair<size_t, std::string>>>& getActiveBones() const;
 		void											setActiveBones(std::vector<std::pair<size_t, std::string>> activeBones);
-
 		void											setParentActor(Actor* a);
 		void											setParentActorBone(usls::scene::armature::Bone* b);
 		void											addChildActor(Actor* a);
-
 		void											translate(glm::vec3 translation);
 		void											rotate(float angle, glm::vec3 axis);
 		void											scale(glm::vec3 scale);
-
 		std::optional<glm::mat4>						getParentMatrix();
 		glm::mat4										getWorldMatrix();
 

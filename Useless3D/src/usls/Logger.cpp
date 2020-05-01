@@ -4,13 +4,9 @@
 
 namespace usls
 {
-
     Logger::Logger(bool enabled, std::string path) :
         enabled(enabled),
-        path(path)
-    {
-        
-    };
+        path(path){};
 
     void Logger::log(std::string message)
     {
@@ -22,7 +18,5 @@ namespace usls
             fs.close();
         }
     }
-
-    
 
 }

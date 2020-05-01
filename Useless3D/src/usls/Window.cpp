@@ -20,10 +20,6 @@ namespace usls
             std::cin.get();
         });
 
-        // stutter caused when not in fullscreen mode: https://stackoverflow.com/a/21663076/1609485
-        // https://www.reddit.com/r/opengl/comments/8754el/stuttering_with_learnopengl_tutorials/dwbp7ta?utm_source=share&utm_medium=web2x
-        // could be because of multiple monitors all running different refresh rates
-
         if (!this->fullScreen) {
             this->glfwWindow = glfwCreateWindow(this->screenSize.x, this->screenSize.y, "Useless3D", NULL, NULL);
         }

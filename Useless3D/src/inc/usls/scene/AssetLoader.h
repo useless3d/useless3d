@@ -53,8 +53,6 @@ namespace usls::scene
 		std::optional<std::function<int(std::string actorName)>>	findShaderId;
 		void														loadActors();
 
-
-
 	};
 	
 

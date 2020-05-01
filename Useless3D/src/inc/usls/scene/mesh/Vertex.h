@@ -4,6 +4,7 @@
 
 #include "usls/scene/mesh/VertexBoneData.h"
 
+
 namespace usls::scene::mesh
 {
 	struct Vertex

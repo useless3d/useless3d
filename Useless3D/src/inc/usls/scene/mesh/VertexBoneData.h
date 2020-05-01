@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace usls::scene::mesh
 {
 	struct VertexBoneData

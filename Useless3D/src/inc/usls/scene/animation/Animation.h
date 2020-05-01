@@ -5,6 +5,7 @@
 
 #include "usls/scene/animation/Channel.h"
 
+
 namespace usls::scene::animation
 {
 	struct Animation

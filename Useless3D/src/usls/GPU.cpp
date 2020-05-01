@@ -344,7 +344,7 @@ namespace usls
             }
         }
 
-        this->shaders.resize(1); // wipe all shaders except default
+        this->shaders.resize(2); // wipe all shaders except default and skinned default
         this->meshRenderables.clear();
         this->textures.clear();
 

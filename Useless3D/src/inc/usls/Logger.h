@@ -12,6 +12,7 @@ namespace usls
         bool                enabled;
         std::string         path;
 
+
     public:
                             Logger(bool enabled, std::string path);
         void                log(std::string entry);

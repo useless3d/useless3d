@@ -8,7 +8,6 @@
 #include "glm/gtc/quaternion.hpp"
 
 
-
 namespace usls::scene::armature
 {
 	struct Bone
