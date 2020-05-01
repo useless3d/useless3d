@@ -41,6 +41,7 @@ namespace usls::scene::stage
         void											setShaderIndex(size_t i);
         void											setTextureIndex(size_t i);
         const std::string								getName() const;
+		void											setName(std::string newName);
         const std::optional<size_t>&					getShaderIndex() const;
         const std::optional<size_t>&					getMeshIndex() const;
         const std::optional<size_t>&					getTextureIndex() const;

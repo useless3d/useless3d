@@ -12,6 +12,11 @@ namespace usls::scene::stage
         transform(t) 
     {}
 
+	void Actor::setName(std::string newName)
+	{
+		this->name = newName;
+	}
+
 	std::optional<glm::mat4> Actor::getParentMatrix()
 	{
 		if (!this->parentActor)
