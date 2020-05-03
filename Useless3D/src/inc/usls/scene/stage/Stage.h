@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <optional>
+#include <memory>
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
@@ -11,6 +12,7 @@
 #include "usls/scene/stage/Actor.h"
 #include "usls/scene/stage/Camera.h"
 #include "usls/scene/stage/RenderCommand.h"
+#include "usls/scene/stage/Controller.h"
 
 
 namespace usls::scene::stage
@@ -27,6 +29,7 @@ namespace usls::scene::stage
         std::optional<std::vector<size_t>>          renderCommandsOrder;
 		std::optional<size_t>                       renderCommandExists(size_t sI, size_t mI, size_t tI);
         size_t                                      addRenderCommand(RenderCommand rc);
+		std::vector<std::unique_ptr<Controller>>	controllers;
 
     public:
 													Stage(bool headless);
@@ -56,6 +59,8 @@ namespace usls::scene::stage
 		const bool									isVisible();
 		void										parentActorToActor(std::string childName, std::string parentName);
 		void										parentActorToActorBone(std::string childName, std::string parentName, std::string parentBoneName);
+		void										addController(std::unique_ptr<Controller> controller);
+		void										executeControllers();
 
     };
 }

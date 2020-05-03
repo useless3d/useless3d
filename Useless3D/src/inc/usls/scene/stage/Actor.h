@@ -64,5 +64,11 @@ namespace usls::scene::stage
 		std::optional<glm::mat4>						getParentMatrix();
 		glm::mat4										getWorldMatrix();
 
+		// The below methods (upon implementing) will allow for the retrieval of this actor's translation/rotation/scale
+		// taking into account it's parent's transform, ie it's world translation/rotation/scale
+		//glm::vec3										getWorldTranslation();
+		//glm::quat										getWorldRotation();
+		//glm::vec3										getWorldScale();
+
     };
 }

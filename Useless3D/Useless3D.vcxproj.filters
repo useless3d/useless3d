@@ -39,15 +39,6 @@
     <ClCompile Include="src\usls\helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BootScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ExampleScene1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BootSceneHeadless.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\usls\scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,24 +72,30 @@
     <ClCompile Include="src\usls\scene\stage\AssetLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ExampleScene2.cpp">
+    <ClCompile Include="src\usls\scene\stage\Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ExampleScene3.cpp">
+    <ClCompile Include="src\examples\BootScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\examples\BootSceneHeadless.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\examples\ExampleScene1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\examples\ExampleScene2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\examples\es3\ExampleScene3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\examples\TerminateController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\usls\inc\Ini.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\ExampleScene1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\BootScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inc\BootSceneHeadless.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\usls\scene\Scene.h">
@@ -176,10 +173,25 @@
     <ClInclude Include="src\inc\usls\scene\mesh\VertexBoneData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\inc\ExampleScene2.h">
+    <ClInclude Include="src\inc\usls\scene\stage\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\inc\ExampleScene3.h">
+    <ClInclude Include="src\inc\examples\BootScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\examples\BootSceneHeadless.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\examples\ExampleScene1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\examples\ExampleScene2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\examples\es3\ExampleScene3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\examples\TerminateController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

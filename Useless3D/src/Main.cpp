@@ -2,7 +2,7 @@
 
 #include "usls/App.h"
 
-#include "ExampleScene3.h"
+#include "examples/es3/ExampleScene3.h"
 
 
 int main()

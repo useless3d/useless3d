@@ -3,8 +3,8 @@
 #include "usls/App.h"
 
 
-#include "BootScene.h"
-#include "ExampleScene2.h"
+#include "examples/BootScene.h"
+#include "examples/ExampleScene2.h"
 
 /*
 Used to test and verify functionality during development, so

@@ -2,10 +2,8 @@
 
 #include "usls/App.h"
 
-
-
-#include "ExampleScene1.h"
-#include "BootScene.h"
+#include "examples/BootScene.h"
+#include "examples/ExampleScene1.h"
 
 
 void BootScene::load()

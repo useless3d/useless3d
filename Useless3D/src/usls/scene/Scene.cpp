@@ -11,18 +11,18 @@
 
 namespace usls::scene
 {
-    Scene::Scene() :
-        headless(App::get().config.HEADLESS),
-        loaded(false)
-    {
-        this->stages.reserve(10); // can't see ever needing more than 10 stages (naive, but good enough until it's not)
-    }
+	Scene::Scene() :
+		headless(App::get().config.HEADLESS),
+		loaded(false)
+	{
+		this->stages.reserve(10); // can't see ever needing more than 10 stages (naive, but good enough until it's not)
+	}
 
-    Scene::~Scene()
-    {
-        //std::cout << "Scene Destructor Ran\n";
-        App::get().getGPU()->wipe();
-    }
+	Scene::~Scene()
+	{
+		//std::cout << "Scene Destructor Ran\n";
+		App::get().getGPU()->wipe();
+	}
 
 	size_t Scene::addAnimation(Animation a)
 	{
@@ -30,26 +30,26 @@ namespace usls::scene
 		return this->animations.size() - 1;
 	}
 
-    size_t Scene::addShader(std::string name, std::string vertName, std::string fragName)
-    {
-        return App::get().getGPU()->loadShader(name, vertName, fragName);
-    }
+	size_t Scene::addShader(std::string name, std::string vertName, std::string fragName)
+	{
+		return App::get().getGPU()->loadShader(name, vertName, fragName);
+	}
 
-    Stage& Scene::addStage()
-    {
-        this->stages.push_back(Stage(this->headless));
-        return this->getStage(this->stages.size() - 1);
-    }
+	Stage& Scene::addStage()
+	{
+		this->stages.push_back(Stage(this->headless));
+		return this->getStage(this->stages.size() - 1);
+	}
 
-    Stage& Scene::getStage(size_t index)
-    {
-        return this->stages.at(index);
-    }
+	Stage& Scene::getStage(size_t index)
+	{
+		return this->stages.at(index);
+	}
 
-    const std::vector<Mesh>& Scene::getMeshes() const
-    {
-        return this->meshes;
-    }
+	const std::vector<Mesh>& Scene::getMeshes() const
+	{
+		return this->meshes;
+	}
 
 	const std::vector<Animation>& Scene::getAnimations() const
 	{
@@ -57,19 +57,19 @@ namespace usls::scene
 	}
 
 	size_t Scene::addMesh(Mesh m)
-    {
-        if (!this->headless)
-        {
-            m.setMeshRenderableIndex(App::get().getGPU()->loadMesh(m));
-        }
-        this->meshes.push_back(m);
-        return this->meshes.size() - 1;
-    }
+	{
+		if (!this->headless)
+		{
+			m.setMeshRenderableIndex(App::get().getGPU()->loadMesh(m));
+		}
+		this->meshes.push_back(m);
+		return this->meshes.size() - 1;
+	}
 
-    Mesh& Scene::getMesh(size_t index)
-    {
-        return this->meshes.at(index);
-    }
+	Mesh& Scene::getMesh(size_t index)
+	{
+		return this->meshes.at(index);
+	}
 
 	Animation& Scene::getAnimation(size_t index)
 	{
@@ -81,6 +81,14 @@ namespace usls::scene
 		for (auto& s : this->stages)
 		{
 			s.updateActorAnimations(runTime);
+		}
+	}
+
+	void Scene::loop()
+	{
+		for (auto& s : this->stages)
+		{
+			s.executeControllers();
 		}
 	}
 

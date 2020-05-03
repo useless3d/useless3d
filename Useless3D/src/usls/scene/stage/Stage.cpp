@@ -31,6 +31,19 @@ namespace usls::scene::stage
 
     }
 
+	void Stage::executeControllers()
+	{
+		for (auto& c : this->controllers)
+		{
+			c->logic();
+		}
+	}
+
+	void Stage::addController(std::unique_ptr<Controller> controller)
+	{
+		this->controllers.push_back(std::move(controller));
+	}
+
 	void Stage::parentActorToActorBone(std::string childName, std::string parentName, std::string parentBoneName)
 	{
 		auto childActor = this->getActor(childName);

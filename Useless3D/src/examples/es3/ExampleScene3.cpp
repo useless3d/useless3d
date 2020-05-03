@@ -1,15 +1,17 @@
 #include <iostream>
+#include <memory>
 
 #include "usls/App.h"
 
 
-#include "ExampleScene3.h"
+#include "examples/es3/ExampleScene3.h"
+#include "examples/TerminateController.h"
 
 
 void ExampleScene3::load()
 {
 
-	this->mainStage = &this->addStage();
+	auto& mainStage = this->addStage();
 
 	this->mainStage->addPerspectiveCamera(false, 0.1f, 250.0f, 45.0f);
 	this->mainStage->getCamera()->setPosition(0.0f, 1.0f, 8.0f);
@@ -17,27 +19,8 @@ void ExampleScene3::load()
 
 	this->mainStage->loadActor("data/models/bin/characters/sphere/sphere.fbx");
 
+	this->mainStage->addController(std::move(std::make_unique<TerminateController>()));
 
-
-
-
-}
-
-
-void ExampleScene3::loop()
-{
-	// Application logic, move things around, swap scenes, etc
-	if (usls::App::get().getInputState().keyEsc)
-	{
-		usls::App::get().close();
-	}
-
-	if (usls::App::get().getInputState().keyD)
-	{
-		
-
-
-	}
 
 
 }

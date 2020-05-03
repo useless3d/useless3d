@@ -154,12 +154,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\BootScene.cpp" />
-    <ClCompile Include="src\BootSceneHeadless.cpp" />
-    <ClCompile Include="src\ExampleScene2.cpp" />
-    <ClCompile Include="src\ExampleScene3.cpp" />
+    <ClCompile Include="src\examples\BootScene.cpp" />
+    <ClCompile Include="src\examples\BootSceneHeadless.cpp" />
+    <ClCompile Include="src\examples\ExampleScene2.cpp" />
+    <ClCompile Include="src\examples\es3\ExampleScene3.cpp" />
+    <ClCompile Include="src\examples\TerminateController.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\ExampleScene1.cpp" />
+    <ClCompile Include="src\examples\ExampleScene1.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
     <ClCompile Include="src\usls\GPU.cpp" />
     <ClCompile Include="src\usls\scene\Armature.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="src\usls\scene\mesh\Mesh.cpp" />
     <ClCompile Include="src\usls\scene\stage\Actor.cpp" />
     <ClCompile Include="src\usls\scene\Scene.cpp" />
+    <ClCompile Include="src\usls\scene\stage\Controller.cpp" />
     <ClCompile Include="src\usls\scene\stage\RenderCommand.cpp" />
     <ClCompile Include="src\usls\scene\stage\Stage.cpp" />
     <ClCompile Include="src\usls\scene\stage\Transform.cpp" />
@@ -180,11 +182,12 @@
     <ClCompile Include="src\usls\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\inc\ExampleScene2.h" />
-    <ClInclude Include="src\inc\BootSceneHeadless.h" />
-    <ClInclude Include="src\inc\ExampleScene1.h" />
-    <ClInclude Include="src\inc\BootScene.h" />
-    <ClInclude Include="src\inc\ExampleScene3.h" />
+    <ClInclude Include="src\inc\examples\ExampleScene2.h" />
+    <ClInclude Include="src\inc\examples\BootSceneHeadless.h" />
+    <ClInclude Include="src\inc\examples\ExampleScene1.h" />
+    <ClInclude Include="src\inc\examples\BootScene.h" />
+    <ClInclude Include="src\inc\examples\es3\ExampleScene3.h" />
+    <ClInclude Include="src\inc\examples\TerminateController.h" />
     <ClInclude Include="src\inc\usls\App.h" />
     <ClInclude Include="src\inc\usls\GPU.h" />
     <ClInclude Include="src\inc\usls\scene\animation\Animation.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="src\inc\usls\scene\stage\Camera.h" />
     <ClInclude Include="src\inc\usls\Config.h" />
     <ClInclude Include="src\inc\usls\helpers.h" />
+    <ClInclude Include="src\inc\usls\scene\stage\Controller.h" />
     <ClInclude Include="src\inc\usls\scene\stage\RenderCommand.h" />
     <ClInclude Include="src\usls\inc\Ini.h" />
     <ClInclude Include="src\inc\usls\InputState.h" />

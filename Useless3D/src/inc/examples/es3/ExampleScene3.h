@@ -11,8 +11,7 @@ public:
 	ExampleScene3() : usls::scene::Scene() {};
 
 	void    load();
-	void    loop();
 
-	usls::scene::stage::Stage* mainStage;
+
 
 };

@@ -168,7 +168,7 @@ namespace usls
 						// update animations
 						this->scene.value()->updateAnimations(this->currentTime);
 
-                        // call user defined loop method (where logic is performed (ie movement and such))
+                        // call scene loop which executes all controllers of all stages
                         this->scene.value()->loop();
                     }
                     
