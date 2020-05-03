@@ -42,9 +42,9 @@ namespace usls
         }
     }
 
-    void App::setScene(std::unique_ptr<Scene> scene)
+    void App::setScene(Scene* scene)
     {
-        this->scene = std::move(scene);
+        this->scene = std::move(std::move(std::unique_ptr<Scene>(scene)));
     }
 
     Scene* App::getScene()

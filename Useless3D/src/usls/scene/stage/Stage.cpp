@@ -39,9 +39,9 @@ namespace usls::scene::stage
 		}
 	}
 
-	void Stage::addController(std::unique_ptr<Controller> controller)
+	void Stage::addController(Controller* controller)
 	{
-		this->controllers.push_back(std::move(controller));
+		this->controllers.push_back(std::move(std::unique_ptr<Controller>(controller)));
 	}
 
 	void Stage::parentActorToActorBone(std::string childName, std::string parentName, std::string parentBoneName)

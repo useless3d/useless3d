@@ -59,7 +59,7 @@ namespace usls::scene::stage
 		const bool									isVisible();
 		void										parentActorToActor(std::string childName, std::string parentName);
 		void										parentActorToActorBone(std::string childName, std::string parentName, std::string parentBoneName);
-		void										addController(std::unique_ptr<Controller> controller);
+		void										addController(Controller* controller);
 		void										executeControllers();
 
     };

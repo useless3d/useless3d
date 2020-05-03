@@ -22,6 +22,6 @@ void BootScene::loop()
     // Application logic, move things around, etc
     if (usls::App::get().getInputState().keySpace) 
     {    
-        usls::App::get().setScene(std::move(std::make_unique<ExampleScene1>()));
+        usls::App::get().setScene(new ExampleScene1());
     }
 }

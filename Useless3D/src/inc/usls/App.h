@@ -45,7 +45,7 @@ namespace usls
         static void										init();
 														App(App const&) = delete;
         void											operator=(App const&) = delete;
-        void											setScene(std::unique_ptr<Scene> scene);
+        void											setScene(Scene* scene);
         Scene*											getScene();
         std::optional<GPU>&								getGPU();
         void											clearScene();
