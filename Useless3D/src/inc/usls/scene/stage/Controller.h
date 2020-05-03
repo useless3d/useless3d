@@ -13,10 +13,12 @@ namespace usls::scene::stage
 	class Controller
 	{
 	protected:
-		const InputState& input;
+		const InputState&	input;
+		double				deltaTime;
 
 	public:
-		Controller();
-		virtual void logic() = 0;
+							Controller();
+		void				setDeltaTime(double delta);
+		virtual void		logic() = 0;
 	};
 }

@@ -48,17 +48,17 @@ namespace usls::scene::stage
         this->scale = scale;
     }
 
-    glm::vec3 Transform::getTranslation()
+    const glm::vec3& Transform::getTranslation() const
     {
         return this->translation;
     }
 
-    glm::quat Transform::getRotation()
+	const glm::quat& Transform::getRotation() const
     {
         return this->rotation;
     }
 
-    glm::vec3 Transform::getScale()
+	const glm::vec3& Transform::getScale() const
     {
         return this->scale;
     }

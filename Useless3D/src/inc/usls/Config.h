@@ -24,7 +24,7 @@ namespace usls
         const std::string					DEFAULT_FRAGMENT_SHADER = "default.frag";
 		const std::string					DEFAULT_SKINNED_VERTEX_SHADER = "default_skinned.vert";
 		const std::string					DEFAULT_SKINNED_FRAGMENT_SHADER = "default_skinned.frag";
-        const double						LOGIC_TICK = 60.0;
+        const double						LOGIC_TICK = 15.0;
 
         // User defined via config.ini
         const int							SCREEN_WIDTH;

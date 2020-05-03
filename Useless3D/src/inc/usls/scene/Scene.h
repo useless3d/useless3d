@@ -46,7 +46,7 @@ namespace usls::scene
 		void								updateAnimations(double runTime);
 		void								draw();
 		virtual void						load() = 0;
-		void								loop();
+		void								loop(double deltaTime);
 
 	};
 

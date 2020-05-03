@@ -12,6 +12,11 @@ namespace usls::scene::stage
 		input(App::get().getInputState())
 	{}
 
+	void Controller::setDeltaTime(double delta)
+	{
+		this->deltaTime = delta;
+	}
+
 
 
 }

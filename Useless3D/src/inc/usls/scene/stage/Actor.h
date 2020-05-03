@@ -18,6 +18,7 @@ namespace usls::scene::stage
         bool											deleted;
 		bool											visible;
         std::string										name;
+		bool											dynamic;
         Transform										transform;
 		std::optional<Actor*>							parentActor;
 		std::optional<usls::scene::armature::Bone*>		parentActorBone;
@@ -34,6 +35,7 @@ namespace usls::scene::stage
     public:
 														Actor(std::string name, Transform t);
 		Actor											cleanCopy(std::string newName);
+		void											setDynamic(bool dynamic);
         void											setMeshIndex(size_t i);
         void											setShaderIndex(size_t i);
         void											setTextureIndex(size_t i);
@@ -63,6 +65,10 @@ namespace usls::scene::stage
 		void											scale(glm::vec3 scale);
 		std::optional<glm::mat4>						getParentMatrix();
 		glm::mat4										getWorldMatrix();
+
+		const glm::vec3&								getTranslation();
+		const glm::quat&								getRotation();
+		const glm::vec3&								getScale();
 
 		// The below methods (upon implementing) will allow for the retrieval of this actor's translation/rotation/scale
 		// taking into account it's parent's transform, ie it's world translation/rotation/scale

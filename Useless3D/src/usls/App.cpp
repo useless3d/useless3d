@@ -169,7 +169,7 @@ namespace usls
 						this->scene.value()->updateAnimations(this->currentTime);
 
                         // call scene loop which executes all controllers of all stages
-                        this->scene.value()->loop();
+                        this->scene.value()->loop(this->deltaTime);
                     }
                     
                     // decrement accumulator

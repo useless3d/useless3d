@@ -6,6 +6,7 @@
 
 #include "examples/es3/ExampleScene3.h"
 #include "examples/TerminateController.h"
+#include "examples/es3/SphereController.h"
 
 
 void ExampleScene3::load()
@@ -19,6 +20,11 @@ void ExampleScene3::load()
 
 	mainStage.loadActor("data/models/bin/characters/sphere/sphere.fbx");
 
+	auto sphere = mainStage.getActor("sphere");
+	sphere->setDynamic(true);
+
+
+	mainStage.addController(new SphereController(sphere));
 	mainStage.addController(new TerminateController());
 
 

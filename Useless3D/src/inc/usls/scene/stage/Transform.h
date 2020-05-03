@@ -21,10 +21,10 @@ namespace usls::scene::stage
 		void				setRotation(float angle, glm::vec3 axis);
 		void				setRotation(glm::quat rotation);
 		void				setScale(glm::vec3 scale);
-		glm::vec3			getTranslation();
-		glm::quat			getRotation();
-		glm::vec3			getScale();
-		const glm::mat4		getMatrix() const;
+		const glm::vec3&	getTranslation() const;
+		const glm::quat&	getRotation() const;
+		const glm::vec3&	getScale() const;
+		const glm::mat4		getMatrix() const; // refactor to return reference
 		void				print();
 
 	};

@@ -84,11 +84,11 @@ namespace usls::scene
 		}
 	}
 
-	void Scene::loop()
+	void Scene::loop(double deltaTime)
 	{
 		for (auto& s : this->stages)
 		{
-			s.executeControllers();
+			s.executeControllers(deltaTime);
 		}
 	}
 

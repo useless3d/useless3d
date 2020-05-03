@@ -93,6 +93,9 @@
     <ClCompile Include="src\examples\TerminateController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\examples\es3\SphereController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\usls\inc\Ini.h">
@@ -192,6 +195,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\examples\TerminateController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\examples\es3\SphereController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

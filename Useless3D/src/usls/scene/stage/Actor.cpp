@@ -9,8 +9,14 @@ namespace usls::scene::stage
         name(name),
         deleted(false),
 		visible(true),
+		dynamic(false),
         transform(t) 
     {}
+
+	void Actor::setDynamic(bool dynamic)
+	{
+		this->dynamic = dynamic;
+	}
 
 	Actor Actor::cleanCopy(std::string newName)
 	{
@@ -28,6 +34,21 @@ namespace usls::scene::stage
 	void Actor::setName(std::string newName)
 	{
 		this->name = newName;
+	}
+
+	const glm::vec3& Actor::getTranslation()
+	{
+		return this->getTransform().getTranslation();
+	}
+
+	const glm::quat& Actor::getRotation()
+	{
+		return this->getTransform().getRotation();
+	}
+
+	const glm::vec3& Actor::getScale()
+	{
+		return this->getTransform().getScale();
 	}
 
 	std::optional<glm::mat4> Actor::getParentMatrix()
