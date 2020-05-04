@@ -62,6 +62,7 @@ namespace usls::scene::stage
 		void											addChildActor(Actor* a);
 		void											translate(glm::vec3 translation);
 		void											rotate(float angle, glm::vec3 axis);
+		void											rotate(glm::quat rotation);
 		void											scale(glm::vec3 scale);
 		std::optional<glm::mat4>						getParentMatrix();
 		glm::mat4										getWorldMatrix();

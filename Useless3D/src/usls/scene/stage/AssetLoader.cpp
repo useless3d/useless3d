@@ -11,11 +11,12 @@
 
 namespace usls::scene
 {
-	AssetLoader::AssetLoader(Stage* stage, std::string assetFile) :
+	AssetLoader::AssetLoader(Stage* stage, std::string assetFile, bool dynamic) :
         headless(App::get().config.HEADLESS),
         currentStage(stage),
         currentAssetFile(assetFile),
-        currentAssetDirectory(assetFile.substr(0, assetFile.find_last_of('/')))
+        currentAssetDirectory(assetFile.substr(0, assetFile.find_last_of('/'))),
+		currentIsDynamic(dynamic)
     {
         this->aiScene = this->aiImporter.ReadFile(this->currentAssetFile, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
 
@@ -220,6 +221,7 @@ namespace usls::scene
 				this->currentMeshTextureIndex.reset();
 
 				auto actor = Actor(actorName, this->currentTransform);
+				actor.setDynamic(this->currentIsDynamic);
 
 				if (node->mNumMeshes == 1)
 				{

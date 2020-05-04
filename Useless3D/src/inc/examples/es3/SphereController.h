@@ -15,6 +15,10 @@ private:
 	glm::vec3	velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	float		speed;
 
+	float		yaw;
+	float		pitch;
+
+	void		updateRotation();
 	void		updateVelocity();
 
 public:

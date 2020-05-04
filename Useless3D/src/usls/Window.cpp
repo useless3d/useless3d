@@ -136,6 +136,11 @@ namespace usls
         this->inputState.keyS = glfwGetKey(this->glfwWindow, GLFW_KEY_S) == GLFW_PRESS;
         this->inputState.keyD = glfwGetKey(this->glfwWindow, GLFW_KEY_D) == GLFW_PRESS;
         this->inputState.keySpace = glfwGetKey(this->glfwWindow, GLFW_KEY_SPACE) == GLFW_PRESS;
+
+		this->inputState.keyUp = glfwGetKey(this->glfwWindow, GLFW_KEY_UP) == GLFW_PRESS;
+		this->inputState.keyDown = glfwGetKey(this->glfwWindow, GLFW_KEY_DOWN) == GLFW_PRESS;
+		this->inputState.keyRight = glfwGetKey(this->glfwWindow, GLFW_KEY_RIGHT) == GLFW_PRESS;
+		this->inputState.keyLeft = glfwGetKey(this->glfwWindow, GLFW_KEY_LEFT) == GLFW_PRESS;
     }
 
     void Window::setMouse() 

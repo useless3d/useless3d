@@ -38,8 +38,8 @@ void ExampleScene1::load()
 
     
 	// Add an animated (skinned) actor reposition, and set to animate
-	stage.loadActor("data/models/bin/characters/t_01/t_01.fbx");
-	stage.loadActor("data/models/bin/characters/t_01/ak47.fbx");
+	stage.loadActors("data/models/bin/characters/t_01/t_01.fbx");
+	stage.loadActors("data/models/bin/characters/t_01/ak47.fbx");
 	//stage.loadActor("data/models/bin/characters/sphere/sphere.fbx");
 
 	auto skinnedActor = stage.getActor("t_01");

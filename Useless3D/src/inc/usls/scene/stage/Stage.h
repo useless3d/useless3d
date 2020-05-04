@@ -33,12 +33,9 @@ namespace usls::scene::stage
 
     public:
 													Stage(bool headless);
-		void										loadActor(std::string filename);
-		void										loadActor(std::string filename, int shaderIndex);
-		void										loadActor(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
-        void										loadActors(std::string filename);
-        void										loadActors(std::string filename, int shaderIndex);
-        void										loadActors(std::string filename, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
+        void										loadActors(std::string filename, bool dynamic = false);
+        void										loadActors(std::string filename, bool dynamic, int shaderIndex);
+        void										loadActors(std::string filename, bool dynamic, std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs);
 		void										updateActorAnimations(double runTime);
         void										addActor(Actor a);
         void										removeActor(std::string name);

@@ -18,11 +18,9 @@ void ExampleScene3::load()
 	mainStage.getCamera()->setPosition(0.0f, 1.0f, 8.0f);
 	mainStage.getCamera()->setLookAt(0.0f, 0.0f, 0.0f);
 
-	mainStage.loadActor("data/models/bin/characters/sphere/sphere.fbx");
+	mainStage.loadActors("data/models/bin/characters/sphere/sphere.fbx", true);
 
 	auto sphere = mainStage.getActor("sphere");
-	sphere->setDynamic(true);
-
 
 	mainStage.addController(new SphereController(sphere));
 	mainStage.addController(new TerminateController());

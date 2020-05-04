@@ -106,41 +106,25 @@ namespace usls::scene::stage
         );
     }
 
-	void Stage::loadActor(std::string filename)
-	{
-		this->loadActors(filename);
-	}
-
-	void Stage::loadActor(std::string filename, int shaderIndex)
-	{
-		this->loadActors(filename, shaderIndex);
-	}
-
-	void Stage::loadActor(std::string filename,
-		std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs)
-	{
-		this->loadActors(filename, actorShaderAssocs);
-	}
-
-    void Stage::loadActors(std::string filename)
+    void Stage::loadActors(std::string filename, bool dynamic)
     {
-        auto loader = AssetLoader(this, filename);
+        auto loader = AssetLoader(this, filename, dynamic);
         loader.loadActors();
     }
 
-    void Stage::loadActors(std::string filename, int shaderIndex)
+    void Stage::loadActors(std::string filename, bool dynamic, int shaderIndex)
     {
-        auto loader = AssetLoader(this, filename);
+        auto loader = AssetLoader(this, filename, dynamic);
         loader.findShaderId = [&](std::string actorName) {
             return shaderIndex;
         };
         loader.loadActors();
     }
 
-    void Stage::loadActors(std::string filename,
+    void Stage::loadActors(std::string filename, bool dynamic,
         std::vector<std::pair<int, std::vector<std::string>>> actorShaderAssocs)
     {
-        auto loader = AssetLoader(this, filename);
+        auto loader = AssetLoader(this, filename, dynamic);
         loader.findShaderId = [&](std::string actorName) {
             
             for (auto& a : actorShaderAssocs)

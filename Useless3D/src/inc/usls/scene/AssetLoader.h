@@ -35,6 +35,7 @@ namespace usls::scene
 		std::optional<size_t>				currentMeshIndex;
 		std::optional<size_t>				currentMeshTextureIndex;
 		std::optional<armature::Armature>	currentArmature;
+		bool								currentIsDynamic;
 		std::vector<std::string>			processedNodes;
 		std::vector<mesh::VertexBoneData>	currentMeshBones;
 		glm::mat4							currentGlobalInverseMatrix;
@@ -49,7 +50,7 @@ namespace usls::scene
 		std::optional<size_t>				getExistingAnimationIndex(std::string animationName);
 
 	public:
-																	AssetLoader(Stage* stage, std::string assetFile);
+																	AssetLoader(Stage* stage, std::string assetFile, bool dynamic);
 		std::optional<std::function<int(std::string actorName)>>	findShaderId;
 		void														loadActors();
 

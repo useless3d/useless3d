@@ -94,6 +94,11 @@ namespace usls::scene::stage
 		this->getTransform().setRotation(angle, axis);
 	}
 
+	void Actor::rotate(glm::quat rotation)
+	{
+		this->getTransform().setRotation(rotation);
+	}
+
 	void Actor::scale(glm::vec3 scale)
 	{
 		this->getTransform().setScale(scale);
