@@ -6,7 +6,7 @@
 #include "usls/scene/stage/Actor.h"
 
 
-class SphereController : public usls::scene::stage::Controller
+class ActorController : public usls::scene::stage::Controller
 {
 private:
 	Actor*		actor;
@@ -22,6 +22,6 @@ private:
 	void		updateVelocity();
 
 public:
-				SphereController(Actor* sphere);
+				ActorController(Actor* sphere);
 	void		logic();
 };

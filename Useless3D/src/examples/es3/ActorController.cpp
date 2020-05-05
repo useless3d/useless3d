@@ -1,20 +1,21 @@
 #include <iostream>
 
 #include "usls/App.h"
-#include "examples/es3/SphereController.h"
+#include "examples/es3/ActorController.h"
 
 
 
-SphereController::SphereController(Actor* sphere) :
+ActorController::ActorController(Actor* sphere) :
 	actor(sphere),
 	direction(glm::vec3(0.0f, 0.0f, -1.0f)),
 	speed(2.5f),
 	yaw(0.0f),
-	pitch(-20.45f),
+	//pitch(-20.45f),
+	pitch(0.0f),
 	usls::scene::stage::Controller() 
 {};
 
-void SphereController::updateRotation()
+void ActorController::updateRotation()
 {
 	//std::cout << this->input.mouseXPos << " - " << this->input.mouseYPos << "\n";
 
@@ -41,7 +42,7 @@ void SphereController::updateRotation()
 
 }
 
-void SphereController::updateVelocity()
+void ActorController::updateVelocity()
 {
 	float currentSpeed = this->speed * this->deltaTime;
 
@@ -58,7 +59,7 @@ void SphereController::updateVelocity()
 
 }
 
-void SphereController::logic()
+void ActorController::logic()
 {
 	this->updateVelocity();
 	this->updateRotation();
