@@ -72,14 +72,7 @@ namespace usls::scene::armature
 		{
 			if (i == 0)
 			{
-				if (!parentMatrix)
-				{
-					this->updateBone(0, (float)animationTime, this->transform.getMatrix());
-				}
-				else
-				{
-					this->updateBone(0, (float)animationTime, parentMatrix.value() * this->transform.getMatrix());
-				}
+				this->updateBone(0, (float)animationTime, glm::mat4(1.0f));
 			}
 			else
 			{
@@ -92,18 +85,6 @@ namespace usls::scene::armature
 	{
 		this->currentAnimationName = animationName;
 		this->currentAnimation = &App::get().getScene()->getAnimation(this->getAnimationIndex(this->currentAnimationName));
-	}
-
-	std::optional<usls::scene::stage::Transform>& Armature::getPreviousTransform()
-	{
-		return this->previousTransform;
-	}
-
-
-
-	usls::scene::stage::Transform& Armature::getTransform() 
-	{
-		return this->transform;
 	}
 
 	const std::vector<std::pair<std::string, size_t>>& Armature::getAnimations() const

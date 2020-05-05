@@ -40,17 +40,17 @@ namespace usls::scene::stage
 
 	const glm::vec3& Actor::getTranslation()
 	{
-		return this->getTransform().getTranslation();
+		return this->transform.getTranslation();
 	}
 
 	const glm::quat& Actor::getRotation()
 	{
-		return this->getTransform().getRotation();
+		return this->transform.getRotation();
 	}
 
 	const glm::vec3& Actor::getScale()
 	{
-		return this->getTransform().getScale();
+		return this->transform.getScale();
 	}
 
 	std::optional<glm::mat4> Actor::getParentMatrix()
@@ -65,7 +65,7 @@ namespace usls::scene::stage
 			return this->parentActor.value()->getTransform().getMatrix();
 		}
 
-		return this->parentActorBone.value()->matrix;
+		return this->parentActor.value()->getTransform().getMatrix() * this->parentActorBone.value()->matrix;
 	}
 
 	glm::mat4 Actor::getWorldMatrix()
@@ -73,48 +73,55 @@ namespace usls::scene::stage
 		// if this actor has no parent, simply return the matrix of it's transform
 		if (!this->parentActor)
 		{
-			return this->getTransform().getMatrix();
+			return this->transform.getMatrix();
 		}
 
 		// if this actor is parented to another actor (an not a bone of that actor)
 		if (!this->parentActorBone)
 		{
-			return this->parentActor.value()->getTransform().getMatrix() * this->getTransform().getMatrix();
+			return this->parentActor.value()->getTransform().getMatrix() * this->transform.getMatrix();
 		}
 
-		return this->parentActorBone.value()->matrix * this->getTransform().getMatrix();
+		return this->parentActor.value()->getTransform().getMatrix() * this->parentActorBone.value()->matrix * this->transform.getMatrix();
 
 	}
 
 	glm::mat4 Actor::getWorldRenderMatrix(float alpha)
 	{
 		// actor is not dynamic (does not move) so interpolation is not required, simply return it's world matrix
-		if (!this->isDynamic())
+		if (!this->isDynamic() || !this->previousTransform)
 		{
 			return this->getWorldMatrix();
 		}
 
+
+		auto actorMatrix = this->interpolateTransforms(this->previousTransform.value(), this->transform, alpha);
+
 		// if this actor has no parent, simply return the matrix of it's transform
 		if (!this->parentActor)
 		{
-			Transform t;
-			t.setTranslation(glm::lerp(this->getPreviousTransform()->getTranslation(), this->getTransform().getTranslation(), alpha));
-			t.setRotation(glm::slerp(this->getPreviousTransform()->getRotation(), this->getTransform().getRotation(), alpha));
-			t.setScale(glm::lerp(this->getPreviousTransform()->getScale(), this->getTransform().getScale(), alpha));
-
-			return t.getMatrix();
+			return actorMatrix;
 		}
 
-		// NEED TO FINISH IMPLEMENTING BELOW THIS LINE
+		auto parentActorMatrix = this->interpolateTransforms(this->parentActor.value()->getPreviousTransform().value(), this->parentActor.value()->getTransform(), alpha);
 
 		// if this actor is parented to another actor (an not a bone of that actor)
 		if (!this->parentActorBone)
 		{
-			return this->parentActor.value()->getTransform().getMatrix() * this->getTransform().getMatrix();
+			return parentActorMatrix * actorMatrix;
 		}
 
-		return this->parentActorBone.value()->matrix * this->getTransform().getMatrix();
+		return parentActorMatrix * this->parentActorBone.value()->matrix * this->transform.getMatrix();
 
+	}
+
+	glm::mat4 Actor::interpolateTransforms(const Transform& previousTransform, const Transform& currentTransform, float alpha)
+	{
+		Transform t;
+		t.setTranslation(glm::lerp(previousTransform.getTranslation(), currentTransform.getTranslation(), alpha));
+		t.setRotation(glm::slerp(previousTransform.getRotation(), currentTransform.getRotation(), alpha));
+		t.setScale(glm::lerp(previousTransform.getScale(), currentTransform.getScale(), alpha));
+		return t.getMatrix();
 	}
 
 	const bool Actor::isDynamic() const
@@ -128,15 +135,6 @@ namespace usls::scene::stage
 		{
 			this->previousTransform = this->getTransform();
 		}
-	}
-
-	std::optional<Transform>& Actor::getPreviousTransform()
-	{
-		if (this->isAnimated())
-		{
-			return this->armature->getPreviousTransform(); // ignore intellisense error for getPreviousTransform()
-		}
-		return this->previousTransform;
 	}
 
 	void Actor::translate(glm::vec3 translation)
@@ -201,12 +199,13 @@ namespace usls::scene::stage
 
     Transform& Actor::getTransform()
     {
-		if (this->isAnimated())
-		{
-			return this->armature->getTransform();
-		}
         return this->transform;
     }
+
+	std::optional<Transform>& Actor::getPreviousTransform()
+	{
+		return this->previousTransform;
+	}
 
     const bool Actor::isDeleted() const
     {

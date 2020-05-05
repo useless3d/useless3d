@@ -31,7 +31,9 @@ namespace usls::scene::stage
         std::optional<size_t>							shaderIndex;
         std::optional<size_t>							meshIndex;
         std::optional<size_t>							textureIndex;
-		Transform&										getTransform();
+
+		glm::mat4										interpolateTransforms(const Transform& previousTransform, const Transform& currentTransform, float alpha);
+		
 
     public:
 														Actor(std::string name, Transform t);
@@ -62,6 +64,7 @@ namespace usls::scene::stage
 		void											setParentActor(Actor* a);
 		void											setParentActorBone(usls::scene::armature::Bone* b);
 		void											addChildActor(Actor* a);
+		Transform&										getTransform();
 		std::optional<Transform>&						getPreviousTransform();
 		void											updatePreviousTransform();
 		void											translate(glm::vec3 translation);
