@@ -44,7 +44,8 @@ namespace usls::scene
 		const std::vector<Animation>&		getAnimations() const;
 		Animation&							getAnimation(size_t index);
 		void								updateAnimations(double runTime);
-		void								draw();
+		void								savePreviousTransforms();
+		void								draw(double alpha);
 		virtual void						load() = 0;
 		void								loop(double deltaTime);
 

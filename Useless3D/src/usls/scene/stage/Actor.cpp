@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <glm/gtx/compatibility.hpp>
+
 #include "usls/App.h"
 #include "usls/scene/stage/Actor.h"
 
@@ -82,6 +84,59 @@ namespace usls::scene::stage
 
 		return this->parentActorBone.value()->matrix * this->getTransform().getMatrix();
 
+	}
+
+	glm::mat4 Actor::getWorldRenderMatrix(float alpha)
+	{
+		// actor is not dynamic (does not move) so interpolation is not required, simply return it's world matrix
+		if (!this->isDynamic())
+		{
+			return this->getWorldMatrix();
+		}
+
+		// if this actor has no parent, simply return the matrix of it's transform
+		if (!this->parentActor)
+		{
+			Transform t;
+			t.setTranslation(glm::lerp(this->getPreviousTransform()->getTranslation(), this->getTransform().getTranslation(), alpha));
+			t.setRotation(glm::slerp(this->getPreviousTransform()->getRotation(), this->getTransform().getRotation(), alpha));
+			t.setScale(glm::lerp(this->getPreviousTransform()->getScale(), this->getTransform().getScale(), alpha));
+
+			return t.getMatrix();
+		}
+
+		// NEED TO FINISH IMPLEMENTING BELOW THIS LINE
+
+		// if this actor is parented to another actor (an not a bone of that actor)
+		if (!this->parentActorBone)
+		{
+			return this->parentActor.value()->getTransform().getMatrix() * this->getTransform().getMatrix();
+		}
+
+		return this->parentActorBone.value()->matrix * this->getTransform().getMatrix();
+
+	}
+
+	const bool Actor::isDynamic() const
+	{
+		return this->dynamic;
+	}
+
+	void Actor::updatePreviousTransform()
+	{
+		if (!this->isDeleted() && this->isDynamic())
+		{
+			this->previousTransform = this->getTransform();
+		}
+	}
+
+	std::optional<Transform>& Actor::getPreviousTransform()
+	{
+		if (this->isAnimated())
+		{
+			return this->armature->getPreviousTransform(); // ignore intellisense error for getPreviousTransform()
+		}
+		return this->previousTransform;
 	}
 
 	void Actor::translate(glm::vec3 translation)

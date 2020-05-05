@@ -155,6 +155,14 @@ namespace usls::scene::stage
 		}
 	}
 
+	void Stage::savePreviousTransforms()
+	{
+		for (auto& a : this->actors)
+		{
+			a.updatePreviousTransform();
+		}
+	}
+
     const size_t Stage::getActorSize() const
     {
         return this->actors.size();

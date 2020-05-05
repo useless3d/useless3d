@@ -28,6 +28,7 @@ namespace usls::scene::armature
 		glm::quat											calcRotation(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
 		glm::vec3											calcScale(const float& time, size_t currentKeyIndex, const usls::scene::animation::Channel& channel);
 		usls::scene::stage::Transform						transform;
+		std::optional<usls::scene::stage::Transform>		previousTransform;
 
 
 	public:
@@ -46,6 +47,7 @@ namespace usls::scene::armature
 		void												updateCurrentAnimation(double runTime, std::optional<glm::mat4> parentMatrix);
 		size_t												getAnimationIndex(std::string animationName);
 		usls::scene::stage::Transform&						getTransform();
+		std::optional<usls::scene::stage::Transform>&		getPreviousTransform();
 
 	};
 }

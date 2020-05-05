@@ -84,6 +84,14 @@ namespace usls::scene
 		}
 	}
 
+	void Scene::savePreviousTransforms()
+	{
+		for (auto& s : this->stages)
+		{
+			s.savePreviousTransforms();
+		}
+	}
+
 	void Scene::loop(double deltaTime)
 	{
 		for (auto& s : this->stages)
@@ -92,7 +100,7 @@ namespace usls::scene
 		}
 	}
 
-    void Scene::draw()
+    void Scene::draw(double alpha)
     {
         GPU& gpu = App::get().getGPU().value();
 
@@ -156,7 +164,8 @@ namespace usls::scene
 						}
 						else
 						{
-							gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getWorldMatrix());
+							//gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getWorldMatrix());
+							gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getWorldRenderMatrix(alpha));
 						}
 
                         gpu.drawMeshRenderable();

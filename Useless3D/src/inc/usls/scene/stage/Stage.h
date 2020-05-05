@@ -58,6 +58,7 @@ namespace usls::scene::stage
 		void										parentActorToActorBone(std::string childName, std::string parentName, std::string parentBoneName);
 		void										addController(Controller* controller);
 		void										executeControllers(double deltaTime);
+		void										savePreviousTransforms();
 
     };
 }

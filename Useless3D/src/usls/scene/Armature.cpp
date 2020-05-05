@@ -94,6 +94,13 @@ namespace usls::scene::armature
 		this->currentAnimation = &App::get().getScene()->getAnimation(this->getAnimationIndex(this->currentAnimationName));
 	}
 
+	std::optional<usls::scene::stage::Transform>& Armature::getPreviousTransform()
+	{
+		return this->previousTransform;
+	}
+
+
+
 	usls::scene::stage::Transform& Armature::getTransform() 
 	{
 		return this->transform;

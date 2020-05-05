@@ -20,6 +20,7 @@ namespace usls::scene::stage
         std::string										name;
 		bool											dynamic;
         Transform										transform;
+		std::optional<Transform>						previousTransform;
 		std::optional<Actor*>							parentActor;
 		std::optional<usls::scene::armature::Bone*>		parentActorBone;
 		std::vector<Actor*>								childActors;
@@ -51,6 +52,7 @@ namespace usls::scene::stage
 		void											setVisible(bool v);
 		const bool										isVisible() const;
 		const bool										isAnimated() const;
+		const bool										isDynamic() const;
 		void											setArmature(usls::scene::armature::Armature& arm);
 		usls::scene::armature::Armature&				getArmature();
 		usls::scene::mesh::Mesh&						getMesh();
@@ -60,12 +62,15 @@ namespace usls::scene::stage
 		void											setParentActor(Actor* a);
 		void											setParentActorBone(usls::scene::armature::Bone* b);
 		void											addChildActor(Actor* a);
+		std::optional<Transform>&						getPreviousTransform();
+		void											updatePreviousTransform();
 		void											translate(glm::vec3 translation);
 		void											rotate(float angle, glm::vec3 axis);
 		void											rotate(glm::quat rotation);
 		void											scale(glm::vec3 scale);
 		std::optional<glm::mat4>						getParentMatrix();
 		glm::mat4										getWorldMatrix();
+		glm::mat4										getWorldRenderMatrix(float alpha); // contains logic for interpolation
 
 		const glm::vec3&								getTranslation();
 		const glm::quat&								getRotation();

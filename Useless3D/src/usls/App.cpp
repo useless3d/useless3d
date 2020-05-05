@@ -165,6 +165,9 @@ namespace usls
                     
                     if (this->scene && this->scene.value()->loaded) 
                     {
+						// save previous transforms for interpolation
+						this->scene.value()->savePreviousTransforms();
+
 						// update animations
 						this->scene.value()->updateAnimations(this->currentTime);
 
@@ -176,7 +179,7 @@ namespace usls
                     this->accumulator -= this->deltaTime;
                 }
 
-                // perform draw (render) logic with (eventually) automatic interpolation of stage actors
+                // perform draw (render) logic
                 if (!this->config.HEADLESS)
                 {
                     this->gpu->enableDepthTest();
@@ -185,7 +188,7 @@ namespace usls
 
                     if (this->scene && this->scene.value()->loaded)
                     {
-                        this->scene.value()->draw();
+                        this->scene.value()->draw(this->accumulator / this->deltaTime);
                     }
 
                     this->window.value()->swapBuffers();
