@@ -6,12 +6,6 @@
 #include "examples/BootScene.h"
 #include "examples/ExampleScene2.h"
 
-/*
-Used to test and verify functionality during development, so
-things will be everywhere and may not make sense. As functionality becomes
-more concrete, there will be designated individual Scene files which demonstrate
-various features.
-*/
 
 void ExampleScene2::load()
 {
