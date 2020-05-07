@@ -1,5 +1,5 @@
 
-#include <glm/gtx/compatibility.hpp>
+#include "glm/gtx/compatibility.hpp"
 
 #include "usls/scene/stage/Transform.h"
 #include "usls/scene/armature/Bone.h"

@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "usls/App.h"
+
 #include "examples/es3/ActorController.h"
 
 
 
-ActorController::ActorController(Actor* sphere) :
+ActorController::ActorController(usls::scene::stage::Actor* sphere) :
 	actor(sphere),
 	direction(glm::vec3(0.0f, 0.0f, -1.0f)),
 	speed(2.5f),

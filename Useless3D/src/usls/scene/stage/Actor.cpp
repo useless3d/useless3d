@@ -1,9 +1,10 @@
 #include <iostream>
 
-#include <glm/gtx/compatibility.hpp>
+
 
 #include "usls/App.h"
 #include "usls/scene/stage/Actor.h"
+
 
 namespace usls::scene::stage
 {
@@ -95,7 +96,7 @@ namespace usls::scene::stage
 		}
 
 
-		auto actorMatrix = this->interpolateTransforms(this->previousTransform.value(), this->transform, alpha);
+		auto actorMatrix = Transform::interpolateTransforms(this->previousTransform.value(), this->transform, alpha);
 
 		// if this actor has no parent, simply return the matrix of it's transform
 		if (!this->parentActor)
@@ -103,7 +104,7 @@ namespace usls::scene::stage
 			return actorMatrix;
 		}
 
-		auto parentActorMatrix = this->interpolateTransforms(this->parentActor.value()->getPreviousTransform().value(), this->parentActor.value()->getTransform(), alpha);
+		auto parentActorMatrix = Transform::interpolateTransforms(this->parentActor.value()->getPreviousTransform().value(), this->parentActor.value()->getTransform(), alpha);
 
 		// if this actor is parented to another actor (an not a bone of that actor)
 		if (!this->parentActorBone)
@@ -115,15 +116,6 @@ namespace usls::scene::stage
 
 		return parentActorMatrix * boneMatrix * actorMatrix;
 
-	}
-
-	glm::mat4 Actor::interpolateTransforms(const Transform& previousTransform, const Transform& currentTransform, float alpha)
-	{
-		Transform t;
-		t.setTranslation(glm::lerp(previousTransform.getTranslation(), currentTransform.getTranslation(), alpha));
-		t.setRotation(glm::slerp(previousTransform.getRotation(), currentTransform.getRotation(), alpha));
-		t.setScale(glm::lerp(previousTransform.getScale(), currentTransform.getScale(), alpha));
-		return t.getMatrix();
 	}
 
 	const bool Actor::isDynamic() const

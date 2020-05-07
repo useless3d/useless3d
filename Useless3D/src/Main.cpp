@@ -2,7 +2,7 @@
 
 #include "usls/App.h"
 
-#include "examples/ExampleScene2.h"
+#include "examples/es3/ExampleScene3.h"
 
 
 int main()
@@ -11,7 +11,7 @@ int main()
     usls::App::init();
 
     // Load the initial Scene
-    usls::App::get().setScene(new ExampleScene2());
+    usls::App::get().setScene(new ExampleScene3());
 
     // Execute the program, passing control to the App execute loop
     usls::App::get().execute();

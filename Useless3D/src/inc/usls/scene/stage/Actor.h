@@ -30,9 +30,7 @@ namespace usls::scene::stage
 		std::optional<std::pair<size_t, size_t>>		renderCommand;
         std::optional<size_t>							shaderIndex;
         std::optional<size_t>							meshIndex;
-        std::optional<size_t>							textureIndex;
-
-		glm::mat4										interpolateTransforms(const Transform& previousTransform, const Transform& currentTransform, float alpha);									
+        std::optional<size_t>							textureIndex;							
 		
 
     public:

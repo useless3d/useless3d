@@ -24,8 +24,10 @@ namespace usls::scene::stage
 		const glm::vec3&	getTranslation() const;
 		const glm::quat&	getRotation() const;
 		const glm::vec3&	getScale() const;
-		const glm::mat4		getMatrix() const; // refactor to return reference
+		const glm::mat4		getMatrix() const;
 		void				print();
+
+		static glm::mat4	interpolateTransforms(const Transform& previousTransform, const Transform& currentTransform, float alpha);
 
 	};
 	

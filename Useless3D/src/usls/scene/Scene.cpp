@@ -116,7 +116,7 @@ namespace usls::scene
             //s.printRenderCommands();            
 
             // should always have a camera if we've made it this far
-            s.getCamera()->update();
+            s.getCamera()->update(alpha);
 
 
             for (auto& rco : s.getRenderCommandsOrder().value())

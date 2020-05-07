@@ -61,7 +61,7 @@ namespace usls
                 this->setCallbacks();
 
                 // Set window input mode
-                //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                glfwSetInputMode(this->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
                 // Set opengl viewport size
                 glViewport(0, 0, this->screenSize.x, this->screenSize.y);

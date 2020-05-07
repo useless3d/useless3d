@@ -157,6 +157,7 @@
     <ClCompile Include="src\examples\BootScene.cpp" />
     <ClCompile Include="src\examples\BootSceneHeadless.cpp" />
     <ClCompile Include="src\examples\es3\ActorController.cpp" />
+    <ClCompile Include="src\examples\es3\CameraController.cpp" />
     <ClCompile Include="src\examples\ExampleScene2.cpp" />
     <ClCompile Include="src\examples\es3\ExampleScene3.cpp" />
     <ClCompile Include="src\examples\TerminateController.cpp" />
@@ -185,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\inc\examples\es3\ActorController.h" />
+    <ClInclude Include="src\inc\examples\es3\CameraController.h" />
     <ClInclude Include="src\inc\examples\ExampleScene2.h" />
     <ClInclude Include="src\inc\examples\BootSceneHeadless.h" />
     <ClInclude Include="src\inc\examples\ExampleScene1.h" />

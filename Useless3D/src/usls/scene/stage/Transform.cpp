@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "glm/gtx/compatibility.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "usls/scene/stage/Transform.h"
@@ -71,6 +72,15 @@ namespace usls::scene::stage
         m = glm::scale(m, this->scale);
         return m;
     }
+
+	glm::mat4 Transform::interpolateTransforms(const Transform& previousTransform, const Transform& currentTransform, float alpha)
+	{
+		Transform t;
+		t.setTranslation(glm::lerp(previousTransform.getTranslation(), currentTransform.getTranslation(), alpha));
+		t.setRotation(glm::slerp(previousTransform.getRotation(), currentTransform.getRotation(), alpha));
+		t.setScale(glm::lerp(previousTransform.getScale(), currentTransform.getScale(), alpha));
+		return t.getMatrix();
+	}
 
 
 }

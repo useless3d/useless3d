@@ -99,6 +99,9 @@
     <ClCompile Include="src\usls\scene\armature\Bone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\examples\es3\CameraController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\usls\inc\Ini.h">
@@ -201,6 +204,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\inc\examples\es3\ActorController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\inc\examples\es3\CameraController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
