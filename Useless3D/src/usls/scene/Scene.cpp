@@ -145,6 +145,8 @@ namespace usls::scene
 
                     if (!a->isDeleted() && a->isVisible())
                     {
+						gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getWorldRenderMatrix(alpha));
+
 						// If this actor is animated, send the bone transforms of it's armature to the shader
 						if (a->isAnimated())
 						{
@@ -154,15 +156,13 @@ namespace usls::scene
 							size_t boneIndex = 0;
 							for (auto& activeBone : a->getActiveBones().value())
 							{
-								glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * armature.getBone(activeBone.first).matrix * mesh.getBone(boneIndex).offsetMatrix;
+								glm::mat4 meshBoneTransform = mesh.getGlobalInverseMatrix() * armature.getBone(activeBone.first).getRenderMatrix(alpha) * mesh.getBone(boneIndex).offsetMatrix;
 
 								gpu.setShaderMat4(activeBone.second, meshBoneTransform);
 
 								boneIndex++;
 							}
 						}
-
-						gpu.setShaderMat4("mvp", s.getCamera()->getProjectionMatrix() * s.getCamera()->getViewMatrix() * a->getWorldRenderMatrix(alpha));
 
                         gpu.drawMeshRenderable();
                     }

@@ -56,11 +56,19 @@ namespace usls::scene::armature
 		auto tmpKey = (size_t)(it - channel.positionKeyTimes.begin());
 		size_t currentKeyIndex = !(tmpKey == channel.positionKeyTimes.size()) ? (tmpKey - 1) : (tmpKey - 2);
 
+		bone.previousTranslation = bone.translation;
+		bone.previousRotation = bone.rotation;
+		bone.previousScale = bone.scale;
+
 		bone.matrix = glm::mat4(1.0f);
 		bone.matrix = glm::translate(bone.matrix, this->calcTranslation(time, currentKeyIndex, channel));
 		bone.matrix = bone.matrix * glm::toMat4(this->calcRotation(time, currentKeyIndex, channel));
 		bone.matrix = glm::scale(bone.matrix, this->calcScale(time, currentKeyIndex, channel));
 		bone.matrix = parentMatrix * bone.matrix;
+
+		glm::decompose(bone.matrix, bone.scale, bone.rotation, bone.translation, bone.skew, bone.perspective);
+		bone.rotation = glm::conjugate(bone.rotation);
+
 	}
 
 	void Armature::updateCurrentAnimation(double runTime, std::optional<glm::mat4> parentMatrix)

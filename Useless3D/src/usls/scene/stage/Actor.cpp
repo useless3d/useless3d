@@ -111,7 +111,9 @@ namespace usls::scene::stage
 			return parentActorMatrix * actorMatrix;
 		}
 
-		return parentActorMatrix * this->parentActorBone.value()->matrix * this->transform.getMatrix();
+		auto boneMatrix = this->parentActorBone.value()->getRenderMatrix(alpha);
+
+		return parentActorMatrix * boneMatrix * actorMatrix;
 
 	}
 

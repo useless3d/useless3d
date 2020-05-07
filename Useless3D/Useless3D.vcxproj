@@ -164,7 +164,8 @@
     <ClCompile Include="src\examples\ExampleScene1.cpp" />
     <ClCompile Include="src\usls\App.cpp" />
     <ClCompile Include="src\usls\GPU.cpp" />
-    <ClCompile Include="src\usls\scene\Armature.cpp" />
+    <ClCompile Include="src\usls\scene\armature\Armature.cpp" />
+    <ClCompile Include="src\usls\scene\armature\Bone.cpp" />
     <ClCompile Include="src\usls\scene\stage\AssetLoader.cpp" />
     <ClCompile Include="src\usls\scene\stage\Camera.cpp" />
     <ClCompile Include="src\usls\Config.cpp" />

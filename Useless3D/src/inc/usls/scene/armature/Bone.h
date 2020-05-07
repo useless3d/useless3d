@@ -19,11 +19,17 @@ namespace usls::scene::armature
 		glm::vec3		translation;
 		glm::quat		rotation;
 		glm::vec3		scale;
-		glm::mat4		matrix; // always the matrix of current translation/rotation/scale
+		// unused but required for glm matrix decomposition
+		glm::vec3		skew;
+		glm::vec4		perspective;
+		// always the matrix of current translation/rotation/scale
+		glm::mat4		matrix; 
 
 		// used to interpolate render state
 		glm::vec3		previousTranslation;
 		glm::quat		previousRotation;
 		glm::vec3		previousScale;
+
+		glm::mat4		getRenderMatrix(float alpha);
 	};
 }
