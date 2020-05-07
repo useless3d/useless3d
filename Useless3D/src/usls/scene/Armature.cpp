@@ -47,14 +47,14 @@ namespace usls::scene::armature
 
 	void Armature::updateBone(size_t index, float time, glm::mat4 parentMatrix)
 	{
+		// we assume there are always at least 2 keys of animation data
+
 		auto& bone = this->bones[index];
 		auto& channel = this->currentAnimation->channels[bone.name];
 
 		auto it = std::upper_bound(channel.positionKeyTimes.begin(), channel.positionKeyTimes.end(), time);
 		auto tmpKey = (size_t)(it - channel.positionKeyTimes.begin());
 		size_t currentKeyIndex = !(tmpKey == channel.positionKeyTimes.size()) ? (tmpKey - 1) : (tmpKey - 2);
-
-		// calc* methods no longer check for condition where only one key exists...could be an issue in the future
 
 		bone.matrix = glm::mat4(1.0f);
 		bone.matrix = glm::translate(bone.matrix, this->calcTranslation(time, currentKeyIndex, channel));
