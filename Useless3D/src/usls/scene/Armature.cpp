@@ -52,16 +52,7 @@ namespace usls::scene::armature
 
 		auto it = std::upper_bound(channel.positionKeyTimes.begin(), channel.positionKeyTimes.end(), time);
 		auto tmpKey = (size_t)(it - channel.positionKeyTimes.begin());
-		//auto currentKeyIndex = time > channel.positionKeyTimes[tmpKey] ? 0 : tmpKey - 1;
-
-
-		size_t currentKeyIndex = 0;
-		if (!(tmpKey == channel.positionKeyTimes.size()))
-		{
-			currentKeyIndex = tmpKey - 1;
-		}
-
-
+		size_t currentKeyIndex = !(tmpKey == channel.positionKeyTimes.size()) ? (tmpKey - 1) : (tmpKey - 2);
 
 		// calc* methods no longer check for condition where only one key exists...could be an issue in the future
 
@@ -77,7 +68,7 @@ namespace usls::scene::armature
 		double timeInTicks = runTime * this->currentAnimation->tps;
 		double animationTime = fmod(timeInTicks, this->currentAnimation->duration);
 
-		std::cout << animationTime << "\n"; // when animation time is 30, system freaks
+		//std::cout << animationTime << "\n"; // when animation time is 30, system freaks
 
 		for (size_t i = 0; i < this->bones.size(); i++)
 		{

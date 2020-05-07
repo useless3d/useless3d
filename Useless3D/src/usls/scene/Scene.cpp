@@ -80,7 +80,6 @@ namespace usls::scene
 	void Scene::updateAnimations(double delta)
 	{
 		this->animationTime += delta;
-		std::cout << this->animationTime << "	";
 		for (auto& s : this->stages)
 		{
 			s.updateActorAnimations(this->animationTime);
