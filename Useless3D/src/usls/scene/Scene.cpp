@@ -13,7 +13,8 @@ namespace usls::scene
 {
 	Scene::Scene() :
 		headless(App::get().config.HEADLESS),
-		loaded(false)
+		loaded(false),
+		animationTime(0.0)
 	{
 		this->stages.reserve(10); // can't see ever needing more than 10 stages (naive, but good enough until it's not)
 	}
@@ -76,11 +77,13 @@ namespace usls::scene
 		return this->animations.at(index);
 	}
 
-	void Scene::updateAnimations(double runTime)
+	void Scene::updateAnimations(double delta)
 	{
+		this->animationTime += delta;
+		std::cout << this->animationTime << "	";
 		for (auto& s : this->stages)
 		{
-			s.updateActorAnimations(runTime);
+			s.updateActorAnimations(this->animationTime);
 		}
 	}
 

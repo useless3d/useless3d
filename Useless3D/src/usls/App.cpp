@@ -169,7 +169,7 @@ namespace usls
 						this->scene.value()->savePreviousTransforms();
 
 						// update animations
-						this->scene.value()->updateAnimations(this->currentTime);
+						this->scene.value()->updateAnimations(this->deltaTime);
 
                         // call scene loop which executes all controllers of all stages
                         this->scene.value()->loop(this->deltaTime);

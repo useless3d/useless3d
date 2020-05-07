@@ -25,6 +25,7 @@ namespace usls::scene
 		std::vector<Stage>					stages;
 		std::vector<Mesh>					meshes;
 		std::vector<Animation>				animations;
+		double								animationTime;
 
 
 	protected:
