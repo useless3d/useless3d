@@ -52,25 +52,36 @@ void CameraController::updateVelocity()
 
 void CameraController::updatePitchYaw()
 {
-	if (this->firstMouseInput)
-	{
-		this->lastX = this->input.mouseXPos;
-		this->lastY = this->input.mouseYPos;
-		this->firstMouseInput = false;
-	}
+	//if (this->firstMouseInput)
+	//{
+	//	this->lastX = this->input.mouseXPos;
+	//	this->lastY = this->input.mouseYPos;
+	//	this->firstMouseInput = false;
+	//}
 
-	float xOffset = this->input.mouseXPos - this->lastX;
-	float yOffset = this->lastY - this->input.mouseYPos;
+	//float xOffset = this->input.mouseXPos - this->lastX;
+	//float yOffset = this->lastY - this->input.mouseYPos;
 
-	this->lastX = this->input.mouseXPos;
-	this->lastY = this->input.mouseYPos;
+	//this->lastX = this->input.mouseXPos;
+	//this->lastY = this->input.mouseYPos;
 
-	float sensitivity = 0.1f; // change accordingly
-	xOffset *= sensitivity;
-	yOffset *= sensitivity;
+	//float sensitivity = 0.1f; // change accordingly
+	//xOffset *= sensitivity;
+	//yOffset *= sensitivity;
 
-	this->yaw += xOffset;
-	this->pitch += yOffset;
+	//this->yaw += xOffset;
+	//this->pitch += yOffset;
+
+	float currentSpeed = (this->speed * 16) * this->deltaTime;
+
+	if (this->input.keyUp)
+		this->pitch += currentSpeed;
+	if (this->input.keyDown)
+		this->pitch -= currentSpeed;
+	if (this->input.keyLeft)
+		this->yaw -= currentSpeed;
+	if (this->input.keyRight)
+		this->yaw += currentSpeed;
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (this->pitch > 89.0f)
