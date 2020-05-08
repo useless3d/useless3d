@@ -1,4 +1,5 @@
 #include <iostream>
+#include <numeric>
 
 
 #include "examples/es3/CameraController.h"
@@ -9,12 +10,20 @@ CameraController::CameraController(usls::scene::stage::Camera* camera) :
 	camera(camera),
 	moveDirection(glm::vec3(0.0f, 0.0f, -1.0f)),
 	lookDirection(glm::vec3(0.0f, 0.0f, -1.0f)),
-	speed(4.0f),
+	moveSpeed(4.0f),
+	mouseDeltaBufferSize(5),
 	yaw(0.0f),
-	//pitch(-20.45f),
 	pitch(0.0f),
 	usls::scene::stage::Controller()
-{};
+{
+	// fill mouse delta buffers
+	for (size_t i = 0; i < this->mouseDeltaBufferSize; i++)
+	{
+		this->mouseDeltaBufferX.push_back(0.0f);
+		this->mouseDeltaBufferY.push_back(0.0f);
+	}
+
+};
 
 void CameraController::updateRotation()
 {
@@ -35,7 +44,7 @@ void CameraController::updateRotation()
 
 void CameraController::updateVelocity()
 {
-	float currentSpeed = this->speed * this->deltaTime;
+	float currentSpeed = this->moveSpeed * this->deltaTime;
 
 	this->velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
@@ -52,27 +61,52 @@ void CameraController::updateVelocity()
 
 void CameraController::updatePitchYaw()
 {
-	//if (this->firstMouseInput)
-	//{
-	//	this->lastX = this->input.mouseXPos;
-	//	this->lastY = this->input.mouseYPos;
-	//	this->firstMouseInput = false;
-	//}
+	if (this->firstMouseInput)
+	{
+		this->lastX = this->input.mouseXPos;
+		this->lastY = this->input.mouseYPos;
+		this->firstMouseInput = false;
+	}
 
-	//float xOffset = this->input.mouseXPos - this->lastX;
-	//float yOffset = this->lastY - this->input.mouseYPos;
+
+
+
+	/* This works but feels spongy*/
+	//float sensitivity = 0.2f; // change accordingly
+
+	//float xOffset = (this->input.mouseXPos - this->lastX) * sensitivity;
+	//float yOffset = (this->lastY - this->input.mouseYPos) * sensitivity;
 
 	//this->lastX = this->input.mouseXPos;
 	//this->lastY = this->input.mouseYPos;
 
+
+	//this->mouseDeltaBufferX[this->mouseDeltaBufferCursor] = xOffset / this->deltaTime;
+	//this->mouseDeltaBufferY[this->mouseDeltaBufferCursor] = yOffset / this->deltaTime;
+
+	//this->mouseDeltaBufferCursor = this->mouseDeltaBufferCursor == (this->mouseDeltaBufferSize - 1) ? 0 : this->mouseDeltaBufferCursor + 1;
+
+	//
+	//this->yaw += (std::accumulate(this->mouseDeltaBufferX.begin(), this->mouseDeltaBufferX.end(), 0.0f) / (float)this->mouseDeltaBufferSize) * this->deltaTime;
+	//this->pitch += (std::accumulate(this->mouseDeltaBufferY.begin(), this->mouseDeltaBufferY.end(), 0.0f) / (float)this->mouseDeltaBufferSize) * this->deltaTime;
+
+
+
+	/* Works, but contains the stuttering/twitching (makes you want to puke when focusing on something and rotating) */
 	//float sensitivity = 0.1f; // change accordingly
-	//xOffset *= sensitivity;
-	//yOffset *= sensitivity;
 
-	//this->yaw += xOffset;
-	//this->pitch += yOffset;
+	//this->yaw += ((this->input.mouseXPos - this->lastX)) * sensitivity;
+	//this->pitch += ((this->lastY - this->input.mouseYPos)) * sensitivity;
 
-	float currentSpeed = (this->speed * 16) * this->deltaTime;
+	//this->lastX = this->input.mouseXPos;
+	//this->lastY = this->input.mouseYPos;
+
+
+
+
+
+	/* Works basically perfectly, just having trouble translating this to the variable speeds from mouse input*/
+	float currentSpeed = (this->moveSpeed * 16) * this->deltaTime;
 
 	if (this->input.keyUp)
 		this->pitch += currentSpeed;
@@ -82,6 +116,10 @@ void CameraController::updatePitchYaw()
 		this->yaw -= currentSpeed;
 	if (this->input.keyRight)
 		this->yaw += currentSpeed;
+
+
+
+
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped
 	if (this->pitch > 89.0f)
