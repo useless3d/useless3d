@@ -93,29 +93,29 @@ void CameraController::updatePitchYaw()
 
 
 	/* Works, but contains the stuttering/twitching (makes you want to puke when focusing on something and rotating) */
-	//float sensitivity = 0.1f; // change accordingly
+	float sensitivity = 0.1f; // change accordingly
 
-	//this->yaw += ((this->input.mouseXPos - this->lastX)) * sensitivity;
-	//this->pitch += ((this->lastY - this->input.mouseYPos)) * sensitivity;
+	this->yaw += ((this->input.mouseXPos - this->lastX)) * sensitivity;
+	this->pitch += ((this->lastY - this->input.mouseYPos)) * sensitivity;
 
-	//this->lastX = this->input.mouseXPos;
-	//this->lastY = this->input.mouseYPos;
+	this->lastX = this->input.mouseXPos;
+	this->lastY = this->input.mouseYPos;
 
 
 
 
 
 	/* Works basically perfectly, just having trouble translating this to the variable speeds from mouse input*/
-	float currentSpeed = (this->moveSpeed * 16) * this->deltaTime;
+	//float currentSpeed = (this->moveSpeed * 16) * this->deltaTime;
 
-	if (this->input.keyUp)
-		this->pitch += currentSpeed;
-	if (this->input.keyDown)
-		this->pitch -= currentSpeed;
-	if (this->input.keyLeft)
-		this->yaw -= currentSpeed;
-	if (this->input.keyRight)
-		this->yaw += currentSpeed;
+	//if (this->input.keyUp)
+	//	this->pitch += currentSpeed;
+	//if (this->input.keyDown)
+	//	this->pitch -= currentSpeed;
+	//if (this->input.keyLeft)
+	//	this->yaw -= currentSpeed;
+	//if (this->input.keyRight)
+	//	this->yaw += currentSpeed;
 
 
 
