@@ -69,9 +69,9 @@ void CameraController::updatePitchYaw()
 	}
 
 
-
-
-	/* This works but feels spongy*/
+	/* 
+		This works but feels spongy
+	*/
 	//float sensitivity = 0.2f; // change accordingly
 
 	//float xOffset = (this->input.mouseXPos - this->lastX) * sensitivity;
@@ -91,8 +91,9 @@ void CameraController::updatePitchYaw()
 	//this->pitch += (std::accumulate(this->mouseDeltaBufferY.begin(), this->mouseDeltaBufferY.end(), 0.0f) / (float)this->mouseDeltaBufferSize) * this->deltaTime;
 
 
-
-	/* Works, but contains the stuttering/twitching (makes you want to puke when focusing on something and rotating) */
+	/* 
+		Works, but contains the stuttering/twitching (makes you want to puke when focusing on something and rotating) 
+	*/
 	float sensitivity = 0.1f; // change accordingly
 
 	this->yaw += ((this->input.mouseXPos - this->lastX)) * sensitivity;
@@ -102,10 +103,9 @@ void CameraController::updatePitchYaw()
 	this->lastY = this->input.mouseYPos;
 
 
-
-
-
-	/* Works basically perfectly, just having trouble translating this to the variable speeds from mouse input*/
+	/* 
+		Works basically perfectly, just having trouble translating this to the variable speeds from mouse input
+	*/
 	//float currentSpeed = (this->moveSpeed * 16) * this->deltaTime;
 
 	//if (this->input.keyUp)
