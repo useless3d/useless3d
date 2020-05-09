@@ -11,7 +11,7 @@ CameraController::CameraController(usls::scene::stage::Camera* camera) :
 	moveDirection(glm::vec3(0.0f, 0.0f, -1.0f)),
 	lookDirection(glm::vec3(0.0f, 0.0f, -1.0f)),
 	moveSpeed(4.0f),
-	mouseDeltaBufferSize(5),
+	mouseDeltaBufferSize(3),
 	yaw(0.0f),
 	pitch(0.0f),
 	usls::scene::stage::Controller()
@@ -70,9 +70,9 @@ void CameraController::updatePitchYaw()
 
 
 	/* 
-		This works but feels spongy
+		This works but you can kinda feel the delay
 	*/
-	//float sensitivity = 0.2f; // change accordingly
+	//float sensitivity = 0.08f; // change accordingly
 
 	//float xOffset = (this->input.mouseXPos - this->lastX) * sensitivity;
 	//float yOffset = (this->lastY - this->input.mouseYPos) * sensitivity;
@@ -81,18 +81,18 @@ void CameraController::updatePitchYaw()
 	//this->lastY = this->input.mouseYPos;
 
 
-	//this->mouseDeltaBufferX[this->mouseDeltaBufferCursor] = xOffset / this->deltaTime;
-	//this->mouseDeltaBufferY[this->mouseDeltaBufferCursor] = yOffset / this->deltaTime;
+	//this->mouseDeltaBufferX[this->mouseDeltaBufferCursor] = xOffset;
+	//this->mouseDeltaBufferY[this->mouseDeltaBufferCursor] = yOffset;
 
 	//this->mouseDeltaBufferCursor = this->mouseDeltaBufferCursor == (this->mouseDeltaBufferSize - 1) ? 0 : this->mouseDeltaBufferCursor + 1;
 
 	//
-	//this->yaw += (std::accumulate(this->mouseDeltaBufferX.begin(), this->mouseDeltaBufferX.end(), 0.0f) / (float)this->mouseDeltaBufferSize) * this->deltaTime;
-	//this->pitch += (std::accumulate(this->mouseDeltaBufferY.begin(), this->mouseDeltaBufferY.end(), 0.0f) / (float)this->mouseDeltaBufferSize) * this->deltaTime;
+	//this->yaw += (std::accumulate(this->mouseDeltaBufferX.begin(), this->mouseDeltaBufferX.end(), 0.0f) / (float)this->mouseDeltaBufferSize);
+	//this->pitch += (std::accumulate(this->mouseDeltaBufferY.begin(), this->mouseDeltaBufferY.end(), 0.0f) / (float)this->mouseDeltaBufferSize);
 
 
-	/* 
-		Works, but contains the stuttering/twitching (makes you want to puke when focusing on something and rotating) 
+	/*
+		Working solution (once mouse updates were moved outside stepped logic loop, this functioned just fine)
 	*/
 	float sensitivity = 0.1f; // change accordingly
 
@@ -104,7 +104,7 @@ void CameraController::updatePitchYaw()
 
 
 	/* 
-		Works basically perfectly, just having trouble translating this to the variable speeds from mouse input
+		Rotation via arrow keys
 	*/
 	//float currentSpeed = (this->moveSpeed * 16) * this->deltaTime;
 
@@ -116,9 +116,6 @@ void CameraController::updatePitchYaw()
 	//	this->yaw -= currentSpeed;
 	//if (this->input.keyRight)
 	//	this->yaw += currentSpeed;
-
-
-
 
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped

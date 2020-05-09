@@ -154,15 +154,17 @@ namespace usls
 
                 this->accumulator += this->frameTime;                
 
+				// moved this out of the logic loop to fix issue with smoothness of camera rotations
+				// (need immediate access to mouse x,y)
+				if (!this->config.HEADLESS)
+				{
+					// update window, which includes capturing input state
+					this->window.value()->update();
+				}
+
                 // process update logic
                 while (this->accumulator >= this->deltaTime)
-                {
-                    if (!this->config.HEADLESS)
-                    {
-                        // update window, which includes capturing input state
-                        this->window.value()->update();
-                    }
-                    
+                {                    
                     if (this->scene && this->scene.value()->loaded) 
                     {
 						// save previous transforms for interpolation
