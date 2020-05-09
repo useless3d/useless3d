@@ -14,8 +14,8 @@ namespace usls
 		bool	keyDown = false;
 		bool	keyRight = false;
 		bool	keyLeft = false;
-        double	mouseXPos = 0;
-        double	mouseYPos = 0;
+        float	mouseXPos = 0.0f;
+        float	mouseYPos = 0.0f;
         double	scrollX = 0;
         double	scrollY = 0;
     };

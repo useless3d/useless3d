@@ -31,7 +31,7 @@ namespace usls::scene::stage
 
     }
 
-	void Stage::executeControllers(double deltaTime)
+	void Stage::executeControllers(float deltaTime)
 	{
 		for (auto& c : this->controllers)
 		{

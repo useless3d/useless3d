@@ -59,6 +59,52 @@ void CameraController::updateVelocity()
 
 }
 
+void CameraController::updatePitchYawRaw()
+{
+	float sensitivity = 0.1f; // change accordingly
+
+	this->yaw += ((this->input.mouseXPos - this->lastX)) * sensitivity;
+	this->pitch += ((this->lastY - this->input.mouseYPos)) * sensitivity;
+
+	this->lastX = this->input.mouseXPos;
+	this->lastY = this->input.mouseYPos;
+}
+
+void CameraController::updatePitchYawSmoothed()
+{
+	float sensitivity = 0.08f; // change accordingly
+
+	float xOffset = (this->input.mouseXPos - this->lastX) * sensitivity;
+	float yOffset = (this->lastY - this->input.mouseYPos) * sensitivity;
+
+	this->lastX = this->input.mouseXPos;
+	this->lastY = this->input.mouseYPos;
+
+
+	this->mouseDeltaBufferX[this->mouseDeltaBufferCursor] = xOffset / this->deltaTime;
+	this->mouseDeltaBufferY[this->mouseDeltaBufferCursor] = yOffset / this->deltaTime;
+
+	this->mouseDeltaBufferCursor = this->mouseDeltaBufferCursor == (this->mouseDeltaBufferSize - 1) ? 0 : this->mouseDeltaBufferCursor + 1;
+
+
+	this->yaw += (std::accumulate(this->mouseDeltaBufferX.begin(), this->mouseDeltaBufferX.end(), 0.0f) / (float)this->mouseDeltaBufferSize) * this->deltaTime;
+	this->pitch += (std::accumulate(this->mouseDeltaBufferY.begin(), this->mouseDeltaBufferY.end(), 0.0f) / (float)this->mouseDeltaBufferSize) * this->deltaTime;
+}
+
+void CameraController::updatePitchYawKeyboard()
+{
+	float currentSpeed = (this->moveSpeed * 16) * this->deltaTime;
+
+	if (this->input.keyUp)
+		this->pitch += currentSpeed;
+	if (this->input.keyDown)
+		this->pitch -= currentSpeed;
+	if (this->input.keyLeft)
+		this->yaw -= currentSpeed;
+	if (this->input.keyRight)
+		this->yaw += currentSpeed;
+}
+
 void CameraController::updatePitchYaw()
 {
 	if (this->firstMouseInput)
@@ -69,53 +115,11 @@ void CameraController::updatePitchYaw()
 	}
 
 
-	/* 
-		This works but you can kinda feel the delay
-	*/
-	//float sensitivity = 0.08f; // change accordingly
+	this->updatePitchYawRaw();
 
-	//float xOffset = (this->input.mouseXPos - this->lastX) * sensitivity;
-	//float yOffset = (this->lastY - this->input.mouseYPos) * sensitivity;
+	//this->updatePitchYawSmoothed();
 
-	//this->lastX = this->input.mouseXPos;
-	//this->lastY = this->input.mouseYPos;
-
-
-	//this->mouseDeltaBufferX[this->mouseDeltaBufferCursor] = xOffset;
-	//this->mouseDeltaBufferY[this->mouseDeltaBufferCursor] = yOffset;
-
-	//this->mouseDeltaBufferCursor = this->mouseDeltaBufferCursor == (this->mouseDeltaBufferSize - 1) ? 0 : this->mouseDeltaBufferCursor + 1;
-
-	//
-	//this->yaw += (std::accumulate(this->mouseDeltaBufferX.begin(), this->mouseDeltaBufferX.end(), 0.0f) / (float)this->mouseDeltaBufferSize);
-	//this->pitch += (std::accumulate(this->mouseDeltaBufferY.begin(), this->mouseDeltaBufferY.end(), 0.0f) / (float)this->mouseDeltaBufferSize);
-
-
-	/*
-		Working solution (once mouse updates were moved outside stepped logic loop, this functioned just fine)
-	*/
-	float sensitivity = 0.1f; // change accordingly
-
-	this->yaw += ((this->input.mouseXPos - this->lastX)) * sensitivity;
-	this->pitch += ((this->lastY - this->input.mouseYPos)) * sensitivity;
-
-	this->lastX = this->input.mouseXPos;
-	this->lastY = this->input.mouseYPos;
-
-
-	/* 
-		Rotation via arrow keys
-	*/
-	//float currentSpeed = (this->moveSpeed * 16) * this->deltaTime;
-
-	//if (this->input.keyUp)
-	//	this->pitch += currentSpeed;
-	//if (this->input.keyDown)
-	//	this->pitch -= currentSpeed;
-	//if (this->input.keyLeft)
-	//	this->yaw -= currentSpeed;
-	//if (this->input.keyRight)
-	//	this->yaw += currentSpeed;
+	//this->updatePitchYawKeyboard();
 
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped

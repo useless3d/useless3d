@@ -149,7 +149,13 @@ namespace usls
 
     void Window::setMouse() 
     {
-        glfwGetCursorPos(this->glfwWindow, &this->inputState.mouseXPos, &this->inputState.mouseYPos);
+		double mXPos;
+		double mYPos;
+
+        glfwGetCursorPos(this->glfwWindow, &mXPos, &mYPos);
+
+		this->inputState.mouseXPos = (float)mXPos;
+		this->inputState.mouseYPos = (float)mYPos;
     }
 
     void Window::setScroll() 

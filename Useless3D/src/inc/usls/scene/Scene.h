@@ -46,9 +46,9 @@ namespace usls::scene
 		Animation&							getAnimation(size_t index);
 		void								updateAnimations(double runTime);
 		void								savePreviousTransforms();
-		void								draw(double alpha);
+		void								draw(float alpha);
 		virtual void						load() = 0;
-		void								loop(double deltaTime);
+		void								loop(float deltaTime);
 
 	};
 

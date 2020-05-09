@@ -174,7 +174,7 @@ namespace usls
 						this->scene.value()->updateAnimations(this->deltaTime);
 
                         // call scene loop which executes all controllers of all stages
-                        this->scene.value()->loop(this->deltaTime);
+                        this->scene.value()->loop((float)this->deltaTime);
                     }
                     
                     // decrement accumulator
@@ -190,7 +190,7 @@ namespace usls
 
                     if (this->scene && this->scene.value()->loaded)
                     {
-                        this->scene.value()->draw(this->accumulator / this->deltaTime);
+                        this->scene.value()->draw((float)(this->accumulator / this->deltaTime));
                     }
 
                     this->window.value()->swapBuffers();

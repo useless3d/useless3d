@@ -29,6 +29,10 @@ private:
 	float							yaw;
 	float							pitch;
 
+	void							updatePitchYawSmoothed();
+	void							updatePitchYawRaw();
+	void							updatePitchYawKeyboard();
+
 	void							updateRotation();
 	void							updatePitchYaw();
 	void							updateVelocity();

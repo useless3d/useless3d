@@ -94,7 +94,7 @@ namespace usls::scene
 		}
 	}
 
-	void Scene::loop(double deltaTime)
+	void Scene::loop(float deltaTime)
 	{
 		for (auto& s : this->stages)
 		{
@@ -102,7 +102,7 @@ namespace usls::scene
 		}
 	}
 
-    void Scene::draw(double alpha)
+    void Scene::draw(float alpha)
     {
         GPU& gpu = App::get().getGPU().value();
 

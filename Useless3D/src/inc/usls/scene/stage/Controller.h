@@ -14,11 +14,11 @@ namespace usls::scene::stage
 	{
 	protected:
 		const InputState&	input;
-		double				deltaTime;
+		float				deltaTime;
 
 	public:
 							Controller();
-		void				setDeltaTime(double delta);
+		void				setDeltaTime(float delta);
 		virtual void		logic() = 0;
 	};
 }
