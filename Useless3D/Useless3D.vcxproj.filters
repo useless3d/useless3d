@@ -211,7 +211,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\config.ini" />
     <None Include="src\usls\scene\shaders\default.frag" />
     <None Include="src\usls\scene\shaders\default.vert" />
     <None Include="src\usls\scene\shaders\test1.vert" />
