@@ -61,7 +61,7 @@ void CameraController::updateVelocity()
 
 void CameraController::updatePitchYawRaw()
 {
-	float sensitivity = 0.1f; // change accordingly
+	float sensitivity = 0.2f; // change accordingly
 
 	this->yaw += ((this->input.mouseXPos - this->lastX)) * sensitivity;
 	this->pitch += ((this->lastY - this->input.mouseYPos)) * sensitivity;
